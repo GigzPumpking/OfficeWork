@@ -5,49 +5,32 @@ class Pause extends Phaser.Scene {
 
     preload() {
         this.load.path = './assets/';
-        
-        // Load pause sound
-        this.load.audio('pause', 'sound/bean_pause.wav');
     }
 
     create() {
 
-        // Play pause sound
-        this.sound.play('pause', { volume: 1 });
+        let mainText = this.add.text(centerX, centerY - 200, 'Pause Menu', pauseConfig).setOrigin(0.5);
 
-        let pauseConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F0000C',
-            color: '#000',
-            align: 'center',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
+        let Resume = new Button(centerX, centerY - 100, 'Resume', this, () => {
+            this.scene.resume('playScene').stop();
+        })
+        Resume.button.setFontSize(30);
+        Resume.whiteButton();
 
-        let mainText = this.add.text(centerX, centerY - 200, ' Pause Menu ', pauseConfig).setOrigin(0.5);
-
-        let Restart = new Button(centerX, centerY - 100, 'Restart', this, () => {
+        let Restart = new Button(centerX, centerY, 'Restart', this, () => {
             this.scene.resume('playScene').stop();
             var sceneRestart = this.scene.get('playScene');
-            // stop playing all sounds
-            sceneRestart.level1.stop();
-            sceneRestart.level2.stop();
-            sceneRestart.level3.stop();
             sceneRestart.scene.restart();
         })
-        let Resume = new Button(centerX, centerY, 'Resume', this, () => {
-            this.scene.resume('playScene').stop();
+        Restart.button.setFontSize(30);
+        Restart.whiteButton();
+
+        let MainMenu = new Button(centerX, centerY + 100, 'Main Menu', this, () => {
+            this.scene.stop('playScene');
+            this.scene.start('titleScene');
         })
-
-        Restart.button.setScale(2);
-        Resume.button.setScale(2);
-
-        Restart.blackButton();
-        Resume.blackButton();
+        MainMenu.button.setFontSize(30);
+        MainMenu.whiteButton();
     }
 
     update() {
