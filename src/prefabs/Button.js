@@ -1,4 +1,4 @@
-// Slightly modified from Button class code from Ferenc Almasi: https://webtips.dev/webtips/phaser/interactive-buttons-in-phaser3
+// Modified from Button class code from Ferenc Almasi: https://webtips.dev/webtips/phaser/interactive-buttons-in-phaser3
 class Button {
     constructor(x, y, label, scene, callback, style) {
         this.scene = scene;
@@ -7,13 +7,12 @@ class Button {
             .setOrigin(0.5)
             .setPadding(10)
             .setInteractive({ useHandCursor: true })
-            .setStyle({ fontFamily: 'Belanosima', fill: '#FF0000' })
+            .setStyle({ fontFamily: 'Belanosima', fill: '#FF0000', align: 'center'})
             .on('pointerdown', () => this.pointerDown())
             .on('pointerover', () => this.hoverOver())
             .on('pointerout',  () => this.button.setStyle({ fill: '#FF0000' }))
 
         this.status = 'red';
-            
     }
 
     changePosition(y) {
@@ -22,16 +21,9 @@ class Button {
 
     pointerDown() {
         this.callback();
-        this.scene.sound.play('confirm', { volume: 1 });
     }
 
     hoverOver() {
-        // play a random select sound if the button is not filled in
-        if (this.button.style.color != '#F39C12') {
-            let rand = Math.floor(Math.random() * 2) + 1;
-            this.scene.sound.play('select' + rand, { volume: 1 });
-        }
-
         this.button.setStyle({ fill: '#F39C12' });
     }
 

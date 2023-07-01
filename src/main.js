@@ -3,6 +3,7 @@ let config = {
     width: 800,
     height: 600,
     scale: {
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER
     },
     physics: {
@@ -20,36 +21,44 @@ let game = new Phaser.Game(config);
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
 
-let moneyConfig = {
+// Default Text Config
+
+let textConfig = {
     fontFamily: 'Belanosima',
     fontSize: '20px',
-    color: '#FFFFFF',
-    align: 'right',
+    color: '#000',
+    align: 'center',
     padding: {
         top: 5,
         bottom: 5,
         left: 5,
         right: 5
     },
-    fixedWidth: 0
+    fixedWidth: 150
 }
 
-const textConfig = Object.assign({}, moneyConfig, { fontFamily: 'Belanosima', fontSize: '28px', backgroundColor: '#F0000C', color: '#000', align: 'center', fixedWidth: 0 });
+// Text Config for Buttons
 
-const buttonConfig = Object.assign({}, moneyConfig, { fontFamily: 'Belanosima', fontSize: '16px', color: '#000', align: 'center', fixedWidth: 150 });
+const buttonConfig = Object.assign({}, textConfig, {fontSize: '16px'});
 
-// config with relative positioning, expands text to the left instead of the right when text is added
-// config with position relative
+// Text Config for Pop Up Text
 
-const valueConfig = Object.assign({}, moneyConfig, { fontSize: '16px', color: '#000', backgroundColor: '#FFFFFF', align: 'center', fixedWidth: 0 });
+const popUpConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSize: '36px'});
 
-const popUpConfig = {
-    fontFamily: 'Courier',
-    fontSize: '36px',
-    color: '#000',
-    align: 'center'
-}
+// Text Config for Title Text
 
-maxedUpgrades = []; 
+const titleConfig = Object.assign({}, textConfig, {fontFamily: 'Belanosima', fontSize: '60px', color: '#FFF21A', fixedWidth: 0});
+
+// Text Config for Title Buttons Text
+
+const titleButtonConfig = Object.assign({}, textConfig, {fontFamily: 'Fantasy', fontSize: '27px', color: '#FFF21A', fixedWidth: 0});
+
+// Text Config for Pause Menu
+
+const pauseConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSize: '28px', backgroundColor: '#F0000C', fixedWidth: 0});
+
+// Text Config for Credits Menu
+
+const creditsConfig = Object.assign({}, textConfig, {fontFamily: 'Verdana', fontSize: '28px', backgroundColor: '#303030', color: '#FFFFFF', align: 'left', fixedWidth: 0});
 
 let keySPACE, keyC, keyH, keyESC, keyP;

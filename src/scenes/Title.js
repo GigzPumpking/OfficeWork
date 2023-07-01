@@ -12,45 +12,34 @@ class Title extends Phaser.Scene {
     create() {
         //var menu_sign = this.add.sprite(game.config.width/2,game.config.height/2,'titlebackground').setScale(0.7);
 
-        let menuConfig = {
-            fontFamily: 'Fantasy',
-            fontSize: '35px',
-            color: '#FF9E1A',
-            align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
-        let smallConfig = {
-            fontFamily: 'Fantasy',
-            fontSize: '27px',
-            color: '#FFF21A',
-            align: 'left',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
+        this.add.text(centerX, centerY - 200, 'Office Work', titleConfig).setOrigin(0.5);
 
         // Add start button
-        let startButton = new Button(game.config.width/2 + 235, 25, 'CLICK TO START', this, () => {
+        let startButton = new Button(centerX, centerY + 100, 'CLICK TO START', this, () => {
             this.scene.start('playScene');
         });
         startButton.whiteButton();
-        startButton.button.setScale(2);
+        startButton.button.setFontSize(30);
 
-        this.add.text(game.config.width/5, game.config.height/1.15, 'Press C for credits', smallConfig).setOrigin(0.5);
-        this.add.text(game.config.width/1.25, game.config.height/1.15, 'Press H for How to play', smallConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/1.05, 'Made in Phaser 3.60', smallConfig).setOrigin(0.5);
+        let creditsButton = new Button(centerX - 200, game.config.height/1.15, 'CREDITS', this, () => {
+            this.scene.start('creditScene');
+        });
+        creditsButton.whiteButton();
+        creditsButton.button.setStyle(titleButtonConfig);
+
+        let howtoButton = new Button(centerX + 200, game.config.height/1.15, 'TUTORIAL', this, () => {
+            this.scene.start('howtoScene');
+        });
+        howtoButton.whiteButton();
+        howtoButton.button.setStyle(titleButtonConfig);
+
+    
+        this.add.text(centerX, game.config.height/1.05, 'Made in Phaser 3.60', titleButtonConfig).setOrigin(0.5);
 
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
 
         this.sound.stopAll();
-
     }
 
     update() {
