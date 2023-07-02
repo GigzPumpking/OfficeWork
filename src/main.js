@@ -2,6 +2,7 @@ let config = {
     type: Phaser.WEBGL,
     width: 1000,
     height: 562.5,
+    pixelArt: true,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER
@@ -13,13 +14,15 @@ let config = {
             fps: 60
         }
     },
-    scene: [ Title, Play, Credits, HowTo, Pause ]
+    scene: [ Title, Play, Computer, Credits, HowTo, Pause ]
 }
 
 let game = new Phaser.Game(config);
 
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
+
+let currScene = null;
 
 // Default Text Config
 
@@ -61,4 +64,10 @@ const pauseConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSi
 
 const creditsConfig = Object.assign({}, textConfig, {fontFamily: 'Verdana', fontSize: '28px', backgroundColor: '#303030', color: '#FFFFFF', align: 'left', fixedWidth: 0});
 
-let keySPACE, keyC, keyH, keyESC, keyP;
+let keySPACE, keyESC;
+
+// key values for Computer Typing
+
+let keyA, keyB, keyC, keyD, keyE, keyF, keyG, keyH, keyI, keyJ, keyK, keyL, keyM, keyN, keyO, keyP, keyQ, keyR, keyS, keyT, keyU, keyV, keyW, keyX, keyY, keyZ;
+
+let keyPeriod, keyComma, keyColon, keyExclamation, keyQuestion, keyQuote;
