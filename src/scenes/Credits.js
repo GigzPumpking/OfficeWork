@@ -14,13 +14,16 @@ class Credits extends Phaser.Scene {
         this.add.text(centerX, creditsY + ySpacing/2, 'Game Engine: Phaser 3.60', creditsConfig).setColor('#F1EA2B').setFontSize(20).setOrigin(0.5);
 
         // People involved
-        this.add.text(centerX - xSpacing, creditsY + ySpacing, 'Daphne Cheng: ', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
+        this.add.text(centerX, creditsY + ySpacing, 'Daphne Cheng: Pixel Art Background', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
 
-        this.add.text(centerX - xSpacing, creditsY + 2*ySpacing, 'Abel Goy:', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
+        this.add.text(centerX, creditsY + 2*ySpacing, 'Abel Goy: Programming/Design/Production', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
 
-        this.add.text(centerX + xSpacing, creditsY + 2*ySpacing, 'David Carroll:', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
+        this.add.text(centerX, creditsY + 3*ySpacing, 'David Carroll:', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
 
-        this.add.text(centerX - xSpacing, creditsY + 3*ySpacing, 'Albert Rivas: ', creditsConfig).setColor('#EAAD2B').setOrigin(0.5);
+        this.add.text(centerX - xSpacing, creditsY + 4*ySpacing, 'Albert Rivas: ', creditsConfig).setColor('#EAAD2B').setOrigin(0.5);
+
+        this.add.text(centerX + xSpacing, creditsY + 5*ySpacing, 'Hung Nguyen:', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
+
 
 
         let MainMenu = new Button(centerX, centerY + 225, 'Main Menu', this, () => {
