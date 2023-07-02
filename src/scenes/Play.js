@@ -5,6 +5,7 @@ class Play extends Phaser.Scene {
 
     preload() {
         this.load.path = './assets/';
+        //this.load.spritesheet('font', 'computer/font.png', {frameWidth: 3, frameHeight: 3, startFrame: 0, endFrame: 31});
     }
         
     createPauseButton() {
