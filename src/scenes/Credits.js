@@ -14,19 +14,24 @@ class Credits extends Phaser.Scene {
         this.add.text(centerX, creditsY + ySpacing/2, 'Game Engine: Phaser 3.60', creditsConfig).setColor('#F1EA2B').setFontSize(20).setOrigin(0.5);
 
         // People involved
-        this.add.text(centerX, creditsY + ySpacing, 'Daphne Cheng: Pixel Art Background', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
 
-        this.add.text(centerX, creditsY + 2*ySpacing, 'Abel Goy: Programming/Design/Production', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
+        this.add.text(centerX, creditsY + ySpacing, 'Albert Rivas: Original Game Idea, Design, Pixel Art/Animations', creditsConfig).setColor('#EAAD2B').setOrigin(0.5);
 
-        this.add.text(centerX, creditsY + 3*ySpacing, 'David Carroll:', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
+        this.add.text(centerX, creditsY + 1.5*ySpacing, 'Daphne Cheng: Pixel Art Background', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
 
-        this.add.text(centerX - xSpacing, creditsY + 4*ySpacing, 'Albert Rivas: ', creditsConfig).setColor('#EAAD2B').setOrigin(0.5);
+        this.add.text(centerX, creditsY + 2*ySpacing, 'Abel Goy: Programming , Design , Production', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
 
-        this.add.text(centerX + xSpacing, creditsY + 5*ySpacing, 'Hung Nguyen:', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
+        this.add.text(centerX, creditsY + 2.5*ySpacing, 'David Carroll: Programming , Design', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
 
+        this.add.text(centerX, creditsY + 3*ySpacing, 'Aidan Bacon: Menu Design Art , Pixel Art', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
 
+        this.add.text(centerX, creditsY + 3.5*ySpacing, 'Hung Nguyen: Programming', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
 
-        let MainMenu = new Button(centerX, centerY + 225, 'Main Menu', this, () => {
+        this.add.text(centerX, creditsY + 4*ySpacing, 'Ben Daly: Music', creditsConfig).setColor('#26D135').setOrigin(0.5);
+
+        this.add.text(centerX, creditsY + 4.5*ySpacing, 'Evan Pompa: Pixel Art', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
+
+        let MainMenu = new Button(centerX, centerY + 245, 'Back to Main Menu', this, () => {
             this.scene.stop('playScene');
             this.scene.start('titleScene');
         })
