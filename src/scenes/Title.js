@@ -15,21 +15,23 @@ class Title extends Phaser.Scene {
 
     create() {
 
-        this.add.sprite(centerX, centerY - 180, 'titleText').setScale(0.8);
+        let buttonScale = 1;
 
-        this.creditsButton = new ButtonCreation(this, centerX - 200, centerY, 'creditsButton', 0.8, () => {
+        this.add.sprite(centerX, centerY - 180, 'titleText').setScale(buttonScale);
+
+        this.creditsButton = new ButtonCreation(this, centerX - 250*buttonScale, centerY, 'creditsButton', buttonScale, () => {
             this.scene.start('creditScene');
         });
 
-        this.howtoButton = new ButtonCreation(this, centerX + 60, centerY + 110, 'tutorialButton', 0.8, () => {
+        this.howtoButton = new ButtonCreation(this, centerX + 75*buttonScale, centerY + 137.5*buttonScale, 'tutorialButton', buttonScale, () => {
             this.scene.start('howtoScene');
         });
 
-        this.optionsButton = new ButtonCreation(this, centerX - 200, centerY + 70, 'optionsButton', 0.8, () => {
+        this.optionsButton = new ButtonCreation(this, centerX - 250*buttonScale, centerY + 87.5*buttonScale, 'optionsButton', buttonScale, () => {
             // insert Options Menu here
         });
 
-        this.startButton = new ButtonCreation(this, centerX + 60, centerY + 15, 'startButton', 0.8, () => {
+        this.startButton = new ButtonCreation(this, centerX + 75*buttonScale, centerY + 18.75*buttonScale, 'startButton', buttonScale, () => {
             this.scene.start('playScene');
         });
 
