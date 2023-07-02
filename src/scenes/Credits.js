@@ -4,46 +4,34 @@ class Credits extends Phaser.Scene {
     }
 
     create() {
-        let menuConfig = {
-            fontFamily: 'Verdana',
-            fontSize: '28px',
-            backgroundColor: '#303030',
-            color: '#FFFFFF',
-            align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
- 
-        let smallConfig = {
-            fontFamily: 'Verdana',
-            fontSize: '27px',
-            backgroundColor: '#303030',
-            color: '#FFFFFF',
-            align: 'center',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
 
-        // menu text
-        this.add.text(game.config.width/2, game.config.height/29, 'Credits', menuConfig).setOrigin(0.5).setFontFamily('Belanosima').setFontSize(39);
-        this.add.text(game.config.width/2, 2*game.config.height/19, 'Game Engine: Phaser 3.60', smallConfig).setOrigin(0.5).setColor('#F1EA2B');
+        let creditsY = centerY - 250;
+        let ySpacing = 100;
+        let xSpacing = 200;
+
+        this.add.text(centerX, creditsY, 'Credits', titleConfig).setOrigin(0.5).setFontSize(50);
+
+        this.add.text(centerX, creditsY + ySpacing/2, 'Game Engine: Phaser 3.60', creditsConfig).setColor('#F1EA2B').setFontSize(20).setOrigin(0.5);
 
         // People involved
-        this.add.text(game.config.width/2, 3.1*game.config.height/15, 'Daphne Cheng: ', smallConfig).setWordWrapWidth(game.config.width / 1.5).setColor('#39B8FF').setAlign('center').setOrigin(0.5);
-        this.add.text(game.config.width/3.5, 3.25*game.config.height/9, 'Abel Goy:', smallConfig).setWordWrapWidth(game.config.width / 1.5).setColor('#EA2B2B').setAlign('center').setOrigin(0.5);
-        this.add.text(game.config.width/1.3, 3.25*game.config.height/9, 'David Carroll:', smallConfig).setWordWrapWidth(game.config.width / 2).setAlign('center').setColor('#EA2B2B').setOrigin(0.5);
+        this.add.text(centerX, creditsY + ySpacing, 'Daphne Cheng: Pixel Art Background', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
 
-        this.add.text(game.config.width/1.3, 4.3*game.config.height/9, 'Albert Rivas: ', smallConfig).setWordWrapWidth(game.config.width / 1.5).setColor('#EAAD2B').setAlign('center').setOrigin(0.5);
+        this.add.text(centerX, creditsY + 2*ySpacing, 'Abel Goy: Programming/Design/Production', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
+
+        this.add.text(centerX, creditsY + 3*ySpacing, 'David Carroll:', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
+
+        this.add.text(centerX - xSpacing, creditsY + 4*ySpacing, 'Albert Rivas: ', creditsConfig).setColor('#EAAD2B').setOrigin(0.5);
+
+        this.add.text(centerX + xSpacing, creditsY + 5*ySpacing, 'Hung Nguyen:', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
 
 
-        // instructions
-        this.add.text(game.config.width/1.35, 8.7*game.config.height/9, 'Press ESC to return to the title screen menu', smallConfig).setOrigin(1.1).setFontSize(22);
+
+        let MainMenu = new Button(centerX, centerY + 225, 'Main Menu', this, () => {
+            this.scene.stop('playScene');
+            this.scene.start('titleScene');
+        })
+        MainMenu.button.setFontSize(30);
+        MainMenu.whiteButton();
 
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 

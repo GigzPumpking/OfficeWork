@@ -4,26 +4,15 @@ class HowTo extends Phaser.Scene {
     }
 
     create() {
-        var menuConfig = {
-            fontFamily: 'Belanosima',
-            fontSize: '28px',
-            backgroundColor: '#303030',
-            color: '#FFFFFF',
-            align: 'center',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
- 
-        let small
 
-        this.add.text(game.config.width/2, game.config.height/9, 'How To Play', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY - 250, 'How To Play', titleConfig).setOrigin(0.5).setFontSize(50);
 
-        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-
-        this.add.text(game.config.width/2, game.config.height/3 + 300, 'Press ESC to return to the menu', menuConfig).setOrigin(0.5);
+        let MainMenu = new Button(centerX, centerY + 225, 'Main Menu', this, () => {
+            this.scene.stop('playScene');
+            this.scene.start('titleScene');
+        })
+        MainMenu.button.setFontSize(30);
+        MainMenu.whiteButton();
 
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 

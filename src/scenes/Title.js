@@ -6,63 +6,48 @@ class Title extends Phaser.Scene {
     preload() {
         // load background image
         this.load.path = './assets/';
-
+        this.load.image('titleText', 'images/UI/title_text.png');
+        this.load.image('creditsButton', 'images/UI/credits_button.png');
+        this.load.image('tutorialButton', 'images/UI/how_to_play_button.png');
+        this.load.image('optionsButton', 'images/UI/options_button.png');
+        this.load.image('startButton', 'images/UI/start_button.png');
     }
 
     create() {
-        //var menu_sign = this.add.sprite(game.config.width/2,game.config.height/2,'titlebackground').setScale(0.7);
 
-        let menuConfig = {
-            fontFamily: 'Fantasy',
-            fontSize: '35px',
-            color: '#FF9E1A',
-            align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
-        let smallConfig = {
-            fontFamily: 'Fantasy',
-            fontSize: '27px',
-            color: '#FFF21A',
-            align: 'left',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
+        currScene = 'titleScene';
 
-        // Add start button
-        let startButton = new Button(game.config.width/2 + 235, 25, 'CLICK TO START', this, () => {
+        let buttonScale = 0.8;
+
+        this.add.sprite(centerX, centerY - 200*buttonScale, 'titleText').setScale(buttonScale);
+
+        this.creditsButton = new ButtonCreation(this, centerX - 250*buttonScale, centerY, 'creditsButton', buttonScale, () => {
+            this.scene.start('creditScene');
+        });
+
+        this.howtoButton = new ButtonCreation(this, centerX + 75*buttonScale, centerY + 137.5*buttonScale, 'tutorialButton', buttonScale, () => {
+            this.scene.start('howtoScene');
+        });
+
+        this.optionsButton = new ButtonCreation(this, centerX - 250*buttonScale, centerY + 87.5*buttonScale, 'optionsButton', buttonScale, () => {
+            // insert Options Menu here
+        });
+
+        this.startButton = new ButtonCreation(this, centerX + 75*buttonScale, centerY + 18.75*buttonScale, 'startButton', buttonScale, () => {
             this.scene.start('playScene');
         });
-        startButton.whiteButton();
-        startButton.button.setScale(2);
-
-        this.add.text(game.config.width/5, game.config.height/1.15, 'Press C for credits', smallConfig).setOrigin(0.5);
-        this.add.text(game.config.width/1.25, game.config.height/1.15, 'Press H for How to play', smallConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/1.05, 'Made in Phaser 3.60', smallConfig).setOrigin(0.5);
 
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
 
         this.sound.stopAll();
-
     }
 
     update() {
-
-        if (Phaser.Input.Keyboard.JustDown(keyC)) {
-            // Credits mode
+        if (Phaser.Input.Keyboard.JustDown(keyC)) 
             this.scene.start('creditScene');    
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(keyH)) {
-           // How to Play mode
+        
+        if (Phaser.Input.Keyboard.JustDown(keyH)) 
            this.scene.start('howtoScene');    
-       }
     }
 }
