@@ -15,9 +15,9 @@ class Title extends Phaser.Scene {
 
     create() {
 
-        let buttonScale = 1;
+        let buttonScale = 0.8;
 
-        this.add.sprite(centerX, centerY - 180, 'titleText').setScale(buttonScale);
+        this.add.sprite(centerX, centerY - 200*buttonScale, 'titleText').setScale(buttonScale);
 
         this.creditsButton = new ButtonCreation(this, centerX - 250*buttonScale, centerY, 'creditsButton', buttonScale, () => {
             this.scene.start('creditScene');
