@@ -6,35 +6,32 @@ class Title extends Phaser.Scene {
     preload() {
         // load background image
         this.load.path = './assets/';
-
+        this.load.image('titleText', 'images/UI/title_text.png');
+        this.load.image('creditsButton', 'images/UI/credits_button.png');
+        this.load.image('tutorialButton', 'images/UI/how_to_play_button.png');
+        this.load.image('optionsButton', 'images/UI/options_button.png');
+        this.load.image('startButton', 'images/UI/start_button.png');
     }
 
     create() {
-        //var menu_sign = this.add.sprite(game.config.width/2,game.config.height/2,'titlebackground').setScale(0.7);
 
-        this.add.text(centerX, centerY - 200, 'Office Work', titleConfig).setOrigin(0.5);
+        this.add.sprite(centerX, centerY - 180, 'titleText').setScale(0.8);
 
-        // Add start button
-        let startButton = new Button(centerX, centerY + 100, 'CLICK TO START', this, () => {
-            this.scene.start('playScene');
-        });
-        startButton.whiteButton();
-        startButton.button.setFontSize(30);
-
-        let creditsButton = new Button(centerX - 200, game.config.height/1.15, 'CREDITS', this, () => {
+        this.creditsButton = new ButtonCreation(this, centerX - 200, centerY, 'creditsButton', 0.8, () => {
             this.scene.start('creditScene');
         });
-        creditsButton.whiteButton();
-        creditsButton.button.setStyle(titleButtonConfig);
 
-        let howtoButton = new Button(centerX + 200, game.config.height/1.15, 'TUTORIAL', this, () => {
+        this.howtoButton = new ButtonCreation(this, centerX + 60, centerY + 110, 'tutorialButton', 0.8, () => {
             this.scene.start('howtoScene');
         });
-        howtoButton.whiteButton();
-        howtoButton.button.setStyle(titleButtonConfig);
 
-    
-        this.add.text(centerX, game.config.height/1.05, 'Made in Phaser 3.60', titleButtonConfig).setOrigin(0.5);
+        this.optionsButton = new ButtonCreation(this, centerX - 200, centerY + 70, 'optionsButton', 0.8, () => {
+            // insert Options Menu here
+        });
+
+        this.startButton = new ButtonCreation(this, centerX + 60, centerY + 15, 'startButton', 0.8, () => {
+            this.scene.start('playScene');
+        });
 
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
@@ -43,15 +40,10 @@ class Title extends Phaser.Scene {
     }
 
     update() {
-
-        if (Phaser.Input.Keyboard.JustDown(keyC)) {
-            // Credits mode
+        if (Phaser.Input.Keyboard.JustDown(keyC)) 
             this.scene.start('creditScene');    
-        }
-
-        if (Phaser.Input.Keyboard.JustDown(keyH)) {
-           // How to Play mode
+        
+        if (Phaser.Input.Keyboard.JustDown(keyH)) 
            this.scene.start('howtoScene');    
-       }
     }
 }
