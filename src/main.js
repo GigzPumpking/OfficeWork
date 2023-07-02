@@ -1,7 +1,7 @@
 let config = {
     type: Phaser.WEBGL,
-    width: 800,
-    height: 600,
+    width: 1170,
+    height: 665,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER
