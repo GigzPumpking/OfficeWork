@@ -55,10 +55,21 @@ class Load extends Phaser.Scene {
         this.load.image('ashtray3', 'ashtray_3.png');
         this.load.image('cigbox', 'cigbox.png');
         this.load.image('keyboard', 'keyboardV4.png');
+        this.load.image('computer', 'Computer.png');
+        this.load.image('todoBoard', 'todo_board.png');
+
+        // Office Graphical Assets
+        this.load.path = './assets/office/';
+        this.load.image('officeBG', 'Bg.png');
+        this.load.image('cigLighter', 'cig_and_lighter.png');
+        this.load.image('cubicles', 'cubicles.png');
+        this.load.image('desk', 'desk.png');
+        this.load.image('drawer1', 'drawer_closed.png');
+        this.load.image('drawer2', 'drawer_open.png');
 
         // Computer Graphical Assets
         this.load.path = './assets/computer/';
-        this.load.image('computer', 'computer_background.png');
+        this.load.image('computerBG', 'computer_background.png');
         this.load.image('mail', 'mail_title.png');
         this.load.image('inbox', 'inbox_screen.png');
 

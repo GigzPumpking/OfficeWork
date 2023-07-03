@@ -60,7 +60,7 @@ const titleButtonConfig = Object.assign({}, textConfig, {fontFamily: 'Fantasy', 
 
 // Text Config for Pause Menu
 
-const pauseConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSize: '28px', backgroundColor: '#F0000C', fixedWidth: 0});
+const pauseConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSize: '48px', backgroundColor: '#F0000C', fixedWidth: 0});
 
 // Text Config for Credits Menu
 
@@ -85,3 +85,7 @@ let mail3WCReq = 20;
 let savedMail1Stats = [0, 0, [], 0];
 let savedMail2Stats = [0, 0, [], 0];
 let savedMail3Stats = [0, 0, [], 0];
+
+let mailStatus = [mail1Status, mail2Status, mail3Status];
+
+let papersSorted = false;

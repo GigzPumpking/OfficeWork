@@ -4,20 +4,22 @@ class Computer extends Phaser.Scene {
     }
         
     createPauseButton() {
-        this.pauseButton = new Button(40, 15, 'Pause', this, () => {
+        this.pauseButton = new Button(40, 25, 'Pause', this, () => {
             this.scene.pause().launch('pauseScene');
         });
         this.pauseButton.whiteButton();
         this.pauseButton.button.setFontSize(24);
+        this.pauseButton.button.setBackgroundColor('#000000');
     }
 
     createBackButton() {
-        this.backButton = new Button(centerX, centerY + 245, 'Back', this, () => {
+        this.backButton = new Button(w - 40, 25, 'Back', this, () => {
             this.scene.stop('computerScene');
             this.scene.resume('playScene');
         });
-        this.backButton.button.setFontSize(30);
+        this.backButton.button.setFontSize(24);
         this.backButton.whiteButton();
+        this.backButton.button.setBackgroundColor('#000000');
     }
 
     createMailButton(num, x, y) {
@@ -32,7 +34,7 @@ class Computer extends Phaser.Scene {
     create() {
         currScene = 'computerScene';
 
-        this.background = this.add.sprite(centerX, centerY, 'computer');
+        this.background = this.add.sprite(centerX, centerY, 'computerBG');
         this.mailTitle = this.add.sprite(centerX, centerY - 1, 'mail').setScale(5.15);
         this.inboxScreen = this.add.sprite(centerX - 8, centerY + 24.55, 'inbox').setScale(5.15);
         // Scale background to fit screen

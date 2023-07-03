@@ -4,20 +4,22 @@ class Mail extends Phaser.Scene {
     }
         
     createPauseButton() {
-        this.pauseButton = new Button(40, 15, 'Pause', this, () => {
+        this.pauseButton = new Button(40, 25, 'Pause', this, () => {
             this.scene.pause().launch('pauseScene');
         });
         this.pauseButton.whiteButton();
         this.pauseButton.button.setFontSize(24);
+        this.pauseButton.button.setBackgroundColor('#000000');
     }
 
     createBackButton() {
-        this.backButton = new Button(centerX, centerY + 245, 'Back', this, () => {
+        this.backButton = new Button(w - 40, 25, 'Back', this, () => {
             this.scene.stop('mailScene');
             this.scene.resume('computerScene');
         });
-        this.backButton.button.setFontSize(30);
+        this.backButton.button.setFontSize(24);
         this.backButton.whiteButton();
+        this.backButton.button.setBackgroundColor('#000000');
     }
 
     createBlinkingLine() {
@@ -35,7 +37,7 @@ class Mail extends Phaser.Scene {
     }
 
     loadPreviousMail() {
-        this.loadMailButton = new Button(centerX - 165, centerY + 245, 'Load', this, () => {
+        this.loadMailButton = new Button(centerX - 80, centerY + 250, 'Load', this, () => {
             if (mailNum == 1) {
                 this.textEntry.text = savedMail1;
                 this.characterLength = savedMail1Stats[0];
@@ -61,7 +63,7 @@ class Mail extends Phaser.Scene {
     }
 
     saveCurrentMail() {
-        this.saveMailButton = new Button(centerX + 165, centerY + 245, 'Save', this, () => {
+        this.saveMailButton = new Button(centerX + 70, centerY + 250, 'Save', this, () => {
             if (mailNum == 1) {
                 savedMail1 = this.textEntry.text;
                 savedMail1Stats = [this.characterLength, this.lineLength, this.textLengthArray, this.wordCount];
@@ -89,7 +91,7 @@ class Mail extends Phaser.Scene {
     create() {
         this.wordCount = 0;
         currScene = 'mailScene';
-        this.background = this.add.sprite(centerX, centerY, 'computer');
+        this.background = this.add.sprite(centerX, centerY, 'computerBG');
         this.mailTitle = this.add.sprite(centerX, centerY - 1, 'mail').setScale(5.15);
         if (mailNum == 1) {
             this.mailPrompt = this.add.text(centerX - 220, centerY - 140, "It's your boss.\nConvince me on why you should get a raise.", { font: '16px Courier', fill: '#ffffff', align: 'center' });

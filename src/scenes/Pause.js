@@ -4,14 +4,17 @@ class Pause extends Phaser.Scene {
     }
 
     create() {
-
+        // Add a rectangle with alpha 0.5 to create a dark background for the pause menu
+        this.add.rectangle(centerX, centerY, game.config.width, game.config.height, 0x000000, 0.5).setOrigin(0.5);
+        // Add a white rectangle to the pause menu
+        this.add.rectangle(centerX, centerY, game.config.width * 0.25, game.config.height * 0.55, 0xFFFFFF).setOrigin(0.5);
         let mainText = this.add.text(centerX, centerY - 200, 'Pause Menu', pauseConfig).setOrigin(0.5);
 
         let Resume = new Button(centerX, centerY - 100, 'Resume', this, () => {
             this.scene.resume(currScene).stop();
         })
         Resume.button.setFontSize(30);
-        Resume.whiteButton();
+        Resume.blackButton();
 
         let Restart = new Button(centerX, centerY, 'Restart', this, () => {
             this.scene.resume(currScene).stop();
@@ -19,7 +22,7 @@ class Pause extends Phaser.Scene {
             sceneRestart.scene.restart();
         })
         Restart.button.setFontSize(30);
-        Restart.whiteButton();
+        Restart.blackButton();
 
         let MainMenu = new Button(centerX, centerY + 100, 'Main Menu', this, () => {
             this.scene.stop(currScene);
@@ -28,7 +31,7 @@ class Pause extends Phaser.Scene {
             this.scene.start('titleScene');
         })
         MainMenu.button.setFontSize(30);
-        MainMenu.whiteButton();
+        MainMenu.blackButton();
     }
 
     update() {
