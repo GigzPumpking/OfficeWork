@@ -10,7 +10,7 @@ class Button {
             .setStyle({ fontFamily: 'Belanosima', fill: '#FF0000', align: 'center'})
             .on('pointerdown', () => this.pointerDown())
             .on('pointerover', () => this.hoverOver())
-            .on('pointerout',  () => this.button.setStyle({ fill: '#FF0000' }))
+            .on('pointerout',  () => this.pointerOut())
 
         this.status = 'red';
     }
@@ -23,8 +23,14 @@ class Button {
         this.callback();
     }
 
+    pointerOut() {
+        this.button.setStyle({ fill: '#FF0000' })
+        this.button.scale /= 1.1;
+    }
+
     hoverOver() {
         this.button.setStyle({ fill: '#F39C12' });
+        this.button.scale *= 1.1;
     }
 
     blackButton() {

@@ -23,6 +23,7 @@ class Pause extends Phaser.Scene {
 
         let MainMenu = new Button(centerX, centerY + 100, 'Main Menu', this, () => {
             this.scene.stop(currScene);
+            if (currScene == 'mailScene') this.scene.stop('computerScene');
             if (currScene != 'playScene') this.scene.stop('playScene');
             this.scene.start('titleScene');
         })

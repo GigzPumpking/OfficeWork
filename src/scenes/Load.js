@@ -70,6 +70,8 @@ class Load extends Phaser.Scene {
         this.load.image('paperStackA', 'paper_stack_A.png');
         this.load.image('paperStackB', 'paper_stack_B.png');
         this.load.image('sortText', 'sort_text.png');
+        this.load.image('paperA', 'paper_A.png');
+        this.load.image('paperB', 'paper_B.png');
 
     }
 

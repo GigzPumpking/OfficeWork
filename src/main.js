@@ -14,7 +14,7 @@ let config = {
             fps: 60
         }
     },
-    scene: [ Load, Title, Play, Computer, Mail, Credits, HowTo, Pause ]
+    scene: [ Load, Title, Play, Computer, Mail, PaperSortingGame, Credits, HowTo, Pause ]
 }
 
 let game = new Phaser.Game(config);
@@ -75,6 +75,13 @@ let savedMail1 = null;
 let savedMail2 = null;
 let savedMail3 = null;
 
-let savedMail1Stats = [0, 0, []];
-let savedMail2Stats = [0, 0, []];
-let savedMail3Stats = [0, 0, []];
+let mail1Status = false;
+let mail1WCReq = 50;
+let mail2Status = false;
+let mail2WCReq = 35;
+let mail3Status = false;
+let mail3WCReq = 20;
+
+let savedMail1Stats = [0, 0, [], 0];
+let savedMail2Stats = [0, 0, [], 0];
+let savedMail3Stats = [0, 0, [], 0];

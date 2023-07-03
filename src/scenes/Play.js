@@ -20,6 +20,10 @@ class Play extends Phaser.Scene {
         this.computer = new ButtonCreation(this, centerX, centerY, 'Silhouette', 2, () => {
             this.scene.pause().launch('computerScene');
         });
+
+        this.paperSortingGame = new ButtonCreation(this, centerX + 100, centerY, 'Silhouette', 2, () => {
+            this.scene.pause().launch('paperSortingGameScene');
+        });
     }
 
     update() {

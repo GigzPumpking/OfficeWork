@@ -41,16 +41,19 @@ class Mail extends Phaser.Scene {
                 this.characterLength = savedMail1Stats[0];
                 this.lineLength = savedMail1Stats[1];
                 this.textLengthArray = savedMail1Stats[2];
+                this.wordCount = savedMail1Stats[3];
             } else if (mailNum == 2) {
                 this.textEntry.text = savedMail2;
                 this.characterLength = savedMail2Stats[0];
                 this.lineLength = savedMail2Stats[1];
                 this.textLengthArray = savedMail2Stats[2];
+                this.wordCount = savedMail2Stats[3];
             } else if (mailNum == 3) {
                 this.textEntry.text = savedMail3;
                 this.characterLength = savedMail3Stats[0];
                 this.lineLength = savedMail3Stats[1];
                 this.textLengthArray = savedMail3Stats[2];
+                this.wordCount = savedMail3Stats[3];
             }
         });
         this.loadMailButton.button.setFontSize(30);
@@ -61,25 +64,40 @@ class Mail extends Phaser.Scene {
         this.saveMailButton = new Button(centerX + 165, centerY + 245, 'Save', this, () => {
             if (mailNum == 1) {
                 savedMail1 = this.textEntry.text;
-                savedMail1Stats = [this.characterLength, this.lineLength, this.textLengthArray];
+                savedMail1Stats = [this.characterLength, this.lineLength, this.textLengthArray, this.wordCount];
             }
             else if (mailNum == 2) {
                 savedMail2 = this.textEntry.text;
-                savedMail2Stats = [this.characterLength, this.lineLength, this.textLengthArray];
+                savedMail2Stats = [this.characterLength, this.lineLength, this.textLengthArray, this.wordCount];
             }
             else if (mailNum == 3) {
                 savedMail3 = this.textEntry.text;
-                savedMail3Stats = [this.characterLength, this.lineLength, this.textLengthArray];
+                savedMail3Stats = [this.characterLength, this.lineLength, this.textLengthArray, this.wordCount];
             }
         });
         this.saveMailButton.button.setFontSize(30);
         this.saveMailButton.whiteButton();
     }
 
+    sendMail() {
+        this.sendMailButton = new Button(centerX + 140, centerY + 185, 'Send', this, () => {
+            this.mailStatusUpdate();
+        });
+        this.sendMailButton.button.setFontSize(30);
+    }
+
     create() {
+        this.wordCount = 0;
         currScene = 'mailScene';
         this.background = this.add.sprite(centerX, centerY, 'computer');
         this.mailTitle = this.add.sprite(centerX, centerY - 1, 'mail').setScale(5.15);
+        if (mailNum == 1) {
+            this.mailPrompt = this.add.text(centerX - 220, centerY - 140, "It's your boss.\nConvince me on why you should get a raise.", { font: '16px Courier', fill: '#ffffff', align: 'center' });
+        } else if (mailNum == 2) {
+            this.mailPrompt = this.add.text(centerX - 165, centerY - 140, "Hey, it's your coworker!\nHave you done the paper sorting?", { font: '16px Courier', fill: '#ffffff', align: 'center' });
+        } else if (mailNum == 3) {
+            this.mailPrompt = this.add.text(centerX - 240, centerY - 135, "I sent cupcakes to the office for your birthday.\nTell me if you like them!", { font: '16px Courier', fill: '#ffffff', align: 'center' });
+        }
 
         // Scale background to fit screen
         this.background.displayWidth = game.config.width;
@@ -89,10 +107,11 @@ class Mail extends Phaser.Scene {
         this.createBackButton();
         this.loadPreviousMail();
         this.saveCurrentMail();
+        this.sendMail();
 
-        this.textYOffset = 140;
+        this.textYOffset = 180;
         let maxTextLength = 25;
-        let maxLineLength = 10;
+        let maxLineLength = 8;
         this.textLengthArray = [];
         // push 0 to this.textLengthArray maxLineLength times
         for (let i = 0; i < maxLineLength; i++) {
@@ -116,6 +135,7 @@ class Mail extends Phaser.Scene {
             else if (event.keyCode === 8 && this.textEntry.text.length > 0)
             {
                 this.characterLength--;
+                this.wordCount--;
                 if (this.characterLength < 0 && this.textEntry.text[this.textEntry.text.length - 1] == '\n') {
                     this.lineLength--;
                     this.characterLength = this.textLengthArray[this.lineLength];
@@ -141,14 +161,55 @@ class Mail extends Phaser.Scene {
                 if (this.lineLength < maxLineLength) {
                     this.textEntry.text += event.key;
                     this.characterLength++;
+                    this.wordCount++;
                 }
             }
         });
     }
 
+    mailStatusUpdate() {
+        if (mailNum == 1) {
+            if (this.wordCount >= mail1WCReq) {
+                mail1Status = true;
+            }
+        }
+        else if (mailNum == 2) {
+            if (this.wordCount >= mail2WCReq) {
+                mail2Status = true;
+            }
+        }
+        else if (mailNum == 3) {
+            if (this.wordCount >= mail3WCReq) {
+                mail3Status = true;
+            }
+        }
+    }
+
+    mailStatusCheck() {
+        if (mailNum == 1) {
+            if (this.wordCount >= mail1WCReq) {
+                return true;
+            } else return false;
+        }
+        else if (mailNum == 2) {
+            if (this.wordCount >= mail2WCReq) {
+                return true;
+            } else return false;
+        }
+        else if (mailNum == 3) {
+            if (this.wordCount >= mail3WCReq) {
+                return true;
+            } else return false;
+        }
+    }
+
     update() {
         this.blinkingLine.x = this.lineXOffset + this.characterLength * 20;
         this.blinkingLine.y = this.lineYOffset + this.textEntry.height;
+        
+        if (this.mailStatusCheck()) {
+            if (this.sendMailButton.status != 'green') this.sendMailButton.greenButton();
+        } else if (this.sendMailButton.status != 'red') this.sendMailButton.redButton();
     }
 
 }
