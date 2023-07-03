@@ -25,6 +25,20 @@ class Computer extends Phaser.Scene {
         this.backButton.button.setFontSize(30);
     }
 
+    createBlinkingLine() {
+        this.lineXOffset = 245;
+        this.lineYOffset = 90;
+        this.blinkingLine = this.add.text(this.lineXOffset, this.lineYOffset, '|', { font: '28px Courier', fill: '#ffff00' });
+        this.blinkingLine.alpha = 0;
+        this.blinkingLineTimer = this.time.addEvent({
+            delay: 250,
+            callback: () => {
+                this.blinkingLine.alpha = !this.blinkingLine.alpha;
+            },
+            loop: true
+        });
+    }
+
     create() {
         let maxTextLength = 25;
         let maxLineLength = 10;
@@ -33,7 +47,7 @@ class Computer extends Phaser.Scene {
         for (let i = 0; i < maxLineLength; i++) {
             previousTextLength.push(0);
         }
-        let characterLength = 0;
+        this.characterLength = 0;
         let lineLength = 0;
         currScene = 'computerScene';
 
@@ -47,48 +61,52 @@ class Computer extends Phaser.Scene {
 
         this.textEntry = this.add.text(250, 120, '', { font: '32px Courier', fill: '#ffff00' });
 
+        this.createBlinkingLine();
+
         this.input.keyboard.on('keydown', event =>
         {
             if (event.keyCode === 13 && lineLength < maxLineLength - 1) {
                 this.textEntry.text += '\n';
-                previousTextLength[lineLength] = characterLength;
-                characterLength = 0;
+                previousTextLength[lineLength] = this.characterLength;
+                this.characterLength = 0;
                 lineLength++;
             }
             else if (event.keyCode === 8 && this.textEntry.text.length > 0)
             {
-                characterLength--;
-                if (characterLength < 0 && this.textEntry.text[this.textEntry.text.length - 1] == '\n') {
+                this.characterLength--;
+                if (this.characterLength < 0 && this.textEntry.text[this.textEntry.text.length - 1] == '\n') {
                     lineLength--;
-                    characterLength = previousTextLength[lineLength];
+                    this.characterLength = previousTextLength[lineLength];
                     this.textEntry.text = this.textEntry.text.slice(0, this.textEntry.text.length - 1);
                 }
                 // if the current character is a newline character, remove the newline character and the previous character
-                else if (characterLength <= 0 && this.textEntry.text[this.textEntry.text.length - 2] == '\n') {
+                else if (this.characterLength <= 0 && this.textEntry.text[this.textEntry.text.length - 2] == '\n') {
                     previousTextLength[lineLength] = 0;
                     lineLength--;
-                    characterLength = previousTextLength[lineLength];
+                    this.characterLength = previousTextLength[lineLength];
                     this.textEntry.text = this.textEntry.text.slice(0, this.textEntry.text.length - 2);
                 } else this.textEntry.text = this.textEntry.text.slice(0, this.textEntry.text.length - 1);
             }
             else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90) || (event.keyCode >= 186 && event.keyCode < 192) || (event.keyCode >= 219 && event.keyCode < 223) && lineLength < maxLineLength)
             {
                 // Press enter to go to next line
-                if (characterLength == maxTextLength && characterLength > 0 && event.keyCode != 13) {
+                if (this.characterLength == maxTextLength && this.characterLength > 0 && event.keyCode != 13) {
                     this.textEntry.text += '\n';
-                    previousTextLength[lineLength] = characterLength;
-                    characterLength = 0;
+                    previousTextLength[lineLength] = this.characterLength;
+                    this.characterLength = 0;
                     lineLength++;
                 }
                 if (lineLength < maxLineLength) {
                     this.textEntry.text += event.key;
-                    characterLength++;
+                    this.characterLength++;
                 }
             }
         });
     }
 
     update() {
+        this.blinkingLine.x = this.lineXOffset + this.characterLength * 20;
+        this.blinkingLine.y = this.lineYOffset + this.textEntry.height;
     }
 
 }
