@@ -13,18 +13,6 @@ class Mail extends Phaser.Scene {
 
     createBackButton() {
         this.backButton = new Button(centerX, centerY + 245, 'Back', this, () => {
-            if (mailNum == 1) {
-                savedMail1 = this.textEntry.text;
-                savedMail1Stats = [this.characterLength, this.lineLength, this.textLengthArray];
-            }
-            else if (mailNum == 2) {
-                savedMail2 = this.textEntry.text;
-                savedMail2Stats = [this.characterLength, this.lineLength, this.textLengthArray];
-            }
-            else if (mailNum == 3) {
-                savedMail3 = this.textEntry.text;
-                savedMail3Stats = [this.characterLength, this.lineLength, this.textLengthArray];
-            }
             this.scene.stop('mailScene');
             this.scene.resume('computerScene');
         });
@@ -35,7 +23,7 @@ class Mail extends Phaser.Scene {
     createBlinkingLine() {
         this.lineXOffset = 245;
         this.lineYOffset = this.textYOffset - 30;
-        this.blinkingLine = this.add.text(this.lineXOffset, this.lineYOffset, '|', { font: '28px Courier', fill: '#ffff00' });
+        this.blinkingLine = this.add.text(this.lineXOffset, this.lineYOffset, '|', { font: '26px Courier', fill: '#ffff00' });
         this.blinkingLine.alpha = 0;
         this.blinkingLineTimer = this.time.addEvent({
             delay: 250,
@@ -47,7 +35,7 @@ class Mail extends Phaser.Scene {
     }
 
     loadPreviousMail() {
-        this.loadMailButton = new Button(centerX - 135, centerY + 175, 'Load Draft', this, () => {
+        this.loadMailButton = new Button(centerX - 165, centerY + 245, 'Load', this, () => {
             if (mailNum == 1) {
                 this.textEntry.text = savedMail1;
                 this.characterLength = savedMail1Stats[0];
@@ -69,6 +57,25 @@ class Mail extends Phaser.Scene {
         this.loadMailButton.whiteButton();
     }
 
+    saveCurrentMail() {
+        this.saveMailButton = new Button(centerX + 165, centerY + 245, 'Save', this, () => {
+            if (mailNum == 1) {
+                savedMail1 = this.textEntry.text;
+                savedMail1Stats = [this.characterLength, this.lineLength, this.textLengthArray];
+            }
+            else if (mailNum == 2) {
+                savedMail2 = this.textEntry.text;
+                savedMail2Stats = [this.characterLength, this.lineLength, this.textLengthArray];
+            }
+            else if (mailNum == 3) {
+                savedMail3 = this.textEntry.text;
+                savedMail3Stats = [this.characterLength, this.lineLength, this.textLengthArray];
+            }
+        });
+        this.saveMailButton.button.setFontSize(30);
+        this.saveMailButton.whiteButton();
+    }
+
     create() {
         currScene = 'mailScene';
         this.background = this.add.sprite(centerX, centerY, 'computer');
@@ -81,6 +88,7 @@ class Mail extends Phaser.Scene {
         this.createPauseButton();
         this.createBackButton();
         this.loadPreviousMail();
+        this.saveCurrentMail();
 
         this.textYOffset = 140;
         let maxTextLength = 25;
