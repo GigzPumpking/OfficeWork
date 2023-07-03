@@ -92,7 +92,7 @@ class Title extends Phaser.Scene {
         });
 
         this.startButton = new ButtonCreation(this, centerX + 75*buttonScale, centerY + 18.75*buttonScale, 'startButton', buttonScale, () => {
-            this.scene.start('playScene');
+            this.scene.start('endDayScene');
         });
 
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
