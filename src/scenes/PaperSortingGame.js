@@ -12,16 +12,30 @@ class PaperSortingGame extends Phaser.Scene {
     }
 
     createBackButton() {
-        this.backButton = new Button(centerX, centerY + 245, 'Back', this, () => {
+        this.backButton = new Button(w - 40, 15, 'Back', this, () => {
             this.scene.stop('paperSortingGameScene');
             this.scene.resume('playScene');
         });
-        this.backButton.button.setFontSize(30);
+        this.backButton.button.setFontSize(24);
         this.backButton.whiteButton();
     }
 
     create() {
         currScene = 'paperSortingGameScene';
+
+        this.background = this.add.sprite(centerX, centerY, 'paperSortBG');
+        // Scale background to fit screen
+        this.background.displayWidth = game.config.width;
+        this.background.displayHeight = game.config.height;
+
+        this.createPauseButton();
+        this.createBackButton();
+
+        this.paperStackA = this.add.sprite(centerX, centerY, 'paperB').setScale(4);
+        this.paperStackB = this.add.sprite(centerX, centerY, 'paperA').setScale(4);
+
+        this.leftTray = this.add.sprite(centerX - 35, centerY, 'leftTray').setScale(5);
+        this.rightTray = this.add.sprite(centerX + 35, centerY, 'rightTray').setScale(5);
     }
 
     update() {
