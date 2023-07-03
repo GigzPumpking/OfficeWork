@@ -2,11 +2,6 @@ class Play extends Phaser.Scene {
     constructor() {
         super('playScene');
     }
-
-    preload() {
-        this.load.path = './assets/';
-        this.load.image('Person', 'silhouette_sprites/silhouette_3.png');
-    }
         
     createPauseButton() {
         this.pauseButton = new Button(40, 15, 'Pause', this, () => {
@@ -22,7 +17,7 @@ class Play extends Phaser.Scene {
         currScene = 'playScene';
         this.createPauseButton();
 
-        this.person = this.add.sprite(centerX, centerY, 'Person').setScale(2).setInteractive();
+        this.person = this.add.sprite(centerX, centerY, 'Silhouette').setScale(2).setInteractive();
         this.person.on('pointerdown', () => {
             this.scene.pause().launch('computerScene');
         });

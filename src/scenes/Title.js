@@ -3,16 +3,6 @@ class Title extends Phaser.Scene {
         super('titleScene');
     }
 
-    preload() {
-        // load background image
-        this.load.path = './assets/';
-        this.load.image('titleText', 'images/UI/title_text.png');
-        this.load.image('creditsButton', 'images/UI/credits_button.png');
-        this.load.image('tutorialButton', 'images/UI/how_to_play_button.png');
-        this.load.image('optionsButton', 'images/UI/options_button.png');
-        this.load.image('startButton', 'images/UI/start_button.png');
-    }
-
     create() {
 
         currScene = 'titleScene';
