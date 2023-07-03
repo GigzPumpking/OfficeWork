@@ -17,8 +17,7 @@ class Play extends Phaser.Scene {
         currScene = 'playScene';
         this.createPauseButton();
 
-        this.person = this.add.sprite(centerX, centerY, 'Silhouette').setScale(2).setInteractive();
-        this.person.on('pointerdown', () => {
+        this.computer = new ButtonCreation(this, centerX, centerY, 'Silhouette', 2, () => {
             this.scene.pause().launch('computerScene');
         });
     }

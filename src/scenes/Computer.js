@@ -34,7 +34,7 @@ class Computer extends Phaser.Scene {
 
         this.background = this.add.sprite(centerX, centerY, 'computer');
         this.mailTitle = this.add.sprite(centerX, centerY - 1, 'mail').setScale(5.15);
-        this.inboxScreen = this.add.sprite(centerX - 7, centerY + 25, 'inbox').setScale(5.15);
+        this.inboxScreen = this.add.sprite(centerX - 8, centerY + 24.55, 'inbox').setScale(5.15);
         // Scale background to fit screen
         this.background.displayWidth = game.config.width;
         this.background.displayHeight = game.config.height;
