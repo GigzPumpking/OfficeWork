@@ -21,7 +21,7 @@ class Credits extends Phaser.Scene {
 
         this.add.text(centerX, creditsY + 2*ySpacing, 'Abel Goy: Programming , Design , Production', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
 
-        this.add.text(centerX, creditsY + 2.5*ySpacing, 'David Carroll: Programming , Design', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
+        this.add.text(centerX, creditsY + 2.5*ySpacing, 'David Carroll: Brainstorming , Design', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
 
         this.add.text(centerX, creditsY + 3*ySpacing, 'Aidan Bacon: Menu Design Art , Pixel Art', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
 
