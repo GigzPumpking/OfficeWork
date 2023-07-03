@@ -84,6 +84,10 @@ class Load extends Phaser.Scene {
         this.load.image('paperA', 'paper_A.png');
         this.load.image('paperB', 'paper_B.png');
 
+        // Audio Assets
+        this.load.path = './assets/sound/';
+        this.load.audio('ambient', 'ambient.mp3');
+
     }
 
     create() {

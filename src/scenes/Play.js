@@ -21,6 +21,10 @@ class Play extends Phaser.Scene {
         mail3Status = false;
         mailStatus = [mail1Status, mail2Status, mail3Status];
 
+        // Play and loop ambient music
+        this.ambient = this.sound.add('ambient', { volume: 0.5, loop: true });
+        this.ambient.play();
+
         currScene = 'playScene';
 
         let backgroundAlpha = 0.5;
