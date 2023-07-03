@@ -69,3 +69,12 @@ const creditsConfig = Object.assign({}, textConfig, {fontFamily: 'Verdana', font
 let keySPACE, keyESC;
 
 let keyC, keyH, keyP;
+
+let mailNum = 0;
+let savedMail1 = null;
+let savedMail2 = null;
+let savedMail3 = null;
+
+let savedMail1Stats = [0, 0, []];
+let savedMail2Stats = [0, 0, []];
+let savedMail3Stats = [0, 0, []];
