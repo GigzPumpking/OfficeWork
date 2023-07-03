@@ -66,8 +66,4 @@ const creditsConfig = Object.assign({}, textConfig, {fontFamily: 'Verdana', font
 
 let keySPACE, keyESC;
 
-// key values for Computer Typing
-
-let keyA, keyB, keyC, keyD, keyE, keyF, keyG, keyH, keyI, keyJ, keyK, keyL, keyM, keyN, keyO, keyP, keyQ, keyR, keyS, keyT, keyU, keyV, keyW, keyX, keyY, keyZ;
-
-let keyPeriod, keyComma, keyColon, keyExclamation, keyQuestion, keyQuote;
+let keyC, keyH, keyP;

@@ -5,7 +5,7 @@ class Play extends Phaser.Scene {
 
     preload() {
         this.load.path = './assets/';
-        this.load.image('Person', 'silhouette_3.png');
+        this.load.image('Person', 'silhouette_sprites/silhouette_3.png');
     }
         
     createPauseButton() {
