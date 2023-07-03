@@ -126,6 +126,16 @@ class Mail extends Phaser.Scene {
 
         this.createBlinkingLine();
 
+        // Handle keyboard input
+
+        // Use invisible input element and focus() to get mobile keyboard to show
+        this.inputElement = document.createElement('input');
+        this.inputElement.setAttribute('type', 'text');
+        this.inputElement.setAttribute('id', 'inputElement');
+        this.inputElement.setAttribute('style', 'position: absolute; top: 0; left: 0; opacity: 0; z-index: -1;');
+        document.body.appendChild(this.inputElement);
+        this.inputElement.focus();
+
         this.input.keyboard.on('keydown', event =>
         {
             if (event.keyCode === 13 && this.lineLength < maxLineLength - 1) {
