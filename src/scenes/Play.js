@@ -55,8 +55,57 @@ class Play extends Phaser.Scene {
         this.desk = this.add.sprite(centerX, centerY, 'desk');
         this.office.push(this.desk);
 
-        this.drawer = this.add.sprite(centerX - 187.5, centerY + 140, 'drawer1');
+        this.drawer = new ButtonCreation(this, centerX - 187.5, centerY + 140, 'drawer1', 1, () => {
+            if (!this.drawer.drawerOpen) {
+                this.drawer.drawerOpen = true;
+                this.drawer.drawerOn();
+            } else {
+                this.drawer.drawerOpen = false;
+                this.drawer.drawerOut();
+            }
+        });
+        this.drawer.isDrawer = true;
         this.office.push(this.drawer);
+
+        // Create cigLighter button
+        this.cigLighter = new ButtonCreation(this, this.drawer.x + 30, this.drawer.y - 15, 'cigLighter', this.backgroundNewScale, () => {
+            // Add a rectangle with alpha 0.5 to create a dark background
+            this.dim = this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.5).setOrigin(0.5);
+
+            // Create smoking cig sprite and anims
+            this.smokingCig = this.add.sprite(centerX, centerY, 'cigbox');
+            this.smokingCig.displayWidth = w;
+            this.smokingCig.displayHeight = h;
+            this.smokingCig.anims.create({
+                key: 'SmokingCigAnims',
+                frames: this.anims.generateFrameNumbers('SmokingCigAnims', { start: 0, end: 33, first: 0}),
+                frameRate: 10,
+                repeat: 0
+            });
+            this.smokingCig.anims.play('SmokingCigAnims');
+
+            // Once the animation is done, destroy the cig sprite
+            this.smokingCig.on('animationcomplete', () => {
+                // Wait on the last frame for 1 second
+                this.time.delayedCall(1000, () => {
+                    // Quickly fade then destroy
+                    this.tweens.add({
+                        targets: this.smokingCig,
+                        alpha: 0,
+                        duration: 500,
+                        ease: 'Power2',
+                        onComplete: () => {
+                            this.smokingCig.destroy();
+                            this.dim.destroy();
+                        }
+                    });
+
+                }, null, this);
+            });
+        });
+
+        // Hide cigLighter button
+        this.cigLighter.alpha = 0;
 
         this.keyboard = this.add.sprite(centerX + 120, centerY + 50, 'keyboard');
         this.office.push(this.keyboard);
@@ -99,6 +148,13 @@ class Play extends Phaser.Scene {
                 element.scale = this.backgroundNewScale/2;
                 element.ogScale = element.scale;
             }
+            else if (element == this.drawer) {
+                element.displayWidth *= this.backgroundWidthIncrease;
+                element.displayHeight *= this.backgroundHeightIncrease;
+                element.ogScaleX = element.scaleX;
+                element.ogScaleY = element.scaleY;
+                element.ogScale = element.scale;
+            }
             else if (element != this.background) {
                 element.displayWidth *= this.backgroundWidthIncrease;
                 element.displayHeight *= this.backgroundHeightIncrease;
@@ -132,12 +188,14 @@ class Play extends Phaser.Scene {
         this.timeMS = 0;
         this.timeLeftUI = this.add.text(5, 80, this.timeMins + " " + this.ampm, timerConfig);
 
+        this.randomPhoneTimer = Math.floor(Math.random() * 500) + 100;
+        this.randomPhoneCooldown = this.randomPhoneTimer;
     }
 
     update() {
         // Day Timer Stuff
         this.timeMS++;
-        console.log(this.timeMS);
+        //console.log(this.timeMS);
         if (this.timeMS >= 600) {
             this.timeMS = 0;
             if(this.timeMins == 11) {
@@ -180,6 +238,17 @@ class Play extends Phaser.Scene {
         }
 
         this.coworker.update();
+
+        // Play a random phone at a random interval
+
+        if (this.randomPhoneCooldown < 0) {
+            // Random number from 1 to 4
+            let rand = Math.floor(Math.random() * 4) + 1;
+            this.sound.play('phones' + rand, { volume: 0.35, loop: false });
+            this.randomPhoneTimer = Math.floor(Math.random() * 1000) + 500;
+            this.randomPhoneCooldown = this.randomPhoneTimer;
+        } else 
+            this.randomPhoneCooldown--;
     }
 
 }

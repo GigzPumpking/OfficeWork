@@ -34,6 +34,10 @@ class Computer extends Phaser.Scene {
     create() {
         currScene = 'computerScene';
 
+        // play and loop white noise
+        this.whiteNoise = this.sound.add('whitenoise', { volume: 0.5, loop: true });
+        this.whiteNoise.play();
+
         this.background = this.add.sprite(centerX, centerY, 'computerBG');
         this.mailTitle = this.add.sprite(centerX, centerY - 1, 'mail').setScale(5.15);
         this.inboxScreen = this.add.sprite(centerX - 8, centerY + 24.55, 'inbox').setScale(5.15);
