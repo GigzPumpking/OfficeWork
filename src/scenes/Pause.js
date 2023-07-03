@@ -3,10 +3,6 @@ class Pause extends Phaser.Scene {
         super({ key: 'pauseScene' })
     }
 
-    preload() {
-        this.load.path = './assets/';
-    }
-
     create() {
 
         let mainText = this.add.text(centerX, centerY - 200, 'Pause Menu', pauseConfig).setOrigin(0.5);

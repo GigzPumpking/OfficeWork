@@ -14,11 +14,13 @@ let config = {
             fps: 60
         }
     },
-    scene: [ Title, Play, Computer, Credits, HowTo, Pause ]
+    scene: [ Load, Title, Play, Computer, Mail, Credits, HowTo, Pause ]
 }
 
 let game = new Phaser.Game(config);
 
+let w = game.config.width;
+let h = game.config.height;
 let centerX = game.config.width/2;
 let centerY = game.config.height/2;
 
