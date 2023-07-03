@@ -107,9 +107,47 @@ class Play extends Phaser.Scene {
         this.toDoTasks = [this.toDoTaskText1, this.toDoTaskText2];
 
         this.createPauseButton();
+
+        // Day Timer stuff
+
+        let timerConfig = {
+            fontFamily: 'Courier',
+        fontSize: '28px',
+        backgroundColor: '#F3B141',
+        color: '#843605',
+        align: 'center',
+        padding: {
+            top: 5,
+            bottom: 5,
+        },
+        fixedWidth: 100
+        }
+
+        this.timeMins = 9;
+        this.ampm = 'AM';
+        this.timeMS = 0;
+        this.timeLeftUI = this.add.text(5, 80, this.timeMins + " " + this.ampm, timerConfig);
+
     }
 
     update() {
+        // Day Timer Stuff
+        this.timeMS++;
+        console.log(this.timeMS);
+        if (this.timeMS >= 600) {
+            this.timeMS = 0;
+            if(this.timeMins == 11) {
+                this.ampm = 'PM';
+            }
+            if(this.timeMins == 12) {
+                this.timeMins = 0;
+            }
+            this.timeMins++;
+            this.timeLeftUI.text = this.timeMins + " " + this.ampm;
+        }
+        if (this.timeMins == 5 && this.timeMS >= 300) {
+            this.scene.start('endDayScene');                
+        }
         if (currScene != 'playScene') currScene = 'playScene';
 
         // Press P to pause
