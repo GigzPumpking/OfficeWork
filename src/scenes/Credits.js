@@ -19,7 +19,7 @@ class Credits extends Phaser.Scene {
 
         this.add.text(centerX, creditsY + ySpacing, 'Albert Rivas: Original Game Idea, Design, Pixel Art/Animations', creditsConfig).setColor('#EAAD2B').setOrigin(0.5);
 
-        this.add.text(centerX, creditsY + 1.5*ySpacing, 'Daphne Cheng: Pixel Art Background', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
+        this.add.text(centerX, creditsY + 1.5*ySpacing, 'Daphne Cheng: Pixel Art Background/Sprites, Design', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
 
         this.add.text(centerX, creditsY + 2*ySpacing, 'Abel Goy: Programming, Design, Production', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
 
@@ -27,7 +27,7 @@ class Credits extends Phaser.Scene {
 
         this.add.text(centerX, creditsY + 3*ySpacing, 'Aidan Bacon: Menu Design Art, Pixel Art', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
 
-        this.add.text(centerX, creditsY + 3.5*ySpacing, 'Hung Nguyen: Programming', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
+        this.add.text(centerX, creditsY + 3.5*ySpacing, 'Hung Nguyen: Lead Programmer', creditsConfig).setColor('#EA2B2B').setOrigin(0.5);
 
         this.add.text(centerX, creditsY + 4*ySpacing, 'Ben Daly: Music', creditsConfig).setColor('#26D135').setOrigin(0.5);
 
