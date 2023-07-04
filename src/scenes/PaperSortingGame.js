@@ -25,8 +25,8 @@ class PaperSortingGame extends Phaser.Scene {
         this.leftTray = this.add.sprite(centerX - 230, centerY, 'leftTray').setScale(5);
         this.rightTray = this.add.sprite(centerX + 200, centerY, 'rightTray').setScale(5);
 
-        this.leftTrayRect = new Phaser.Geom.Rectangle(centerX - 230, centerY - 150, 200, 300);
-        this.rightTrayRect = new Phaser.Geom.Rectangle(centerX + 200, centerY - 150, 200, 300);
+        this.leftTrayRect = new Phaser.Geom.Rectangle(centerX - 280, centerY - 40, 100, 75);
+        this.rightTrayRect = new Phaser.Geom.Rectangle(centerX + 150, centerY - 40, 100, 75);
 
         this.paperStack = [];
         for (let i = 0; i < this.maxPoints; i++)

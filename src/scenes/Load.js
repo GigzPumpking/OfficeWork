@@ -166,7 +166,7 @@ class Load extends Phaser.Scene {
             key: 'fireBasketIdleP',
             frames: play.anims.generateFrameNumbers('fireBasketIdle', { start: 0, end: 5, first: 0}),
             frameRate: 12,
-            repeat: 0
+            repeat: -1
         });
 
         // check for local storage browser support
