@@ -108,6 +108,13 @@ class Load extends Phaser.Scene {
         this.load.audio('phones3', 'phones3.wav');
         this.load.audio('phones4', 'phones4.wav');
         this.load.audio('whitenoise', 'whitenoise.wav');
+        this.load.audio('fireStart', 'fireStart.mp3');
+        this.load.audio('cigBurn', 'cigaretteBurn.wav');
+        this.load.audio('keyClack1', 'keyClack1.wav');
+        this.load.audio('keyClack2', 'keyClack2.wav');
+        this.load.audio('keyClack3', 'keyClack3.wav');
+        this.load.audio('keyClack4', 'keyClack4.wav');
+        this.load.audio('paperThrow', 'paperThrow.wav');
     }
 
     create() {
@@ -156,7 +163,7 @@ class Load extends Phaser.Scene {
         });
 
         play.anims.create({
-            key: 'fireBasketIdle',
+            key: 'fireBasketIdleP',
             frames: play.anims.generateFrameNumbers('fireBasketIdle', { start: 0, end: 5, first: 0}),
             frameRate: 12,
             repeat: 0

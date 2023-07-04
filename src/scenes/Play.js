@@ -101,7 +101,7 @@ class Play extends Phaser.Scene {
         if (trashBurning) {
             if (this.flames == null) {
                 this.flames = this.add.sprite(centerX + 260, centerY + 215, 'fireBasketIdle');
-                this.flames.anims.play('fireBasketIdle');
+                this.flames.anims.play('fireBasketIdleP');
             }
             else {
                 this.flames.setScale(flamesScale*0.8);

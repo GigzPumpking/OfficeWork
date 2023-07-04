@@ -7,7 +7,7 @@ class Credits extends Phaser.Scene {
         dimBG(this, 0.8);
 
         let creditsY = centerY - 250;
-        let ySpacing = 100;
+        let ySpacing = 80;
 
         this.add.text(centerX, creditsY, 'Credits', titleConfig).setOrigin(0.5).setFontSize(50);
 
@@ -30,6 +30,8 @@ class Credits extends Phaser.Scene {
         this.add.text(centerX, creditsY + 4*ySpacing, 'Ben Daly: Music', creditsConfig).setColor('#26D135').setOrigin(0.5);
 
         this.add.text(centerX, creditsY + 4.5*ySpacing, 'Evan Pompa: Pixel Art', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
+
+        this.add.text(centerX, creditsY + 5*ySpacing, 'Freesound: Moulaythami, Villen, JamesFarrell_97, Lextao', creditsConfig).setColor('#26D135').setOrigin(0.5);
 
         let MainMenu = new Button(centerX, centerY + 250, 'Back to Main Menu', this, textConfig, () => {
             // Resume title scene

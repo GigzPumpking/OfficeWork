@@ -61,6 +61,13 @@ class Inventory extends Phaser.Scene {
         });
         this.smokingCig.anims.play('SmokingCigAnims');
 
+        // Play cigarette burn sound on the 10th frame
+        this.smokingCig.on('animationupdate', () => {
+            if (this.smokingCig.anims.currentFrame.index == 10) {
+                this.sound.play('cigBurn', { volume: 2*sfxAudio });
+            }
+        });
+
         // Once the animation is done, destroy the cig sprite
         this.smokingCig.on('animationcomplete', () => {
             // Wait on the last frame for 1 second

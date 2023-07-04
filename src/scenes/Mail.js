@@ -111,13 +111,19 @@ class Mail extends Phaser.Scene {
 
         // Handle keyboard input
 
-        // Use invisible input element and focus() to get mobile keyboard to show
+        /*// Use invisible input element and focus() to get mobile keyboard to show
         this.inputElement = document.createElement('input');
         this.inputElement.setAttribute('type', 'text');
         this.inputElement.setAttribute('id', 'inputElement');
         this.inputElement.setAttribute('style', 'position: absolute; top: 0; left: 0; opacity: 0; z-index: -1;');
         document.body.appendChild(this.inputElement);
-        this.inputElement.focus();
+        this.inputElement.focus();*/
+
+        // On key press, play random keyboard sound
+        this.input.keyboard.on('keydown', event => {
+            let rand = Math.floor(Math.random() * 4) + 1;
+            this.sound.play('keyClack' + rand, { volume: sfxAudio, loop: false });
+        });
 
         this.input.keyboard.on('keydown', event =>
         {

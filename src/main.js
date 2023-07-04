@@ -78,7 +78,7 @@ const pauseConfig = Object.assign({}, textConfig, {fontSize: '48px', backgroundC
 
 // Text Config for Credits Menu
 
-const creditsConfig = Object.assign({}, textConfig, {fontFamily: 'Verdana', fontSize: '28px', backgroundColor: '#383B3C', color: '#FFFFFF', align: 'left'});
+const creditsConfig = Object.assign({}, textConfig, {fontFamily: 'Verdana', fontSize: '22px', backgroundColor: '#383B3C', color: '#FFFFFF', align: 'left'});
 
 // Text Config for Timer
 

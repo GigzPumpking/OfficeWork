@@ -9,6 +9,8 @@ class Trashcan extends Phaser.Scene {
 
         if (!trashBurning) this.flames = null;
         else {
+            // Play fire start sound
+            this.sound.play('fireStart', {volume: sfxAudio});
             this.flames = this.add.sprite(this.trashCan.x, this.trashCan.y + 20, 'fireBasketStart').setScale(flamesScale).setDepth(4);
             this.flames.anims.play('fireBasketStart');
             this.flames.on('animationcomplete', () => {
@@ -78,6 +80,9 @@ class Trashcan extends Phaser.Scene {
     createPaperball(x, y) {
         let paperball = new Paperball(this, -25, centerY - 150, paperballStatus).setDepth(3);
 
+        // Play paperball throw sound
+        this.sound.play('paperThrow', {volume: sfxAudio});
+
         // Send paperball to the mouse position 
         // Randomize the speed of the paperball
         this.physics.moveTo(paperball, x, y, Math.random() * 100 + 500);
@@ -93,6 +98,7 @@ class Trashcan extends Phaser.Scene {
                 this.physics.add.collider(paperball, element, () => {
                     // if the paperball is burning, add flames
                     if (paperball.burning && this.flames == null) {
+                        this.sound.play('fireStart', {volume: sfxAudio});
                         this.flames = this.add.sprite(this.trashCan.x, this.trashCan.y + 20, 'fireBasketStart').setScale(flamesScale).setDepth(4);
                         this.flames.anims.play('fireBasketStart');
                         this.flames.on('animationcomplete', () => {
@@ -112,6 +118,7 @@ class Trashcan extends Phaser.Scene {
 
             // if the paperball is burning, add flames
             if (paperball.burning && this.flames == null) {
+                this.sound.play('fireStart', {volume: sfxAudio});
                 this.flames = this.add.sprite(this.trashCan.x, this.trashCan.y + 20, 'fireBasketStart').setScale(flamesScale).setDepth(4);
                 this.flames.anims.play('fireBasketStart');
                 this.flames.on('animationcomplete', () => {
