@@ -19,6 +19,7 @@ class PaperSortingGame extends Phaser.Scene {
         this.sortText = this.add.sprite(centerX, 225, 'sortText').setScale(3);
 
         createPauseButton(this);
+        createInventoryButton(this);
         createBackButton(this, currScene, 'playScene');
 
         this.leftTray = this.add.sprite(centerX - 230, centerY, 'leftTray').setScale(5);

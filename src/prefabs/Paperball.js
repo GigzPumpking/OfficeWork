@@ -7,6 +7,12 @@ class Paperball extends Phaser.Physics.Arcade.Sprite {
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
 
+        if (paperballStatus == 'fireBallThrown') {
+            this.burning = true;
+            this.anims.play('fireBallThrown');
+        }
+        else this.burning = false;
+
         this
             .setScale(3)
             .setGravityY(400)
@@ -17,5 +23,33 @@ class Paperball extends Phaser.Physics.Arcade.Sprite {
 
     update() {
 
+        // If not moving and touching floor, destroy
+        if (this.body.velocity.x == 0 && this.body.touching.down) {
+            this.scene.paperballs.splice(this.scene.paperballs.indexOf(this), 1);
+            // Fade out and destroy
+            this.scene.tweens.add({
+                targets: this,
+                alpha: 0,
+                duration: 1000,
+                ease: 'Linear',
+                onComplete: () => {
+                    this.destroy();
+                }
+            });
+        } 
+        else if (this.body.velocity.x <= 25 && this.body.velocity.x >= -25) {
+            if (this.burning) this.anims.play('fireBallIdle');
+            if (this.rotation < 0 || this.rotation > 0) {
+                this.scene.tweens.add({
+                    targets: this,
+                    rotation: 0,
+                    duration: 150,
+                    ease: 'Quadratic'
+                });
+            }
+        }
+        else {
+            this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);
+        }
     }
 }

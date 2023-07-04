@@ -51,7 +51,6 @@ class Title extends Phaser.Scene {
         this.office.push(this.todoBoard);
 
         this.paperStack = this.add.sprite(centerX - 225, centerY + 50, 'deskTrays');
-        this.paperStack.flipX = true;
         this.office.push(this.paperStack);
 
         this.trashcan = this.add.sprite(centerX + 260, centerY + 225, 'Basket2');
@@ -66,14 +65,10 @@ class Title extends Phaser.Scene {
                 element.scale = this.backgroundNewScale/1.25;
                 element.ogScale = element.scale;
             }
-            else if (element == this.computer) {
+            else if (element == this.computer || element == this.paperStack) {
                 element.scale = this.backgroundNewScale;
                 element.ogScale = element.scale;
             } 
-            else if (element == this.paperStack) {
-                element.scale = this.backgroundNewScale/2;
-                element.ogScale = element.scale;
-            }
             else if (element != this.background) {
                 element.displayWidth *= this.backgroundWidthIncrease;
                 element.displayHeight *= this.backgroundHeightIncrease;

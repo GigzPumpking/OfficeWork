@@ -17,6 +17,15 @@ function createPauseButton(scene) {
     scene.pauseButton.button.setBackgroundColor('#000000');
 }
 
+function createInventoryButton(scene) {
+    scene.inventoryButton = new Button(78.5, 75, 'Inventory', scene, textConfig, () => {
+        scene.scene.pause().launch('inventoryScene');
+    });
+    scene.inventoryButton.whiteButton();
+    scene.inventoryButton.button.setFontSize(24);
+    scene.inventoryButton.button.setBackgroundColor('#000000');
+}
+
 function updateCurrPrev(curr, prev) {
     if (currScene != curr) currScene = curr;
     if (prevScene != prev) prevScene = prev;

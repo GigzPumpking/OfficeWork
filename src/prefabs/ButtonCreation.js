@@ -22,7 +22,7 @@ class ButtonCreation extends Phaser.GameObjects.Sprite {
     }
 
     pointerOn() {
-        if (this.texture == 'cigLighter') {
+        if (this.texture == 'cigbox' || this.texture == 'lighter') {
             this.scale = this.ogScale * 1.05;
             this.y -= 1;
         }
@@ -30,7 +30,7 @@ class ButtonCreation extends Phaser.GameObjects.Sprite {
     }
 
     pointerOut() {
-        if (this.texture == 'cigLighter') {
+        if (this.texture == 'cigbox' || this.texture == 'lighter') {
             this.scale = this.ogScale;
             this.y += 1;
         }
@@ -42,8 +42,10 @@ class ButtonCreation extends Phaser.GameObjects.Sprite {
         this.x -= 30;
         this.y += 15;
 
-        // Unhide this.scene's cigLighter
-        this.scene.cigLighter.alpha = 1;
+        // Unhide this.scene's cigbox and Lighter IF they are not in the inventory
+        if (!inventory.includes('cigbox')) this.scene.cigLighter.alpha = 1;
+
+        if (!inventory.includes('lighter')) this.scene.lighter.alpha = 1;
     }
 
     drawerOut() {
@@ -51,7 +53,8 @@ class ButtonCreation extends Phaser.GameObjects.Sprite {
         this.x += 30;
         this.y -= 15;
 
-        // Hide this.scene's cigLighter
+        // Hide this.scene's cigLighter and Lighter
         this.scene.cigLighter.alpha = 0;
+        this.scene.lighter.alpha = 0;
     }
 }

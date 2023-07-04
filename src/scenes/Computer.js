@@ -2,15 +2,6 @@ class Computer extends Phaser.Scene {
     constructor() {
         super('computerScene');
     }
-        
-    createPauseButton() {
-        this.pauseButton = new Button(50, 25, 'Pause', this, textConfig, () => {
-            this.scene.pause().launch('pauseScene');
-        });
-        this.pauseButton.whiteButton();
-        this.pauseButton.button.setFontSize(24);
-        this.pauseButton.button.setBackgroundColor('#000000');
-    }
 
     createMailButton(num, x, y) {
         this.mailButton = new Button(centerX + x, centerY + y, 'Reply', this, textConfig, () => {
@@ -34,7 +25,8 @@ class Computer extends Phaser.Scene {
         this.background.displayWidth = game.config.width;
         this.background.displayHeight = game.config.height;
 
-        this.createPauseButton();
+        createPauseButton(this);
+        createInventoryButton(this);
         createBackButton(this, currScene, prevScene);
 
         this.subjectTitle1 = this.add.text(centerX - 110, centerY - 140, "Subject line #1:\n", { font: '20px Courier', fill: '#ffffff' });

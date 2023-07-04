@@ -4,12 +4,18 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        this.flames = null;
+        flamesScale = 2.8;
+        trashBurning = false;
+        inventory = [];
         trashNum = 0;
         trashFilled = 0;
+        cigsSmoked = 0;
         papersSorted = false;
         mail1Status = false;
         mail2Status = false;
         mail3Status = false;
+        paperballStatus = 'paperball';
         mailStatus = [mail1Status, mail2Status, mail3Status];
 
         ambient.play();
@@ -25,13 +31,14 @@ class Play extends Phaser.Scene {
         this.toDoTasks = [this.toDoTaskText1, this.toDoTaskText2];
 
         createPauseButton(this);
+        createInventoryButton(this);
 
         // Day Timer stuff
 
         this.timeMins = 9;
         this.ampm = 'AM';
         this.timeMS = 0;
-        this.timeLeftUI = this.add.text(5, 80, this.timeMins + " " + this.ampm, timerConfig);
+        this.timeLeftUI = this.add.text(5, 100, this.timeMins + " " + this.ampm, timerConfig);
 
         this.randomPhoneTimer = Math.floor(Math.random() * 500) + 100;
         this.randomPhoneCooldown = this.randomPhoneTimer;
@@ -91,6 +98,18 @@ class Play extends Phaser.Scene {
             this.trashcan.x = centerX + 236;
             this.trashcan.y = centerY + 215;
         }
+        if (trashBurning) {
+            if (this.flames == null) {
+                this.flames = this.add.sprite(centerX + 260, centerY + 215, 'fireBasketIdle');
+                this.flames.anims.play('fireBasketIdle');
+            }
+            else {
+                this.flames.setScale(flamesScale*0.8);
+            }
+        }
+
+        this.ashtray.setTexture('ashtray' + cigsSmoked);
+
         // Play a random phone at a random interval
 
         if (this.randomPhoneCooldown < 0) {
@@ -101,42 +120,6 @@ class Play extends Phaser.Scene {
             this.randomPhoneCooldown = this.randomPhoneTimer;
         } else 
             this.randomPhoneCooldown--;
-    }
-
-    cigaretteInitiate() {
-        // Add a rectangle with alpha 0.5 to create a dark background
-        this.dim = this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.5).setOrigin(0.5);
-
-        // Create smoking cig sprite and anims
-        this.smokingCig = this.add.sprite(centerX, centerY, 'cigbox');
-        this.smokingCig.displayWidth = w;
-        this.smokingCig.displayHeight = h;
-        this.smokingCig.anims.create({
-            key: 'SmokingCigAnims',
-            frames: this.anims.generateFrameNumbers('SmokingCigAnims', { start: 0, end: 33, first: 0}),
-            frameRate: 10,
-            repeat: 0
-        });
-        this.smokingCig.anims.play('SmokingCigAnims');
-
-        // Once the animation is done, destroy the cig sprite
-        this.smokingCig.on('animationcomplete', () => {
-            // Wait on the last frame for 1 second
-            this.time.delayedCall(1000, () => {
-                // Quickly fade then destroy
-                this.tweens.add({
-                    targets: this.smokingCig,
-                    alpha: 0,
-                    duration: 500,
-                    ease: 'Power2',
-                    onComplete: () => {
-                        this.smokingCig.destroy();
-                        this.dim.destroy();
-                    }
-                });
-
-            }, null, this);
-        });
     }
 
     officeCreation() {
@@ -179,12 +162,21 @@ class Play extends Phaser.Scene {
         this.office.push(this.drawer);
 
         // Create cigLighter button
-        this.cigLighter = new ButtonCreation(this, this.drawer.x + 30, this.drawer.y - 14, 'cigLighter', this.backgroundNewScale, () => {
-            this.cigaretteInitiate();
+        this.cigLighter = new ButtonCreation(this, this.drawer.x + 20, this.drawer.y - 16, 'cigbox', this.backgroundNewScale, () => {
+            // if inventory includes lighter, initiate cigarette
+            inventory.push('cigbox');
+            this.cigLighter.alpha = 0;
         });
 
-        // Hide cigLighter button
+        // Create Lighter button
+        this.lighter = new ButtonCreation(this, this.drawer.x + 70, this.drawer.y - 14.5, 'lighter', this.backgroundNewScale, () => {
+            inventory.push('lighter');
+            this.lighter.alpha = 0;
+        });
+
+        // Hide cigLighter and Lighter button
         this.cigLighter.alpha = 0;
+        this.lighter.alpha = 0;
 
         this.keyboard = this.add.sprite(centerX + 120, centerY + 50, 'keyboard');
         this.office.push(this.keyboard);
@@ -195,7 +187,7 @@ class Play extends Phaser.Scene {
         });
         this.office.push(this.computer);
 
-        this.ashtray = this.add.sprite(centerX + 75, centerY - 80, 'ashtray0');
+        this.ashtray = this.add.sprite(centerX + 100, centerY - 80, 'ashtray0');
         this.office.push(this.ashtray);
 
         this.todoBoard = this.add.sprite(centerX, centerY - 80, 'todoBoard');
@@ -204,7 +196,6 @@ class Play extends Phaser.Scene {
         this.paperStack = new ButtonCreation(this, centerX - 225, centerY + 50, 'deskTrays', 1, () => {
             this.scene.pause().launch('paperSortingGameScene');
         });
-        this.paperStack.flipX = true;
         this.office.push(this.paperStack);
 
         // Create trashcan button
@@ -219,16 +210,12 @@ class Play extends Phaser.Scene {
                 element.scale = this.backgroundNewScale/2;
                 element.ogScale = element.scale;
             }
-            else if (element == this.computer) {
+            else if (element == this.computer || element == this.paperStack) {
                 element.scale = this.backgroundNewScale;
                 element.ogScale = element.scale;
             } 
             else if (element == this.coworker) {
                 element.scale = this.backgroundNewScale/1.25;
-                element.ogScale = element.scale;
-            }
-            else if (element == this.paperStack) {
-                element.scale = this.backgroundNewScale/2;
                 element.ogScale = element.scale;
             }
             else if (element == this.drawer) {

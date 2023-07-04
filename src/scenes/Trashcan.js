@@ -7,6 +7,15 @@ class Trashcan extends Phaser.Scene {
         currScene = 'trashCanScene';
         prevScene = 'playScene';
 
+        if (!trashBurning) this.flames = null;
+        else {
+            this.flames = this.add.sprite(this.trashCan.x, this.trashCan.y + 20, 'fireBasketStart').setScale(flamesScale).setDepth(4);
+            this.flames.anims.play('fireBasketStart');
+            this.flames.on('animationcomplete', () => {
+                this.flames.anims.play('fireBasketIdle');
+            });
+        }
+
         dimBG(this, 0.8);
         this.dimBG.setFillStyle(0xFFFFFF, 0.8);
 
@@ -18,17 +27,17 @@ class Trashcan extends Phaser.Scene {
         this.floor = this.add.rectangle(0, h - 50, w, 100, 0x000000, 0).setOrigin(0, 0);
         this.physics.add.existing(this.floor);
         this.floor.body.immovable = true;
-        this.floor.body.setFrictionX(1);
 
         createPauseButton(this);
         createBackButton(this, currScene, prevScene);
+        createInventoryButton(this);
 
         // Create a trash can in the center of the screen
         this.trashCan = this.add.image(centerX, centerY + 100, 'Basket' + trashNum).setScale(3).setDepth(2);
         // Set up rectangle walls around the trash can's left and right sides
         this.trashCanWalls = [];
-        this.trashWalls(centerX - 50, this.trashCan.height*this.trashCan.scale);
-        this.trashWalls(centerX + 50, this.trashCan.height*this.trashCan.scale);
+        this.trashWalls(centerX - 60, this.trashCan.height*this.trashCan.scale);
+        this.trashWalls(centerX + 60, this.trashCan.height*this.trashCan.scale);
         this.trashWalls(w + 10, h);
         this.trashCanWalls[2].y = 0;
 
@@ -51,6 +60,8 @@ class Trashcan extends Phaser.Scene {
     }
 
     update() {
+        if (this.flames != null) trashBurning = true;
+
         updateCurrPrev('trashCanScene', 'playScene');
 
         // if P is pressed, pause the game
@@ -60,27 +71,12 @@ class Trashcan extends Phaser.Scene {
 
         // Rotate paperballs in this.paperballs in the direction of their velocity
         this.paperballs.forEach(element => {
-            if (element != null) element.rotation = Math.atan2(element.body.velocity.y, element.body.velocity.x);
-            // if paperball stops moving, wait 15 seconds then quickly fade it out and destroy it
-            if (element != null && element.body.velocity.x == 0 && element.body.velocity.y >= -5 && element.body.velocity.y <= 5) {
-                this.time.delayedCall(1000, () => {
-                    this.tweens.add({
-                        targets: element,
-                        alpha: 0,
-                        duration: 1000,
-                        ease: 'Linear',
-                        onComplete: () => {
-                            this.paperballs.splice(element, 1);
-                            if (element != null) element.destroy();
-                        }
-                    });
-                });
-            }
+            element.update();
         });
     }
 
     createPaperball(x, y) {
-        let paperball = new Paperball(this, -25, centerY - 150, 'paperball').setDepth(3);
+        let paperball = new Paperball(this, -25, centerY - 150, paperballStatus).setDepth(3);
 
         // Send paperball to the mouse position 
         // Randomize the speed of the paperball
@@ -93,34 +89,50 @@ class Trashcan extends Phaser.Scene {
 
         // Add collision between paperball and trashCanWalls
         this.trashCanWalls.forEach(element => {
-            this.physics.add.collider(paperball, element);
+            if (element != this.trashCanWalls[2]) {
+                this.physics.add.collider(paperball, element, () => {
+                    // if the paperball is burning, add flames
+                    if (paperball.burning && this.flames == null) {
+                        this.flames = this.add.sprite(this.trashCan.x, this.trashCan.y + 20, 'fireBasketStart').setScale(flamesScale).setDepth(4);
+                        this.flames.anims.play('fireBasketStart');
+                        this.flames.on('animationcomplete', () => {
+                            this.flames.anims.play('fireBasketIdle');
+                        });
+                    }
+                });
+            }
+            else this.physics.add.collider(paperball, element);
         });
 
         // Add collision between paperball and dropZone
         this.physics.add.collider(paperball, this.dropZone, () => {
             // If the paperball is in the dropZone, destroy it
-            paperball.destroy();
             this.paperballs.splice(this.paperballs.indexOf(paperball), 1);
+            paperball.destroy();
+
+            // if the paperball is burning, add flames
+            if (paperball.burning && this.flames == null) {
+                this.flames = this.add.sprite(this.trashCan.x, this.trashCan.y + 20, 'fireBasketStart').setScale(flamesScale).setDepth(4);
+                this.flames.anims.play('fireBasketStart');
+                this.flames.on('animationcomplete', () => {
+                    this.flames.anims.play('fireBasketIdle');
+                });
+            } else if (paperball.burning && this.flames != null) {
+                if (flamesScale < maxFlamesScale) {
+                    flamesScale += 0.1;
+                    this.flames.setScale(flamesScale);
+                }
+            }
+
             trashFilled++;
             if (trashFilled % 3 == 0) {
                 if (trashNum < trashNumMax) trashNum++;
                 this.trashCan.setTexture('Basket' + trashNum);
                 if (trashNum == trashNumMax && this.trashFULL == null) {
-                    // Add a bigger invisible rectangle to cover the trash can and add collision
-                    this.trashFULL = this.add.rectangle(centerX, centerY + 125, 125, 200, 0x000000, 0).setOrigin(0.5, 0.5);
-                    this.physics.add.existing(this.trashFULL);
-                    this.trashFULL.body.immovable = true;
-                    this.trashCan.x -= 24;
-                    this.trashCan.y -= 10;
-                    this.paperballs.forEach(element => {
-                        // Add collision between paperball and trashFULL, make paperball bounce off and vibrates trash can
-                        this.physics.add.collider(element, this.trashFULL);
-                    });
+                    this.trashFULLcreate();
                 }
             }
         });
-        
-        if (this.trashFULL != null) this.physics.add.collider(paperball, this.trashFULL);
 
         // Set random scale between 2.0 and 3.0
         paperball.setScale(Math.random() + 2.0);
@@ -129,10 +141,6 @@ class Trashcan extends Phaser.Scene {
     }
 
     trashFULLcreate() {
-        // Add a bigger invisible rectangle to cover the trash can and add collision
-        this.trashFULL = this.add.rectangle(centerX, centerY + 125, 125, 200, 0x000000, 0).setOrigin(0.5, 0.5);
-        this.physics.add.existing(this.trashFULL);
-        this.trashFULL.body.immovable = true;
         this.trashCan.x -= 24;
         this.trashCan.y -= 10;
     }

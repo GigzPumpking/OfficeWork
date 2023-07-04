@@ -2,25 +2,6 @@ class Mail extends Phaser.Scene {
     constructor() {
         super('mailScene');
     }
-        
-    createPauseButton() {
-        this.pauseButton = new Button(50, 25, 'Pause', this, textConfig, () => {
-            this.scene.pause().launch('pauseScene');
-        });
-        this.pauseButton.whiteButton();
-        this.pauseButton.button.setFontSize(24);
-        this.pauseButton.button.setBackgroundColor('#000000');
-    }
-
-    createBackButton() {
-        this.backButton = new Button(w - 50, 25, 'Back', this, textConfig, () => {
-            this.scene.stop('mailScene');
-            this.scene.resume('computerScene');
-        });
-        this.backButton.button.setFontSize(24);
-        this.backButton.whiteButton();
-        this.backButton.button.setBackgroundColor('#000000');
-    }
 
     createBlinkingLine() {
         this.lineXOffset = 245;
@@ -106,7 +87,8 @@ class Mail extends Phaser.Scene {
         this.background.displayWidth = game.config.width;
         this.background.displayHeight = game.config.height;
 
-        this.createPauseButton();
+        createPauseButton(this);
+        createInventoryButton(this);
         createBackButton(this, currScene, prevScene);
         this.loadPreviousMail();
         this.saveCurrentMail();

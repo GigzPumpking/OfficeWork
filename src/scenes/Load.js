@@ -53,10 +53,13 @@ class Load extends Phaser.Scene {
         this.load.image('Basket3', 'basket_filling_3.png');
         this.load.image('Basket4', 'basket_filling_4.png');
         this.load.image('paperball', 'paper_ball.png');
-        this.load.image('fireBasketIdle', 'FireSpriteSheets/basket_fire_idle.png');
-        this.load.image('fireBasketStart', 'FireSpriteSheets/basket_fire_start.png');
-        this.load.image('fireBallIdle', 'FireSpriteSheets/flaming_ball_idle.png');
-        this.load.image('fireBallThrown', 'FireSpriteSheets/flaming_ball_thrown.png');
+
+        // Load fire ball and basket animations
+        this.load.path = './assets/images/trash_basket/FireSpriteSheets/';
+        this.load.spritesheet('fireBasketIdle', 'basket_fire_idle.png', {frameWidth: 75, frameHeight: 85, startFrame: 0, endFrame: 5});
+        this.load.spritesheet('fireBasketStart', 'basket_fire_start.png', {frameWidth: 75, frameHeight: 85, startFrame: 0, endFrame: 5});
+        this.load.spritesheet('fireBallIdle', 'flaming_ball_idle.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 6});
+        this.load.spritesheet('fireBallThrown', 'flaming_ball_thrown.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 6});
 
         // Desk Graphical Assets
         this.load.path = './assets/desk_items/';
@@ -65,6 +68,7 @@ class Load extends Phaser.Scene {
         this.load.image('ashtray2', 'ashtray_2.png');
         this.load.image('ashtray3', 'ashtray_3.png');
         this.load.image('cigbox', 'cigbox.png');
+        this.load.image('lighter', 'lighter.png');
         this.load.image('keyboard', 'keyboardV4.png');
         this.load.image('computer', 'Computer.png');
         this.load.image('todoBoard', 'todo_board.png');
@@ -113,7 +117,7 @@ class Load extends Phaser.Scene {
         computer = this.scene.get('computerScene');
         mail = this.scene.get('mailScene');
         papergame = this.scene.get('paperSortScene');
-        trashgame = this.scene.get('trashScene');
+        trashgame = this.scene.get('trashCanScene');
         credits = this.scene.get('creditsScene');
         options = this.scene.get('pauseScene');
 
@@ -121,6 +125,42 @@ class Load extends Phaser.Scene {
         whiteNoise = computer.sound.add('whitenoise', { volume: musicAudio, loop: true });
 
         music = [ambient, whiteNoise];
+
+        // load animation for fireBalls in trashgame
+        trashgame.anims.create({
+            key: 'fireBallThrown',
+            frames: trashgame.anims.generateFrameNumbers('fireBallThrown', { start: 0, end: 6, first: 0}),
+            frameRate: 14,
+            repeat: -1
+        });
+        trashgame.anims.create({
+            key: 'fireBallIdle',
+            frames: trashgame.anims.generateFrameNumbers('fireBallIdle', { start: 0, end: 6, first: 0}),
+            frameRate: 14,
+            repeat: -1
+        });
+
+        // load animation for fireBasket in trashgame AND play
+        trashgame.anims.create({
+            key: 'fireBasketStart',
+            frames: trashgame.anims.generateFrameNumbers('fireBasketStart', { start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: 0
+        });
+
+        trashgame.anims.create({
+            key: 'fireBasketIdle',
+            frames: trashgame.anims.generateFrameNumbers('fireBasketIdle', { start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        play.anims.create({
+            key: 'fireBasketIdle',
+            frames: play.anims.generateFrameNumbers('fireBasketIdle', { start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: 0
+        });
 
         // check for local storage browser support
         if(window.localStorage) {
