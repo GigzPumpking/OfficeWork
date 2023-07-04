@@ -7,6 +7,9 @@ class ButtonCreation extends Phaser.GameObjects.Sprite {
         this.callback = callback;
         this.scale = scale;
         this.ogScale = scale;
+        this.texture = texture;
+        this.isDrawer = false;
+        this.drawerOpen = false;
         this
             .setInteractive()
             .on('pointerdown', () => this.pointerDown())
@@ -19,14 +22,36 @@ class ButtonCreation extends Phaser.GameObjects.Sprite {
     }
 
     pointerOn() {
-        this.scale = this.ogScale * 1.1;
+        if (this.texture == 'cigLighter') {
+            this.scale = this.ogScale * 1.05;
+            this.y -= 1;
+        }
+        else if (!this.isDrawer) this.scale = this.ogScale * 1.1;
     }
 
     pointerOut() {
-        this.scale = this.ogScale;
+        if (this.texture == 'cigLighter') {
+            this.scale = this.ogScale;
+            this.y += 1;
+        }
+        else if (!this.isDrawer) this.scale = this.ogScale;
     }
 
-    updateText(text) {
-        this.button.setText(text);
+    drawerOn() {
+        this.setTexture('drawer2', 0);
+        this.x -= 30;
+        this.y += 15;
+
+        // Unhide this.scene's cigLighter
+        this.scene.cigLighter.alpha = 1;
+    }
+
+    drawerOut() {
+        this.setTexture('drawer1', 0);
+        this.x += 30;
+        this.y -= 15;
+
+        // Hide this.scene's cigLighter
+        this.scene.cigLighter.alpha = 0;
     }
 }

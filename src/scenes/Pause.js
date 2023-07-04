@@ -5,18 +5,25 @@ class Pause extends Phaser.Scene {
 
     create() {
         this.playScene = this.scene.get('playScene');
+        this.computerScene = null;
         // Pause ambient music
         this.playScene.ambient.pause();
 
+        if (currScene == 'computerScene' || currScene == 'mailScene') {
+            this.computerScene = this.scene.get('computerScene');
+            this.computerScene.whiteNoise.pause();
+        }
+
         // Add a rectangle with alpha 0.5 to create a dark background for the pause menu
-        this.add.rectangle(centerX, centerY, game.config.width, game.config.height, 0x000000, 0.5).setOrigin(0.5);
+        this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.5).setOrigin(0.5);
         // Add a white rectangle to the pause menu
-        this.add.rectangle(centerX, centerY, game.config.width * 0.25, game.config.height * 0.55, 0xFFFFFF).setOrigin(0.5);
+        this.add.rectangle(centerX, centerY, w * 0.25, h * 0.55, 0xFFFFFF).setOrigin(0.5);
         let mainText = this.add.text(centerX, centerY - 200, 'Pause Menu', pauseConfig).setOrigin(0.5);
 
         let Resume = new Button(centerX, centerY - 100, 'Resume', this, () => {
             // Resume ambient music
             this.playScene.ambient.resume();
+            if (this.computerScene != null) this.computerScene.whiteNoise.resume();
             this.scene.resume(currScene).stop();
         })
         Resume.button.setFontSize(30);
@@ -25,9 +32,12 @@ class Pause extends Phaser.Scene {
         let Restart = new Button(centerX, centerY, 'Restart', this, () => {
             // Stop ambient music
             this.playScene.ambient.stop();
+            if (this.computerScene != null) this.computerScene.whiteNoise.stop();
             this.scene.resume(currScene).stop();
-            var sceneRestart = this.scene.get(currScene);
-            sceneRestart.scene.restart();
+            this.scene.stop(currScene);
+            if (currScene == 'mailScene') this.scene.stop('computerScene');
+            if (currScene != 'playScene') this.scene.stop('playScene');
+            this.scene.start('endDayScene');
         })
         Restart.button.setFontSize(30);
         Restart.blackButton();
@@ -35,6 +45,7 @@ class Pause extends Phaser.Scene {
         let MainMenu = new Button(centerX, centerY + 100, 'Main Menu', this, () => {
             // Stop ambient music
             this.playScene.ambient.stop();
+            if (this.computerScene != null) this.computerScene.whiteNoise.stop();
             this.scene.stop(currScene);
             if (currScene == 'mailScene') this.scene.stop('computerScene');
             if (currScene != 'playScene') this.scene.stop('playScene');

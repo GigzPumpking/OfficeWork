@@ -6,7 +6,7 @@ class Coworker extends Phaser.GameObjects.Sprite {
         this.scene = scene;
         this.scale = scale;
         this.ogScale = this.scale;
-        this.moveSpeed = 5;
+        this.moveSpeed = 7;
 
         // Create animation for coworker
         this.animation = this.anims.create({
@@ -36,7 +36,6 @@ class Coworker extends Phaser.GameObjects.Sprite {
         this.randY = 0;
 
         this.randomize();
-        this.randomizeSpeed();
     }
 
     update() {
@@ -53,7 +52,6 @@ class Coworker extends Phaser.GameObjects.Sprite {
             this.scene.time.addEvent({
                 delay: 7000,
                 callback: () => {
-                    this.randomizeSpeed();
                     // Resume coworker movement
                     this.moveEvent.paused = false;
                     // Resume animation
@@ -84,14 +82,12 @@ class Coworker extends Phaser.GameObjects.Sprite {
             this.direction = 'left';
             // Randomize scale by 0.9 to 1.1 times ogScale
             this.randomize();
-            this.randomizeSpeed();
             this.flipX = true;
         }
 
         if (this.x <= -50) {
             this.direction = 'right';
             this.randomize();
-            this.randomizeSpeed();
             this.flipX = false;
         }
     }
@@ -138,7 +134,6 @@ class Coworker extends Phaser.GameObjects.Sprite {
         this.scene.time.addEvent({
             delay: 5000,
             callback: () => {
-                this.randomizeSpeed();
                 this.moveEvent.paused = false;
                 this.anims.play('SilhouetteAnims');
                 if (this.direction == 'right') this.flipX = false;

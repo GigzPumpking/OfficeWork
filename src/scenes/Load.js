@@ -26,13 +26,24 @@ class Load extends Phaser.Scene {
         this.load.image('optionsButton', 'options_button.png');
         this.load.image('startButton', 'start_button.png');
 
+        // New Title Graphical Assets
+        this.load.path = './assets/title_screen/';
+        this.load.image('TITLE', 'TITLE.png');
+        this.load.image('CREDITS', 'credits_button.png');
+        this.load.image('OPTIONS', 'options_button.png');
+        this.load.image('START', 'start_button.png');
+
+        // Animations
+        this.load.path = './assets/anims/';
+        this.load.spritesheet('explode', 'end_day-Sheet.png', {frameWidth: 192, frameHeight: 108, startFrame: 0, endFrame: 50});
+        this.load.spritesheet('SilhouetteAnims', 'silhouette_animation5-Sheet.png', {frameWidth: 23, frameHeight: 69, startFrame: 0, endFrame: 6});
+        this.load.spritesheet('SmokingCigAnims', 'smoking_ciggy-Sheet.png', {frameWidth: 192, frameHeight: 108, startFrame: 0, endFrame: 33});
+
         // Play Scene Graphical Assets
         this.load.path = './assets/';
         this.load.image('Silhouette', 'silhouette_sprites/silhouette_3.png');
         this.load.image('SilhouetteUP', 'silhouette_sprites/silhouette_lookingup.png');
         this.load.image('SilhouetteSTARE', 'silhouette_sprites/silhouette_stare.png');
-        this.load.spritesheet('SilhouetteAnims', 'anims/silhouette_animation5-Sheet.png', {frameWidth: 23, frameHeight: 69, startFrame: 0, endFrame: 6});
-        this.load.spritesheet('SmokingCigAnims', 'anims/smoking_ciggy-Sheet.png', {frameWidth: 192, frameHeight: 108, startFrame: 0, endFrame: 3});
 
         // Trash Basket and Paper Ball Graphical Assets
         this.load.path = './assets/images/trash_basket/';
@@ -57,6 +68,7 @@ class Load extends Phaser.Scene {
         this.load.image('keyboard', 'keyboardV4.png');
         this.load.image('computer', 'Computer.png');
         this.load.image('todoBoard', 'todo_board.png');
+        this.load.image('deskTrays', 'desk_papertrays.png');
 
         // Office Graphical Assets
         this.load.path = './assets/office/';
@@ -87,6 +99,12 @@ class Load extends Phaser.Scene {
         // Audio Assets
         this.load.path = './assets/sound/';
         this.load.audio('ambient', 'ambient.mp3');
+        this.load.audio('phones1', 'phones1.wav');
+        this.load.audio('phones2', 'phones2.wav');
+        this.load.audio('phones3', 'phones3.wav');
+        this.load.audio('phones4', 'phones4.wav');
+        this.load.audio('whitenoise', 'whitenoise.wav');
+
 
     }
 

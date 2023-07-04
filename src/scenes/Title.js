@@ -19,8 +19,8 @@ class Title extends Phaser.Scene {
         this.background.originalWidth = this.background.width;
         this.background.originalHeight = this.background.height;
 
-        this.background.displayWidth = game.config.width;
-        this.background.displayHeight = game.config.height;
+        this.background.displayWidth = w;
+        this.background.displayHeight = h;
         this.backgroundNewScale = this.background.scale;
         this.office.push(this.background);
 
@@ -75,7 +75,7 @@ class Title extends Phaser.Scene {
             }
         });
 
-        this.add.rectangle(centerX, centerY, game.config.width, game.config.height, 0x000000, 0.5).setOrigin(0.5);
+        this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.5).setOrigin(0.5);
 
         this.add.sprite(centerX, centerY - 50*buttonScale, 'titleText').setScale(buttonScale/1.5);
 
