@@ -52,7 +52,7 @@ const popUpConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSi
 
 // Text Config for Title Text
 
-const titleConfig = Object.assign({}, textConfig, {fontFamily: 'Belanosima', fontSize: '60px', color: '#FFF21A', fixedWidth: 0});
+const titleConfig = Object.assign({}, textConfig, {fontSize: '60px', color: '#FFF21A', fixedWidth: 0});
 
 // Text Config for Title Buttons Text
 
@@ -64,11 +64,15 @@ const pauseConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSi
 
 // Text Config for Credits Menu
 
-const creditsConfig = Object.assign({}, textConfig, {fontFamily: 'Verdana', fontSize: '28px', backgroundColor: '#303030', color: '#FFFFFF', align: 'left', fixedWidth: 0});
+const creditsConfig = Object.assign({}, textConfig, {fontFamily: 'Verdana', fontSize: '28px', backgroundColor: '#383B3C', color: '#FFFFFF', align: 'left', fixedWidth: 0});
+
+// Text Config for Timer
+
+const timerConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSize: '28px', backgroundColor: '#F3B141', color: '#843605', fixedWidth: 100});
 
 let keySPACE, keyESC;
 
-let keyC, keyH, keyP;
+let keyC, keyO, keyP;
 
 let mailNum = 0;
 let savedMail1 = null;
@@ -91,3 +95,21 @@ let mailStatus = [mail1Status, mail2Status, mail3Status];
 let papersSorted = false;
 
 let loadRegular = false;
+
+let musicAudio = 0.5;
+let sfxAudio = 0.5;
+
+let title = null
+let play = null
+let computer = null
+let mail = null
+let papergame = null
+let trashgame = null
+let credits = null
+let options = null
+
+let ambient = null;
+let whiteNoise = null;
+
+let music = [ambient, whiteNoise];
+

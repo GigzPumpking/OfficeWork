@@ -21,12 +21,126 @@ class Play extends Phaser.Scene {
         mail3Status = false;
         mailStatus = [mail1Status, mail2Status, mail3Status];
 
-        // Play and loop ambient music
-        this.ambient = this.sound.add('ambient', { volume: 0.35, loop: true });
-        this.ambient.play();
+        ambient.play();
 
         currScene = 'playScene';
 
+        this.officeCreation();
+
+        this.toDoTaskText1 = this.add.text(centerX - 265, centerY - 110, "Sort Papers", {fontFamily: 'Courier', fontSize: '16px', color: '#000000', align: 'center'});
+        this.toDoTaskText2 = this.add.text(centerX - 265, centerY - 80, "Send Emails", {fontFamily: 'Courier', fontSize: '16px', color: '#000000', align: 'center'});
+
+        this.toDoTasks = [this.toDoTaskText1, this.toDoTaskText2];
+
+        this.createPauseButton();
+
+        // Day Timer stuff
+
+        this.timeMins = 9;
+        this.ampm = 'AM';
+        this.timeMS = 0;
+        this.timeLeftUI = this.add.text(5, 80, this.timeMins + " " + this.ampm, timerConfig);
+
+        this.randomPhoneTimer = Math.floor(Math.random() * 500) + 100;
+        this.randomPhoneCooldown = this.randomPhoneTimer;
+    }
+
+    update() {
+        // Day Timer Stuff
+        this.timeMS++;
+        //console.log(this.timeMS);
+        if (this.timeMS >= 600) {
+            this.timeMS = 0;
+            if(this.timeMins == 11) {
+                this.ampm = 'PM';
+            }
+            if(this.timeMins == 12) {
+                this.timeMins = 0;
+            }
+            this.timeMins++;
+            this.timeLeftUI.text = this.timeMins + " " + this.ampm;
+        }
+        if (this.timeMins == 5 && this.timeMS >= 300) {
+            this.scene.start('endDayScene');                
+        }
+        if (currScene != 'playScene') currScene = 'playScene';
+
+        // Press P to pause
+        if (Phaser.Input.Keyboard.JustDown(keyP)) {
+            this.scene.pause().launch('pauseScene');
+        }
+
+        // if papersSorted is true, quickly fade out toDoTaskText1
+        if (papersSorted) {
+            if (this.toDoTaskText1.alpha > 0) this.toDoTaskText1.alpha -= 0.01;
+            else this.toDoTaskText1.alpha = 0;
+        } else {
+            if (this.toDoTaskText1.alpha < 1) this.toDoTaskText1.alpha += 0.01;
+            else this.toDoTaskText1.alpha = 1;
+        }
+
+        mailStatus = [mail1Status, mail2Status, mail3Status];
+
+        // if all items in mailStatus array is true, quickly fade out toDoTaskText2
+        if (mailStatus.every((val, i, arr) => val === true)) {
+            if (this.toDoTaskText2.alpha > 0) this.toDoTaskText2.alpha -= 0.01;
+            else this.toDoTaskText2.alpha = 0;
+        } else {
+            if (this.toDoTaskText2.alpha < 1) this.toDoTaskText2.alpha += 0.01;
+            else this.toDoTaskText2.alpha = 1;
+        }
+
+        this.coworker.update();
+
+        // Play a random phone at a random interval
+
+        if (this.randomPhoneCooldown < 0) {
+            // Random number from 1 to 4
+            let rand = Math.floor(Math.random() * 4) + 1;
+            this.sound.play('phones' + rand, { volume: sfxAudio, loop: false });
+            this.randomPhoneTimer = Math.floor(Math.random() * 1000) + 500;
+            this.randomPhoneCooldown = this.randomPhoneTimer;
+        } else 
+            this.randomPhoneCooldown--;
+    }
+
+    cigaretteInitiate() {
+        // Add a rectangle with alpha 0.5 to create a dark background
+        this.dim = this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.5).setOrigin(0.5);
+
+        // Create smoking cig sprite and anims
+        this.smokingCig = this.add.sprite(centerX, centerY, 'cigbox');
+        this.smokingCig.displayWidth = w;
+        this.smokingCig.displayHeight = h;
+        this.smokingCig.anims.create({
+            key: 'SmokingCigAnims',
+            frames: this.anims.generateFrameNumbers('SmokingCigAnims', { start: 0, end: 33, first: 0}),
+            frameRate: 10,
+            repeat: 0
+        });
+        this.smokingCig.anims.play('SmokingCigAnims');
+
+        // Once the animation is done, destroy the cig sprite
+        this.smokingCig.on('animationcomplete', () => {
+            // Wait on the last frame for 1 second
+            this.time.delayedCall(1000, () => {
+                // Quickly fade then destroy
+                this.tweens.add({
+                    targets: this.smokingCig,
+                    alpha: 0,
+                    duration: 500,
+                    ease: 'Power2',
+                    onComplete: () => {
+                        this.smokingCig.destroy();
+                        this.dim.destroy();
+                    }
+                });
+
+            }, null, this);
+        });
+    }
+
+    officeCreation() {
         this.office = [];
 
         this.background = this.add.sprite(centerX, centerY, 'officeBG');
@@ -126,131 +240,6 @@ class Play extends Phaser.Scene {
                 element.displayWidth *= this.backgroundWidthIncrease;
                 element.displayHeight *= this.backgroundHeightIncrease;
             }
-        });
-
-        this.toDoTaskText1 = this.add.text(centerX - 265, centerY - 110, "Sort Papers", {fontFamily: 'Courier', fontSize: '16px', color: '#000000', align: 'center'});
-        this.toDoTaskText2 = this.add.text(centerX - 265, centerY - 80, "Send Emails", {fontFamily: 'Courier', fontSize: '16px', color: '#000000', align: 'center'});
-
-        this.toDoTasks = [this.toDoTaskText1, this.toDoTaskText2];
-
-        this.createPauseButton();
-
-        // Day Timer stuff
-
-        let timerConfig = {
-            fontFamily: 'Courier',
-        fontSize: '28px',
-        backgroundColor: '#F3B141',
-        color: '#843605',
-        align: 'center',
-        padding: {
-            top: 5,
-            bottom: 5,
-        },
-        fixedWidth: 100
-        }
-
-        this.timeMins = 9;
-        this.ampm = 'AM';
-        this.timeMS = 0;
-        this.timeLeftUI = this.add.text(5, 80, this.timeMins + " " + this.ampm, timerConfig);
-
-        this.randomPhoneTimer = Math.floor(Math.random() * 500) + 100;
-        this.randomPhoneCooldown = this.randomPhoneTimer;
-    }
-
-    update() {
-        // Day Timer Stuff
-        this.timeMS++;
-        //console.log(this.timeMS);
-        if (this.timeMS >= 600) {
-            this.timeMS = 0;
-            if(this.timeMins == 11) {
-                this.ampm = 'PM';
-            }
-            if(this.timeMins == 12) {
-                this.timeMins = 0;
-            }
-            this.timeMins++;
-            this.timeLeftUI.text = this.timeMins + " " + this.ampm;
-        }
-        if (this.timeMins == 5 && this.timeMS >= 300) {
-            this.scene.start('endDayScene');                
-        }
-        if (currScene != 'playScene') currScene = 'playScene';
-
-        // Press P to pause
-        if (Phaser.Input.Keyboard.JustDown(keyP)) {
-            this.scene.pause().launch('pauseScene');
-        }
-
-        // if papersSorted is true, quickly fade out toDoTaskText1
-        if (papersSorted) {
-            if (this.toDoTaskText1.alpha > 0) this.toDoTaskText1.alpha -= 0.01;
-            else this.toDoTaskText1.alpha = 0;
-        } else {
-            if (this.toDoTaskText1.alpha < 1) this.toDoTaskText1.alpha += 0.01;
-            else this.toDoTaskText1.alpha = 1;
-        }
-
-        mailStatus = [mail1Status, mail2Status, mail3Status];
-
-        // if all items in mailStatus array is true, quickly fade out toDoTaskText2
-        if (mailStatus.every((val, i, arr) => val === true)) {
-            if (this.toDoTaskText2.alpha > 0) this.toDoTaskText2.alpha -= 0.01;
-            else this.toDoTaskText2.alpha = 0;
-        } else {
-            if (this.toDoTaskText2.alpha < 1) this.toDoTaskText2.alpha += 0.01;
-            else this.toDoTaskText2.alpha = 1;
-        }
-
-        this.coworker.update();
-
-        // Play a random phone at a random interval
-
-        if (this.randomPhoneCooldown < 0) {
-            // Random number from 1 to 4
-            let rand = Math.floor(Math.random() * 4) + 1;
-            this.sound.play('phones' + rand, { volume: 0.3, loop: false });
-            this.randomPhoneTimer = Math.floor(Math.random() * 1000) + 500;
-            this.randomPhoneCooldown = this.randomPhoneTimer;
-        } else 
-            this.randomPhoneCooldown--;
-    }
-
-    cigaretteInitiate() {
-        // Add a rectangle with alpha 0.5 to create a dark background
-        this.dim = this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.5).setOrigin(0.5);
-
-        // Create smoking cig sprite and anims
-        this.smokingCig = this.add.sprite(centerX, centerY, 'cigbox');
-        this.smokingCig.displayWidth = w;
-        this.smokingCig.displayHeight = h;
-        this.smokingCig.anims.create({
-            key: 'SmokingCigAnims',
-            frames: this.anims.generateFrameNumbers('SmokingCigAnims', { start: 0, end: 33, first: 0}),
-            frameRate: 10,
-            repeat: 0
-        });
-        this.smokingCig.anims.play('SmokingCigAnims');
-
-        // Once the animation is done, destroy the cig sprite
-        this.smokingCig.on('animationcomplete', () => {
-            // Wait on the last frame for 1 second
-            this.time.delayedCall(1000, () => {
-                // Quickly fade then destroy
-                this.tweens.add({
-                    targets: this.smokingCig,
-                    alpha: 0,
-                    duration: 500,
-                    ease: 'Power2',
-                    onComplete: () => {
-                        this.smokingCig.destroy();
-                        this.dim.destroy();
-                    }
-                });
-
-            }, null, this);
         });
     }
 

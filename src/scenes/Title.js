@@ -9,8 +9,6 @@ class Title extends Phaser.Scene {
 
         let buttonScale = 0.8;
 
-        let backgroundAlpha = 0.5;
-
         this.office = [];
 
         this.background = this.add.sprite(centerX, centerY, 'officeBG');
@@ -27,6 +25,9 @@ class Title extends Phaser.Scene {
         // Store the amount of increase in width and height
         this.backgroundWidthIncrease = this.background.displayWidth / this.background.originalWidth;
         this.backgroundHeightIncrease = this.background.displayHeight / this.background.originalHeight;
+
+        this.coworker = new Coworker(this, 0, centerY - 130, 'Silhouette', 0, 1);
+        this.office.push(this.coworker);
 
         this.cubicles = this.add.sprite(centerX, centerY, 'cubicles');
         this.office.push(this.cubicles);
@@ -49,7 +50,7 @@ class Title extends Phaser.Scene {
         this.todoBoard = this.add.sprite(centerX, centerY - 80, 'todoBoard');
         this.office.push(this.todoBoard);
 
-        this.paperStack = this.add.sprite(centerX - 225, centerY + 50, 'paperStackA');
+        this.paperStack = this.add.sprite(centerX - 225, centerY + 50, 'deskTrays');
         this.paperStack.flipX = true;
         this.office.push(this.paperStack);
 
@@ -60,6 +61,10 @@ class Title extends Phaser.Scene {
             if (element == this.trashcan) {
                 element.displayWidth *= this.backgroundWidthIncrease/2;
                 element.displayHeight *= this.backgroundHeightIncrease/2; 
+            }
+            else if (element == this.coworker) {
+                element.scale = this.backgroundNewScale/1.25;
+                element.ogScale = element.scale;
             }
             else if (element == this.computer) {
                 element.scale = this.backgroundNewScale;
@@ -75,37 +80,58 @@ class Title extends Phaser.Scene {
             }
         });
 
-        this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.5).setOrigin(0.5);
+        // Create a low opacity black rectangle to serve as the background for the title
+        this.dim = this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.5).setOrigin(0.5);
 
-        this.add.sprite(centerX, centerY - 50*buttonScale, 'titleText').setScale(buttonScale/1.5);
+        this.title = this.add.sprite(centerX, centerY - 180*buttonScale, 'TITLE').setScale(buttonScale*4.5);
 
-        this.creditsButton = new ButtonCreation(this, centerX - 250*buttonScale, centerY, 'creditsButton', buttonScale, () => {
-            this.scene.start('creditScene');
+        // Continuously deflate and inflate the title slightly
+
+        this.tweens.add({
+            targets: this.title,
+            scaleX: buttonScale*4.5 - 0.1,
+            scaleY: buttonScale*4.5 - 0.1,
+            duration: 500,
+            yoyo: true,
+            repeat: -1
         });
 
-        this.howtoButton = new ButtonCreation(this, centerX + 75*buttonScale, centerY + 137.5*buttonScale, 'tutorialButton', buttonScale, () => {
+        // Continuously rotate the title left and right slightly between -1 and 1
+
+        this.tweens.add({
+            targets: this.title,
+            angle: 1,
+            duration: 500,
+            yoyo: true,
+            repeat: -1
+        });
+
+        this.creditsButton = new ButtonCreation(this, centerX - 300*buttonScale, centerY + 150*buttonScale, 'CREDITS', buttonScale*4, () => {
+            // Pause scene and launch credits scene
+            this.scene.pause().launch('creditScene');
+        });
+
+        /*this.howtoButton = new ButtonCreation(this, centerX + 75*buttonScale, centerY + 137.5*buttonScale, 'tutorialButton', buttonScale, () => {
             this.scene.start('howtoScene');
-        });
+        });*/
 
-        this.optionsButton = new ButtonCreation(this, centerX - 250*buttonScale, centerY + 87.5*buttonScale, 'optionsButton', buttonScale, () => {
+        this.optionsButton = new ButtonCreation(this, centerX + 300*buttonScale, centerY + 150*buttonScale, 'OPTIONS', buttonScale*4, () => {
             // insert Options Menu here
+            this.scene.pause().launch('pauseScene');
         });
 
-        this.startButton = new ButtonCreation(this, centerX + 75*buttonScale, centerY + 18.75*buttonScale, 'startButton', buttonScale, () => {
+        this.startButton = new ButtonCreation(this, centerX, centerY + 60*buttonScale, 'START', buttonScale*5, () => {
             this.scene.start('endDayScene');
         });
 
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
-        keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
+        keyO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O);
 
         this.sound.stopAll();
     }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyC)) 
-            this.scene.start('creditScene');    
-        
-        if (Phaser.Input.Keyboard.JustDown(keyH)) 
-           this.scene.start('howtoScene');    
+            this.scene.pause().launch('creditScene');
     }
 }

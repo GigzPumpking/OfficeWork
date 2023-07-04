@@ -36,6 +36,13 @@ class Coworker extends Phaser.GameObjects.Sprite {
         this.randY = 0;
 
         this.randomize();
+
+        // Randomize spawn direction
+        if (Math.random() < 0.5) {
+            this.direction = 'left';
+            this.flipX = true;
+            this.x = w + 50;
+        }
     }
 
     update() {

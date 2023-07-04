@@ -5,9 +5,11 @@ class Credits extends Phaser.Scene {
 
     create() {
 
+        // Create a low opacity black rectangle to create a dark background
+        this.dim = this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.8).setOrigin(0.5);
+
         let creditsY = centerY - 250;
         let ySpacing = 100;
-        let xSpacing = 200;
 
         this.add.text(centerX, creditsY, 'Credits', titleConfig).setOrigin(0.5).setFontSize(50);
 
@@ -31,9 +33,9 @@ class Credits extends Phaser.Scene {
 
         this.add.text(centerX, creditsY + 4.5*ySpacing, 'Evan Pompa: Pixel Art', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
 
-        let MainMenu = new Button(centerX, centerY + 245, 'Back to Main Menu', this, () => {
-            this.scene.stop('playScene');
-            this.scene.start('titleScene');
+        let MainMenu = new Button(centerX, centerY + 250, 'Back to Main Menu', this, () => {
+            // Resume title scene
+            this.scene.resume('titleScene').stop();
         })
         MainMenu.button.setFontSize(30);
         MainMenu.whiteButton();

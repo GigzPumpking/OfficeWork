@@ -14,6 +14,7 @@ class Computer extends Phaser.Scene {
 
     createBackButton() {
         this.backButton = new Button(w - 40, 25, 'Back', this, () => {
+            if (whiteNoise.isPlaying || whiteNoise.isPaused) whiteNoise.stop();
             this.scene.stop('computerScene');
             this.scene.resume('playScene');
         });
@@ -34,9 +35,7 @@ class Computer extends Phaser.Scene {
     create() {
         currScene = 'computerScene';
 
-        // play and loop white noise
-        this.whiteNoise = this.sound.add('whitenoise', { volume: 0.5, loop: true });
-        this.whiteNoise.play();
+        whiteNoise.play();
 
         this.background = this.add.sprite(centerX, centerY, 'computerBG');
         this.mailTitle = this.add.sprite(centerX, centerY - 1, 'mail').setScale(5.15);

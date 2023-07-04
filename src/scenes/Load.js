@@ -109,6 +109,22 @@ class Load extends Phaser.Scene {
     }
 
     create() {
+        title = this.scene.get('titleScene');
+        play = this.scene.get('playScene');
+        computer = this.scene.get('computerScene');
+        mail = this.scene.get('mailScene');
+        papergame = this.scene.get('paperSortScene');
+        trashgame = this.scene.get('trashScene');
+        credits = this.scene.get('creditsScene');
+        options = this.scene.get('pauseScene');
+
+        ambient = play.sound.add('ambient', { volume: musicAudio, loop: true });
+        whiteNoise = computer.sound.add('whitenoise', { volume: musicAudio, loop: true });
+
+        music = [ambient, whiteNoise];
+
+        console.log(music)
+
         // check for local storage browser support
         if(window.localStorage) {
             console.log('Local storage supported');
