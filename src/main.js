@@ -4,7 +4,7 @@ let config = {
     height: 562.5,
     pixelArt: true,
     scale: {
-        mode: Phaser.Scale.FIT,
+        //mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER
     },
     physics: {
@@ -14,7 +14,7 @@ let config = {
             fps: 60
         }
     },
-    scene: [ Load, Title, EndDay, Play, Computer, Mail, PaperSortingGame, Credits, HowTo, Pause ]
+    scene: [ Load, Title, EndDay, Play, Computer, Mail, PaperSortingGame, Trashcan, Credits, HowTo, Pause ]
 }
 
 let game = new Phaser.Game(config);
@@ -89,3 +89,5 @@ let savedMail3Stats = [0, 0, [], 0];
 let mailStatus = [mail1Status, mail2Status, mail3Status];
 
 let papersSorted = false;
+
+let loadRegular = false;

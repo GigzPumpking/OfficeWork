@@ -7,8 +7,6 @@ class ButtonCreation extends Phaser.GameObjects.Sprite {
         this.callback = callback;
         this.scale = scale;
         this.ogScale = scale;
-        this.ogScaleX = this.scaleX;
-        this.ogScaleY = this.scaleY;
         this.texture = texture;
         this.isDrawer = false;
         this.drawerOpen = false;
@@ -24,17 +22,17 @@ class ButtonCreation extends Phaser.GameObjects.Sprite {
     }
 
     pointerOn() {
-        if (this.texture == 'cigDrawer') {
+        if (this.texture == 'cigLighter') {
             this.scale = this.ogScale * 1.05;
-            this.y -= 5;
+            this.y -= 1;
         }
         else if (!this.isDrawer) this.scale = this.ogScale * 1.1;
     }
 
     pointerOut() {
-        if (this.texture == 'cigDrawer') {
+        if (this.texture == 'cigLighter') {
             this.scale = this.ogScale;
-            this.y += 5;
+            this.y += 1;
         }
         else if (!this.isDrawer) this.scale = this.ogScale;
     }

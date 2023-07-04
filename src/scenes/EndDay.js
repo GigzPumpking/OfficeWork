@@ -12,13 +12,25 @@ class EndDay extends Phaser.Scene {
         this.EndDay.displayWidth = game.config.width;
         this.EndDay.displayHeight = game.config.height;
 
-        this.animation = this.EndDay.anims.create({
-            key: 'explode',
-            frames: this.EndDay.anims.generateFrameNumbers('explode', { start: 0, end: 50, first: 0}),
+        this.animationInitial = this.EndDay.anims.create({
+            key: 'explodeInitial',
+            frames: this.EndDay.anims.generateFrameNumbers('explode', { start: 40, end: 50, first: 0}),
             frameRate: 30
         });
 
-        this.EndDay.play('explode');
+        this.animationRegular = this.EndDay.anims.create({
+            key: 'explodeRegular',
+            frames: this.EndDay.anims.generateFrameNumbers('explode', { start: 0, end: 50, first: 0}),
+            frameRate: 30, 
+        });
+
+        if (loadRegular) {
+            this.EndDay.play('explodeRegular');
+        } else {
+            this.EndDay.play('explodeInitial');
+            loadRegular = true;
+        }
+
         // Wait one second
         this.EndDay.on('animationcomplete', () => {
             this.time.addEvent({

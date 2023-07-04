@@ -26,6 +26,13 @@ class Load extends Phaser.Scene {
         this.load.image('optionsButton', 'options_button.png');
         this.load.image('startButton', 'start_button.png');
 
+        // New Title Graphical Assets
+        this.load.path = './assets/title_screen/';
+        this.load.image('TITLE', 'TITLE.png');
+        this.load.image('CREDITS', 'credits_button.png');
+        this.load.image('OPTIONS', 'options_button.png');
+        this.load.image('START', 'start_button.png');
+
         // Animations
         this.load.path = './assets/anims/';
         this.load.spritesheet('explode', 'end_day-Sheet.png', {frameWidth: 192, frameHeight: 108, startFrame: 0, endFrame: 50});
@@ -61,6 +68,7 @@ class Load extends Phaser.Scene {
         this.load.image('keyboard', 'keyboardV4.png');
         this.load.image('computer', 'Computer.png');
         this.load.image('todoBoard', 'todo_board.png');
+        this.load.image('deskTrays', 'desk_papertrays.png');
 
         // Office Graphical Assets
         this.load.path = './assets/office/';
