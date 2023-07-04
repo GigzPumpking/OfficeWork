@@ -4,7 +4,7 @@ class Computer extends Phaser.Scene {
     }
         
     createPauseButton() {
-        this.pauseButton = new Button(40, 25, 'Pause', this, () => {
+        this.pauseButton = new Button(50, 25, 'Pause', this, textConfig, () => {
             this.scene.pause().launch('pauseScene');
         });
         this.pauseButton.whiteButton();
@@ -12,19 +12,8 @@ class Computer extends Phaser.Scene {
         this.pauseButton.button.setBackgroundColor('#000000');
     }
 
-    createBackButton() {
-        this.backButton = new Button(w - 40, 25, 'Back', this, () => {
-            if (whiteNoise.isPlaying || whiteNoise.isPaused) whiteNoise.stop();
-            this.scene.stop('computerScene');
-            this.scene.resume('playScene');
-        });
-        this.backButton.button.setFontSize(24);
-        this.backButton.whiteButton();
-        this.backButton.button.setBackgroundColor('#000000');
-    }
-
     createMailButton(num, x, y) {
-        this.mailButton = new Button(centerX + x, centerY + y, 'Reply', this, () => {
+        this.mailButton = new Button(centerX + x, centerY + y, 'Reply', this, textConfig, () => {
             mailNum = num;
             this.scene.pause().launch('mailScene');
         });
@@ -34,6 +23,7 @@ class Computer extends Phaser.Scene {
 
     create() {
         currScene = 'computerScene';
+        prevScene = 'playScene';
 
         whiteNoise.play();
 
@@ -45,7 +35,7 @@ class Computer extends Phaser.Scene {
         this.background.displayHeight = game.config.height;
 
         this.createPauseButton();
-        this.createBackButton();
+        createBackButton(this, currScene, prevScene);
 
         this.subjectTitle1 = this.add.text(centerX - 110, centerY - 140, "Subject line #1:\n", { font: '20px Courier', fill: '#ffffff' });
         this.subjectTitleText1 = this.add.text(centerX - 110, centerY - 110, "Regarding your raise…", { font: '20px Courier', fill: '#ff0000' });
@@ -59,7 +49,7 @@ class Computer extends Phaser.Scene {
     }
 
     update() {
-        if (currScene != 'computerScene') currScene = 'computerScene';
+        updateCurrPrev('computerScene', 'playScene');
 
         if (mail1Status) {
             this.subjectTitleText1.setColor('#00ff00');

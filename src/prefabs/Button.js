@@ -1,13 +1,13 @@
 // Modified from Button class code from Ferenc Almasi: https://webtips.dev/webtips/phaser/interactive-buttons-in-phaser3
 class Button {
-    constructor(x, y, label, scene, callback, style) {
+    constructor(x, y, label, scene, style, callback) {
         this.scene = scene;
         this.callback = callback;
         this.button = scene.add.text(x, y, label)
             .setOrigin(0.5)
             .setPadding(10)
             .setInteractive({ useHandCursor: true })
-            .setStyle({ fontFamily: 'Belanosima', fill: '#FF0000', align: 'center'})
+            .setStyle(style)
             .on('pointerdown', () => this.pointerDown())
             .on('pointerover', () => this.hoverOver())
             .on('pointerout',  () => this.pointerOut())

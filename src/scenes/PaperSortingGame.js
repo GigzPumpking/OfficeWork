@@ -2,25 +2,6 @@ class PaperSortingGame extends Phaser.Scene {
     constructor() {
         super('paperSortingGameScene');
     }
-        
-    createPauseButton() {
-        this.pauseButton = new Button(40, 25, 'Pause', this, () => {
-            this.scene.pause().launch('pauseScene');
-        });
-        this.pauseButton.whiteButton();
-        this.pauseButton.button.setFontSize(24);
-        this.pauseButton.button.setBackgroundColor('#000000');
-    }
-
-    createBackButton() {
-        this.backButton = new Button(w - 40, 25, 'Back', this, () => {
-            this.scene.stop('paperSortingGameScene');
-            this.scene.resume('playScene');
-        });
-        this.backButton.button.setFontSize(24);
-        this.backButton.whiteButton();
-        this.backButton.button.setBackgroundColor('#000000');
-    }
 
     create() {
         currScene = 'paperSortingGameScene';
@@ -37,8 +18,8 @@ class PaperSortingGame extends Phaser.Scene {
         this.pointsText = this.add.text(centerX, 50, 'Points: ' + this.points + '/' + this.maxPoints, { fontFamily: 'Myriad Pro', fontSize: '32px', fill: '#000' }).setOrigin(0.5);
         this.sortText = this.add.sprite(centerX, 225, 'sortText').setScale(3);
 
-        this.createPauseButton();
-        this.createBackButton();
+        createPauseButton(this);
+        createBackButton(this, currScene, 'playScene');
 
         this.leftTray = this.add.sprite(centerX - 230, centerY, 'leftTray').setScale(5);
         this.rightTray = this.add.sprite(centerX + 200, centerY, 'rightTray').setScale(5);
@@ -54,6 +35,7 @@ class PaperSortingGame extends Phaser.Scene {
     }
 
     update() {
+        updateCurrPrev('paperSortingGameScene', 'playScene');
         // Update points text
         this.pointsText.text = 'Points: ' + this.points + '/' + this.maxPoints;
 

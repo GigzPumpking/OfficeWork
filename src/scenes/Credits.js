@@ -33,7 +33,7 @@ class Credits extends Phaser.Scene {
 
         this.add.text(centerX, creditsY + 4.5*ySpacing, 'Evan Pompa: Pixel Art', creditsConfig).setColor('#39B8FF').setOrigin(0.5);
 
-        let MainMenu = new Button(centerX, centerY + 250, 'Back to Main Menu', this, () => {
+        let MainMenu = new Button(centerX, centerY + 250, 'Back to Main Menu', this, textConfig, () => {
             // Resume title scene
             this.scene.resume('titleScene').stop();
         })

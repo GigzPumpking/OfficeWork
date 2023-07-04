@@ -25,11 +25,12 @@ let centerX = game.config.width/2;
 let centerY = game.config.height/2;
 
 let currScene = null;
+let prevScene = null;
 
 // Default Text Config
 
 let textConfig = {
-    fontFamily: 'Belanosima',
+    fontFamily: 'Courier',
     fontSize: '20px',
     color: '#000',
     align: 'center',
@@ -39,36 +40,36 @@ let textConfig = {
         left: 5,
         right: 5
     },
-    fixedWidth: 150
+    fixedWidth: 0
 }
 
 // Text Config for Buttons
 
-const buttonConfig = Object.assign({}, textConfig, {fontSize: '16px'});
+const buttonConfig = Object.assign({}, textConfig, {fontSize: '16px', fixedWidth: 150});
 
 // Text Config for Pop Up Text
 
-const popUpConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSize: '36px'});
+const popUpConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSize: '36px', fixedWidth: 150});
 
 // Text Config for Title Text
 
-const titleConfig = Object.assign({}, textConfig, {fontSize: '60px', color: '#FFF21A', fixedWidth: 0});
+const titleConfig = Object.assign({}, textConfig, {fontSize: '60px', color: '#FFF21A'});
 
 // Text Config for Title Buttons Text
 
-const titleButtonConfig = Object.assign({}, textConfig, {fontFamily: 'Fantasy', fontSize: '27px', color: '#FFF21A', fixedWidth: 0});
+const titleButtonConfig = Object.assign({}, textConfig, {fontFamily: 'Fantasy', fontSize: '27px', color: '#FFF21A'});
 
 // Text Config for Pause Menu
 
-const pauseConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSize: '48px', backgroundColor: '#F0000C', fixedWidth: 0});
+const pauseConfig = Object.assign({}, textConfig, {fontSize: '48px', backgroundColor: '#F0000C'});
 
 // Text Config for Credits Menu
 
-const creditsConfig = Object.assign({}, textConfig, {fontFamily: 'Verdana', fontSize: '28px', backgroundColor: '#383B3C', color: '#FFFFFF', align: 'left', fixedWidth: 0});
+const creditsConfig = Object.assign({}, textConfig, {fontFamily: 'Verdana', fontSize: '28px', backgroundColor: '#383B3C', color: '#FFFFFF', align: 'left'});
 
 // Text Config for Timer
 
-const timerConfig = Object.assign({}, textConfig, {fontFamily: 'Courier', fontSize: '28px', backgroundColor: '#F3B141', color: '#843605', fixedWidth: 100});
+const timerConfig = Object.assign({}, textConfig, {fontSize: '28px', backgroundColor: '#F3B141', color: '#843605', fixedWidth: 100});
 
 let keySPACE, keyESC;
 
@@ -99,6 +100,7 @@ let loadRegular = false;
 let musicAudio = 0.5;
 let sfxAudio = 0.5;
 
+let load = null
 let title = null
 let play = null
 let computer = null

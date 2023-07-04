@@ -20,7 +20,7 @@ class Pause extends Phaser.Scene {
 
         let mainText = this.add.text(centerX, centerY - 200, 'Options Menu', pauseConfig).setOrigin(0.5);
 
-        let Resume = new Button(centerX, centerY - 100, 'Resume', this, () => {
+        let Resume = new Button(centerX, centerY - 100, 'Resume', this, textConfig, () => {
             if (ambient.isPaused) ambient.resume();
             if (whiteNoise.isPaused) whiteNoise.resume();
             this.scene.resume(currScene).stop();
@@ -29,7 +29,7 @@ class Pause extends Phaser.Scene {
         Resume.blackButton();
 
         if (currScene != 'titleScene') {
-            let Restart = new Button(centerX, centerY, 'Restart', this, () => {
+            let Restart = new Button(centerX, centerY, 'Restart', this, textConfig, () => {
                 if (ambient.isPlaying || ambient.isPaused) ambient.stop();
                 if (whiteNoise.isPlaying || whiteNoise.isPaused) whiteNoise.stop();
 
@@ -42,7 +42,7 @@ class Pause extends Phaser.Scene {
             Restart.button.setFontSize(30);
             Restart.blackButton();
 
-            let MainMenu = new Button(centerX, centerY + 100, 'Main Menu', this, () => {
+            let MainMenu = new Button(centerX, centerY + 100, 'Main Menu', this, textConfig, () => {
                 if (currScene == 'titleScene') this.scene.resume('titleScene').stop();
 
                 if (ambient.isPlaying || ambient.isPaused) ambient.stop();

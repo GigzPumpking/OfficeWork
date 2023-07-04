@@ -109,6 +109,7 @@ class Load extends Phaser.Scene {
     }
 
     create() {
+        load = this.scene.get('loadScene');
         title = this.scene.get('titleScene');
         play = this.scene.get('playScene');
         computer = this.scene.get('computerScene');
@@ -122,8 +123,6 @@ class Load extends Phaser.Scene {
         whiteNoise = computer.sound.add('whitenoise', { volume: musicAudio, loop: true });
 
         music = [ambient, whiteNoise];
-
-        console.log(music)
 
         // check for local storage browser support
         if(window.localStorage) {

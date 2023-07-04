@@ -3,17 +3,6 @@ class Play extends Phaser.Scene {
         super('playScene');
     }
 
-    createPauseButton() {
-        this.pauseButton = new Button(40, 25, 'Pause', this, () => {
-            this.scene.pause().launch('pauseScene');
-        });
-        this.pauseButton.whiteButton();
-        this.pauseButton.button.setFontSize(24);
-        this.pauseButton.button.setBackgroundColor('#000000');
-
-        keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-    }
-
     create() {
         papersSorted = false;
         mail1Status = false;
@@ -24,6 +13,7 @@ class Play extends Phaser.Scene {
         ambient.play();
 
         currScene = 'playScene';
+        prevScene = 'endDayScene';
 
         this.officeCreation();
 
@@ -32,7 +22,7 @@ class Play extends Phaser.Scene {
 
         this.toDoTasks = [this.toDoTaskText1, this.toDoTaskText2];
 
-        this.createPauseButton();
+        createPauseButton(this);
 
         // Day Timer stuff
 
@@ -43,6 +33,8 @@ class Play extends Phaser.Scene {
 
         this.randomPhoneTimer = Math.floor(Math.random() * 500) + 100;
         this.randomPhoneCooldown = this.randomPhoneTimer;
+
+        keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
     }
 
     update() {
@@ -63,7 +55,8 @@ class Play extends Phaser.Scene {
         if (this.timeMins == 5 && this.timeMS >= 300) {
             this.scene.start('endDayScene');                
         }
-        if (currScene != 'playScene') currScene = 'playScene';
+
+        updateCurrPrev('playScene', 'endDayScene');
 
         // Press P to pause
         if (Phaser.Input.Keyboard.JustDown(keyP)) {

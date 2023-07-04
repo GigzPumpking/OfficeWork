@@ -4,7 +4,7 @@ class Mail extends Phaser.Scene {
     }
         
     createPauseButton() {
-        this.pauseButton = new Button(40, 25, 'Pause', this, () => {
+        this.pauseButton = new Button(50, 25, 'Pause', this, textConfig, () => {
             this.scene.pause().launch('pauseScene');
         });
         this.pauseButton.whiteButton();
@@ -13,7 +13,7 @@ class Mail extends Phaser.Scene {
     }
 
     createBackButton() {
-        this.backButton = new Button(w - 40, 25, 'Back', this, () => {
+        this.backButton = new Button(w - 50, 25, 'Back', this, textConfig, () => {
             this.scene.stop('mailScene');
             this.scene.resume('computerScene');
         });
@@ -37,7 +37,7 @@ class Mail extends Phaser.Scene {
     }
 
     loadPreviousMail() {
-        this.loadMailButton = new Button(centerX - 80, centerY + 250, 'Load', this, () => {
+        this.loadMailButton = new Button(centerX - 80, centerY + 250, 'Load', this, textConfig, () => {
             if (mailNum == 1) {
                 this.textEntry.text = savedMail1;
                 this.characterLength = savedMail1Stats[0];
@@ -63,7 +63,7 @@ class Mail extends Phaser.Scene {
     }
 
     saveCurrentMail() {
-        this.saveMailButton = new Button(centerX + 70, centerY + 250, 'Save', this, () => {
+        this.saveMailButton = new Button(centerX + 70, centerY + 250, 'Save', this, textConfig, () => {
             if (mailNum == 1) {
                 savedMail1 = this.textEntry.text;
                 savedMail1Stats = [this.characterLength, this.lineLength, this.textLengthArray, this.wordCount];
@@ -82,7 +82,7 @@ class Mail extends Phaser.Scene {
     }
 
     sendMail() {
-        this.sendMailButton = new Button(centerX + 140, centerY + 185, 'Send', this, () => {
+        this.sendMailButton = new Button(centerX + 140, centerY + 185, 'Send', this, textConfig, () => {
             this.mailStatusUpdate();
         });
         this.sendMailButton.button.setFontSize(30);
@@ -91,6 +91,7 @@ class Mail extends Phaser.Scene {
     create() {
         this.wordCount = 0;
         currScene = 'mailScene';
+        prevScene = 'computerScene';
         this.background = this.add.sprite(centerX, centerY, 'computerBG');
         this.mailTitle = this.add.sprite(centerX, centerY - 1, 'mail').setScale(5.15);
         if (mailNum == 1) {
@@ -106,7 +107,7 @@ class Mail extends Phaser.Scene {
         this.background.displayHeight = game.config.height;
 
         this.createPauseButton();
-        this.createBackButton();
+        createBackButton(this, currScene, prevScene);
         this.loadPreviousMail();
         this.saveCurrentMail();
         this.sendMail();
@@ -216,6 +217,8 @@ class Mail extends Phaser.Scene {
     }
 
     update() {
+        updateCurrPrev('mailScene', 'computerScene');
+        
         this.blinkingLine.x = this.lineXOffset + this.characterLength * 20;
         this.blinkingLine.y = this.lineYOffset + this.textEntry.height;
         
