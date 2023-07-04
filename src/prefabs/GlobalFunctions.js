@@ -22,3 +22,6 @@ function updateCurrPrev(curr, prev) {
     if (prevScene != prev) prevScene = prev;
 }
 
+function dimBG(scene, opacity) {
+    scene.dimBG = scene.add.rectangle(0, 0, w, h, 0x000000, opacity).setOrigin(0, 0);
+}

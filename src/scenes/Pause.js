@@ -4,8 +4,9 @@ class Pause extends Phaser.Scene {
     }
 
     create() {
-        // Add a white rectangle to the pause menu
-        this.background = this.add.rectangle(centerX, centerY, w , h, 0xFFFFFF, 0.9).setOrigin(0.5);
+        dimBG(this, 0.9);
+        // Change the color of the rectangle dimBG
+        this.dimBG.setFillStyle(0xFFFFFF, 0.9);
 
         if (currScene != 'titleScene') {
             if (ambient.isPlaying) ambient.pause();

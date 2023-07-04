@@ -104,8 +104,6 @@ class Load extends Phaser.Scene {
         this.load.audio('phones3', 'phones3.wav');
         this.load.audio('phones4', 'phones4.wav');
         this.load.audio('whitenoise', 'whitenoise.wav');
-
-
     }
 
     create() {

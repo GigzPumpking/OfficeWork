@@ -4,9 +4,7 @@ class Credits extends Phaser.Scene {
     }
 
     create() {
-
-        // Create a low opacity black rectangle to create a dark background
-        this.dim = this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.8).setOrigin(0.5);
+        dimBG(this, 0.8);
 
         let creditsY = centerY - 250;
         let ySpacing = 100;

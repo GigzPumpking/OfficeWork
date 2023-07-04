@@ -4,6 +4,8 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        trashNum = 0;
+        trashFilled = 0;
         papersSorted = false;
         mail1Status = false;
         mail2Status = false;
@@ -84,7 +86,11 @@ class Play extends Phaser.Scene {
         }
 
         this.coworker.update();
-
+        this.trashcan.setTexture('Basket' + trashNum);
+        if (trashNum == trashNumMax) {
+            this.trashcan.x = centerX + 236;
+            this.trashcan.y = centerY + 215;
+        }
         // Play a random phone at a random interval
 
         if (this.randomPhoneCooldown < 0) {
@@ -202,8 +208,9 @@ class Play extends Phaser.Scene {
         this.office.push(this.paperStack);
 
         // Create trashcan button
+        trashNum = 0;
         this.trashcan = new ButtonCreation(this, centerX + 260, centerY + 225, 'Basket0', 1, () => {
-
+            this.scene.pause().launch('trashCanScene');
         });
         this.office.push(this.trashcan);
 

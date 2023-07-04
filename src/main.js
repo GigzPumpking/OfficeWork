@@ -27,6 +27,10 @@ let centerY = game.config.height/2;
 let currScene = null;
 let prevScene = null;
 
+let trashNum = 0;
+let trashNumMax = 4;
+let trashFilled = 0;
+
 // Default Text Config
 
 let textConfig = {

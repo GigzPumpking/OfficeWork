@@ -80,8 +80,7 @@ class Title extends Phaser.Scene {
             }
         });
 
-        // Create a low opacity black rectangle to serve as the background for the title
-        this.dim = this.add.rectangle(centerX, centerY, w, h, 0x000000, 0.5).setOrigin(0.5);
+        dimBG(this, 0.5);
 
         this.title = this.add.sprite(centerX, centerY - 180*buttonScale, 'TITLE').setScale(buttonScale*4.5);
 

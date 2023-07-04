@@ -34,7 +34,7 @@ class EndDay extends Phaser.Scene {
         // Wait one second
         this.EndDay.on('animationcomplete', () => {
             this.time.addEvent({
-                delay: 2000,
+                delay: 1500,
                 callback: () => {
                     this.scene.start('playScene');
                 },
