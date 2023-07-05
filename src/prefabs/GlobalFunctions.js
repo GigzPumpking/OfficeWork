@@ -34,3 +34,18 @@ function updateCurrPrev(curr, prev) {
 function dimBG(scene, opacity) {
     scene.dimBG = scene.add.rectangle(0, 0, w, h, 0x000000, opacity).setOrigin(0, 0);
 }
+
+function timeUpdate(scene) {
+    // Day Timer Stuff
+    play.timeMS++;
+    //console.log(this.timeMS);
+    if (play.timeMS >= 600) {
+        play.timeMS = 0;
+        play.timeMins++;
+        // increment frame of timeLeftUI
+        play.timeLeftUI.setFrame(play.timeMins);
+    }
+    if (play.timeMins == 8 && play.timeMS >= 300) {
+        scene.scene.start('endDayScene');                
+    }
+}

@@ -1,10 +1,10 @@
 let config = {
     type: Phaser.WEBGL,
-    width: 1000,
-    height: 562.5,
+    width: 1920,
+    height: 1080,
     pixelArt: true,
     scale: {
-        //mode: Phaser.Scale.FIT,
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER
     },
     physics: {
@@ -21,8 +21,11 @@ let game = new Phaser.Game(config);
 
 let w = game.config.width;
 let h = game.config.height;
-let centerX = game.config.width/2;
-let centerY = game.config.height/2;
+
+let rescale = w / 192;
+let centerX = w/2;
+let centerY = h/2;
+let centerYP = h/2 + 20*rescale
 
 let currScene = null;
 let prevScene = null;
@@ -86,7 +89,7 @@ const timerConfig = Object.assign({}, textConfig, {fontSize: '28px', backgroundC
 
 let keySPACE, keyESC;
 
-let keyC, keyO, keyP;
+let keyC, keyO, keyP, keyI;
 
 let mailNum = 0;
 let savedMail1 = null;

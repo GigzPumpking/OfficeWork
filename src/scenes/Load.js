@@ -69,11 +69,12 @@ class Load extends Phaser.Scene {
         this.load.image('ashtray3', 'ashtray_3.png');
         this.load.image('cigbox', 'cigbox.png');
         this.load.image('lighter', 'lighter.png');
-        this.load.image('keyboard', 'keyboardV4.png');
+        this.load.image('keyboard', 'keyboard_fit.png');
         this.load.image('computer', 'Computer.png');
         this.load.image('todoBoard', 'todo_board.png');
         this.load.image('deskTrays', 'desk_papertrays.png');
         this.load.image('clock', 'clock.png');
+        this.load.spritesheet('time', 'time_spritesheet.png', {frameWidth: 17, frameHeight: 4, startFrame: 0, endFrame: 8});
 
         // Office Graphical Assets
         this.load.path = './assets/office/';
@@ -83,6 +84,8 @@ class Load extends Phaser.Scene {
         this.load.image('desk', 'desk.png');
         this.load.image('drawer1', 'drawer_closed.png');
         this.load.image('drawer2', 'drawer_open.png');
+        this.load.image('emailTask', 'send_emails_todo.png');
+        this.load.image('paperTask', 'sort_papers_todo.png');
 
         // Computer Graphical Assets
         this.load.path = './assets/computer/';
@@ -116,6 +119,20 @@ class Load extends Phaser.Scene {
         this.load.audio('keyClack3', 'keyClack3.wav');
         this.load.audio('keyClack4', 'keyClack4.wav');
         this.load.audio('paperThrow', 'paperThrow.wav');
+
+        // Inventory Assets
+        this.load.path = './assets/UI/inventory/';
+        this.load.image('inventory', 'inventory.png');
+        this.load.image('inventoryBox', 'inventory_box.png');
+        this.load.image('resume', 'resume_button.png');
+
+        // Pause Menu Assets
+        this.load.path = './assets/UI/pause_menu/';
+        this.load.image('pauseMenu', 'pause_menu.png');
+        this.load.image('resumeButton', 'resume_button.png');
+        this.load.image('restartButton', 'restart_button.png');
+        this.load.image('sliderButton', 'slider_button.png');
+        this.load.image('mainMenuButton', 'main_menu_button.png');
     }
 
     create() {

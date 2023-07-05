@@ -42,8 +42,8 @@ class ButtonCreation extends Phaser.GameObjects.Sprite {
         this.x -= 30;
         this.y += 15;
 
-        // Unhide this.scene's cigbox and Lighter IF they are not in the inventory
-        if (!inventory.includes('cigbox')) this.scene.cigLighter.alpha = 1;
+        // Unhide this.scene's cigbox and lighter IF they are not in the inventory
+        if (!inventory.includes('cigbox')) this.scene.cigbox.alpha = 1;
 
         if (!inventory.includes('lighter')) this.scene.lighter.alpha = 1;
     }
@@ -53,8 +53,8 @@ class ButtonCreation extends Phaser.GameObjects.Sprite {
         this.x += 30;
         this.y -= 15;
 
-        // Hide this.scene's cigLighter and Lighter
-        this.scene.cigLighter.alpha = 0;
+        // Hide this.scene's cigbox and Lighter
+        this.scene.cigbox.alpha = 0;
         this.scene.lighter.alpha = 0;
     }
 }
