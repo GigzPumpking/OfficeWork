@@ -42,7 +42,7 @@ class Title extends Phaser.Scene {
         this.dimBG.setDepth(5);
 
         this.title = this.add.sprite(centerX, centerY - 25*buttonScale*rescale, 'TITLE').setScale(buttonScale*rescale).setDepth(6);
-        this.jiggle(this.title);
+        jiggle(this, this.title);
 
         this.creditsButton = new ButtonCreation(this, centerX - 50*buttonScale*rescale, centerY + 35*buttonScale*rescale, 'CREDITS', buttonScale*rescale/1.5, () => {
             // Pause scene and launch credits scene
@@ -67,25 +67,5 @@ class Title extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyC)) 
             this.scene.pause().launch('creditScene');
-    }
-
-    jiggle(element) {
-        this.tweens.add({
-            targets: element,
-            scaleX: element.scale - element.scale/20,
-            scaleY: element.scale - element.scale/20,
-            duration: 500,
-            yoyo: true,
-            repeat: -1
-        });
-
-        this.tweens.add({
-            targets: element,
-            angle: 1,
-            duration: 300,
-            yoyo: true,
-            ease: 'Sine.easeInOut',
-            repeat: -1
-        });
     }
 }

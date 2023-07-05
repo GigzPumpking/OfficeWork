@@ -6,27 +6,31 @@ class PaperSortingGame extends Phaser.Scene {
     create() {
         currScene = 'paperSortingGameScene';
 
-        this.background = this.add.sprite(centerX, centerY, 'paperSortBG');
-        // Scale background to fit screen
-        this.background.displayWidth = game.config.width;
-        this.background.displayHeight = game.config.height;
+        this.background = this.add.sprite(centerX, centerY, 'paperSortBG').setScale(rescale);
 
         this.points = 0;
         this.maxPoints = 10;
 
         // Generate points text in the top middle of the screen
-        this.pointsText = this.add.text(centerX, 50, 'Points: ' + this.points + '/' + this.maxPoints, { fontFamily: 'Myriad Pro', fontSize: '32px', fill: '#000' }).setOrigin(0.5);
-        this.sortText = this.add.sprite(centerX, 225, 'sortText').setScale(3);
+        this.pointsText = this.add.text(centerX, 30*rescale, 'Points: ' + this.points + '/' + this.maxPoints, { fontFamily: 'Myriad Pro', fontSize: '64px', fill: '#000' }).setOrigin(0.5);
+        this.sortText = this.add.sprite(centerX, 40*rescale, 'sortText').setScale(rescale/1.25);
+        jiggle(this, this.sortText);
 
         createPauseButton(this);
         createInventoryButton(this);
         createBackButton(this, currScene, 'playScene');
 
-        this.leftTray = this.add.sprite(centerX - 230, centerY, 'leftTray').setScale(5);
-        this.rightTray = this.add.sprite(centerX + 200, centerY, 'rightTray').setScale(5);
+        this.leftTray = this.add.sprite(centerX - 50*rescale, centerY, 'leftTray').setScale(rescale);
+        this.rightTray = this.add.sprite(centerX + 50*rescale, centerY, 'rightTray').setScale(rescale);
 
-        this.leftTrayRect = new Phaser.Geom.Rectangle(centerX - 280, centerY - 40, 100, 75);
-        this.rightTrayRect = new Phaser.Geom.Rectangle(centerX + 150, centerY - 40, 100, 75);
+        let leftTrayWidth = this.leftTray.width*this.leftTray.scale;
+        let leftTrayHeight = this.leftTray.height*this.leftTray.scale;
+
+        let rightTrayWidth = this.rightTray.width*this.rightTray.scale;
+        let rightTrayHeight = this.rightTray.height*this.rightTray.scale;
+
+        this.leftTrayRect = new Phaser.Geom.Rectangle(this.leftTray.x - leftTrayWidth/2, this.leftTray.y - leftTrayHeight/2, leftTrayWidth, leftTrayHeight);
+        this.rightTrayRect = new Phaser.Geom.Rectangle(this.rightTray.x - rightTrayWidth/2, this.rightTray.y - rightTrayHeight/2, rightTrayWidth, rightTrayHeight);
 
         this.paperStack = [];
         for (let i = 0; i < this.maxPoints; i++)
@@ -57,7 +61,7 @@ class PaperSortingGame extends Phaser.Scene {
         else paperSprite = 'B';
 
         // Create paper sprite
-        let paper = this.add.sprite(centerX - 10, centerY, 'paper' + paperSprite).setScale(4);
+        let paper = this.add.sprite(centerX - 10, centerY, 'paper' + paperSprite).setScale(rescale);
 
         // Set random rotation between -0.25 and 0.25 degrees
         let rotation = Phaser.Math.FloatBetween(-0.25, 0.25);
@@ -66,13 +70,13 @@ class PaperSortingGame extends Phaser.Scene {
 
         paper.on('drag', function (pointer, dragX, dragY) {
             // increase the size of the sprite being dragged
-            paper.setScale(4.5);
+            paper.setScale(rescale*1.1);
             paper.setPosition(dragX, dragY);
         }, this)
 
         paper.on('dragend', function (pointer, dragX, dragY) {
             // reset the scale
-            paper.setScale(4);
+            paper.setScale(rescale);
             if (Phaser.Geom.Intersects.RectangleToRectangle(paper.getBounds(), this.leftTrayRect)) {
                 paper.setPosition(this.leftTray.x, this.leftTray.y);
                 paper.rotation = -0.75;

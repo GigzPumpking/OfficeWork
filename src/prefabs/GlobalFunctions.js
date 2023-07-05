@@ -49,3 +49,23 @@ function timeUpdate(scene) {
         scene.scene.start('endDayScene');                
     }
 }
+
+function jiggle( scene,element) {
+    scene.tweens.add({
+        targets: element,
+        scaleX: element.scale - element.scale/20,
+        scaleY: element.scale - element.scale/20,
+        duration: 500,
+        yoyo: true,
+        repeat: -1
+    });
+
+    scene.tweens.add({
+        targets: element,
+        angle: 1,
+        duration: 300,
+        yoyo: true,
+        ease: 'Sine.easeInOut',
+        repeat: -1
+    });
+}

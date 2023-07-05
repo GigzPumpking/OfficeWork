@@ -4,9 +4,9 @@ class Mail extends Phaser.Scene {
     }
 
     createBlinkingLine() {
-        this.lineXOffset = 245;
-        this.lineYOffset = this.textYOffset - 30;
-        this.blinkingLine = this.add.text(this.lineXOffset, this.lineYOffset, '|', { font: '26px Courier', fill: '#ffff00' });
+        this.lineXOffset = 55*rescale;
+        this.lineYOffset = this.textYOffset - 6*rescale;
+        this.blinkingLine = this.add.text(this.lineXOffset, this.lineYOffset, '|', { font: '52px Courier', fill: '#ffff00' });
         this.blinkingLine.alpha = 0;
         this.blinkingLineTimer = this.time.addEvent({
             delay: 250,
@@ -18,7 +18,7 @@ class Mail extends Phaser.Scene {
     }
 
     loadPreviousMail() {
-        this.loadMailButton = new Button(centerX - 80, centerY + 250, 'Load', this, textConfig, () => {
+        this.loadMailButton = new Button(centerX - 20*rescale, centerY + 47.5*rescale, 'Load', this, textConfig, () => {
             if (mailNum == 1) {
                 this.textEntry.text = savedMail1;
                 this.characterLength = savedMail1Stats[0];
@@ -39,12 +39,12 @@ class Mail extends Phaser.Scene {
                 this.wordCount = savedMail3Stats[3];
             }
         });
-        this.loadMailButton.button.setFontSize(30);
+        this.loadMailButton.button.setFontSize(50);
         this.loadMailButton.whiteButton();
     }
 
     saveCurrentMail() {
-        this.saveMailButton = new Button(centerX + 70, centerY + 250, 'Save', this, textConfig, () => {
+        this.saveMailButton = new Button(centerX + 18*rescale, centerY + 47.5*rescale, 'Save', this, textConfig, () => {
             if (mailNum == 1) {
                 savedMail1 = this.textEntry.text;
                 savedMail1Stats = [this.characterLength, this.lineLength, this.textLengthArray, this.wordCount];
@@ -58,34 +58,31 @@ class Mail extends Phaser.Scene {
                 savedMail3Stats = [this.characterLength, this.lineLength, this.textLengthArray, this.wordCount];
             }
         });
-        this.saveMailButton.button.setFontSize(30);
+        this.saveMailButton.button.setFontSize(50);
         this.saveMailButton.whiteButton();
     }
 
     sendMail() {
-        this.sendMailButton = new Button(centerX + 140, centerY + 185, 'Send', this, textConfig, () => {
+        this.sendMailButton = new Button(centerX + 28*rescale, centerY + 37*rescale, 'Send', this, textConfig, () => {
             this.mailStatusUpdate();
         });
-        this.sendMailButton.button.setFontSize(30);
+        this.sendMailButton.button.setFontSize(60);
     }
 
     create() {
+        this.widthIncrease = 32;
         this.wordCount = 0;
         currScene = 'mailScene';
         prevScene = 'computerScene';
-        this.background = this.add.sprite(centerX, centerY, 'computerBG');
-        this.mailTitle = this.add.sprite(centerX, centerY - 1, 'mail').setScale(5.15);
+        this.background = this.add.sprite(centerX, centerY, 'computerBG').setScale(rescale);
+        this.mailTitle = this.add.sprite(centerX, centerY - rescale, 'mail').setScale(rescale);
         if (mailNum == 1) {
-            this.mailPrompt = this.add.text(centerX - 220, centerY - 140, "It's your boss.\nConvince me on why you should get a raise.", { font: '16px Courier', fill: '#ffffff', align: 'center' });
+            this.mailPrompt = this.add.text(centerX - 44*rescale, centerY - 28*rescale, "It's your boss.\nConvince me on why you should get a raise.", { font: '32px Courier', fill: '#ffffff', align: 'center' });
         } else if (mailNum == 2) {
-            this.mailPrompt = this.add.text(centerX - 165, centerY - 140, "Hey, it's your coworker!\nHave you done the paper sorting?", { font: '16px Courier', fill: '#ffffff', align: 'center' });
+            this.mailPrompt = this.add.text(centerX - 33*rescale, centerY - 28*rescale, "Hey, it's your coworker!\nHave you done the paper sorting?", { font: '32px Courier', fill: '#ffffff', align: 'center' });
         } else if (mailNum == 3) {
-            this.mailPrompt = this.add.text(centerX - 240, centerY - 135, "I sent cupcakes to the office for your birthday.\nTell me if you like them!", { font: '16px Courier', fill: '#ffffff', align: 'center' });
+            this.mailPrompt = this.add.text(centerX - 48*rescale, centerY - 26*rescale, "I sent cupcakes to the office for your birthday.\nTell me if you like them!", { font: '32px Courier', fill: '#ffffff', align: 'center' });
         }
-
-        // Scale background to fit screen
-        this.background.displayWidth = game.config.width;
-        this.background.displayHeight = game.config.height;
 
         createPauseButton(this);
         createInventoryButton(this);
@@ -94,9 +91,9 @@ class Mail extends Phaser.Scene {
         this.saveCurrentMail();
         this.sendMail();
 
-        this.textYOffset = 180;
-        let maxTextLength = 25;
-        let maxLineLength = 8;
+        this.textYOffset = 36*rescale;
+        let maxTextLength = 22;
+        let maxLineLength = 7;
         this.textLengthArray = [];
         // push 0 to this.textLengthArray maxLineLength times
         for (let i = 0; i < maxLineLength; i++) {
@@ -105,19 +102,9 @@ class Mail extends Phaser.Scene {
         this.characterLength = 0;
         this.lineLength = 0;
 
-        this.textEntry = this.add.text(250, this.textYOffset, '', { font: '32px Courier', fill: '#ffff00' });
+        this.textEntry = this.add.text(52*rescale, this.textYOffset, '', { font: '64px Courier', fill: '#ffff00' });
 
         this.createBlinkingLine();
-
-        // Handle keyboard input
-
-        /*// Use invisible input element and focus() to get mobile keyboard to show
-        this.inputElement = document.createElement('input');
-        this.inputElement.setAttribute('type', 'text');
-        this.inputElement.setAttribute('id', 'inputElement');
-        this.inputElement.setAttribute('style', 'position: absolute; top: 0; left: 0; opacity: 0; z-index: -1;');
-        document.body.appendChild(this.inputElement);
-        this.inputElement.focus();*/
 
         // On key press, play random keyboard sound
         this.input.keyboard.on('keydown', event => {
@@ -207,7 +194,8 @@ class Mail extends Phaser.Scene {
     update() {
         updateCurrPrev('mailScene', 'computerScene');
         
-        this.blinkingLine.x = this.lineXOffset + this.characterLength * 20;
+        this.blinkingLine.x = this.lineXOffset + this.characterLength * this.widthIncrease;
+        this.widthIncrease = 32 + this.characterLength/3.4;
         this.blinkingLine.y = this.lineYOffset + this.textEntry.height;
         
         if (this.mailStatusCheck()) {

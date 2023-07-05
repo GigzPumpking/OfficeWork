@@ -8,7 +8,7 @@ class Computer extends Phaser.Scene {
             mailNum = num;
             this.scene.pause().launch('mailScene');
         });
-        this.mailButton.button.setFontSize(30);
+        this.mailButton.button.setFontSize(54);
         this.mailButton.whiteButton();
     }
 
@@ -18,26 +18,23 @@ class Computer extends Phaser.Scene {
 
         whiteNoise.play();
 
-        this.background = this.add.sprite(centerX, centerY, 'computerBG');
-        this.mailTitle = this.add.sprite(centerX, centerY - 1, 'mail').setScale(5.15);
-        this.inboxScreen = this.add.sprite(centerX - 8, centerY + 24.55, 'inbox').setScale(5.15);
-        // Scale background to fit screen
-        this.background.displayWidth = game.config.width;
-        this.background.displayHeight = game.config.height;
+        this.background = this.add.sprite(centerX, centerY, 'computerBG').setScale(rescale);
+        this.mailTitle = this.add.sprite(centerX, centerY - rescale, 'mail').setScale(rescale);
+        this.inboxScreen = this.add.sprite(centerX - 1.6*rescale, centerY + 4*rescale, 'inbox').setScale(rescale);
 
         createPauseButton(this);
         createInventoryButton(this);
         createBackButton(this, currScene, prevScene);
 
-        this.subjectTitle1 = this.add.text(centerX - 110, centerY - 140, "Subject line #1:\n", { font: '20px Courier', fill: '#ffffff' });
-        this.subjectTitleText1 = this.add.text(centerX - 110, centerY - 110, "Regarding your raise…", { font: '20px Courier', fill: '#ff0000' });
-        this.subjectTitle2 = this.add.text(centerX - 120, centerY - 20, "Subject line #2:\n", { font: '20px Courier', fill: '#ffffff' });
-        this.subjectTitleText2 = this.add.text(centerX - 120, centerY + 10, "Help, there's an issue!", { font: '20px Courier', fill: '#ff0000' });
-        this.subjectTitle3 = this.add.text(centerX - 120, centerY + 110, "Subject line #3:\n", { font: '20px Courier', fill: '#ffffff' });
-        this.subjectTitleText3 = this.add.text(centerX - 120, centerY + 140, "Hi sweetie! It's your mom.", { font: '20px Courier', fill: '#ff0000' });
-        this.createMailButton(1, 190, -60);
-        this.createMailButton(2, 170, 60);
-        this.createMailButton(3, 160, 185);
+        this.subjectTitle1 = this.add.text(centerX - 22*rescale, centerY - 28*rescale, "Subject line #1:\n", { font: '40px Courier', fill: '#ffffff' });
+        this.subjectTitleText1 = this.add.text(centerX - 22*rescale, centerY - 22*rescale, "Regarding your raise…", { font: '40px Courier', fill: '#ff0000' });
+        this.subjectTitle2 = this.add.text(centerX - 24*rescale, centerY - 4*rescale, "Subject line #2:\n", { font: '40px Courier', fill: '#ffffff' });
+        this.subjectTitleText2 = this.add.text(centerX - 24*rescale, centerY + 2*rescale, "Help, there's an issue!", { font: '40px Courier', fill: '#ff0000' });
+        this.subjectTitle3 = this.add.text(centerX - 24*rescale, centerY + 22*rescale, "Subject line #3:\n", { font: '40px Courier', fill: '#ffffff' });
+        this.subjectTitleText3 = this.add.text(centerX - 22*rescale, centerY + 28*rescale, "Hi sweetie! It's your mom.", { font: '40px Courier', fill: '#ff0000' });
+        this.createMailButton(1, 32*rescale, -13*rescale);
+        this.createMailButton(2, 35*rescale, 11*rescale);
+        this.createMailButton(3, 30*rescale, 36*rescale);
     }
 
     update() {
