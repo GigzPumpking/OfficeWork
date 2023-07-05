@@ -8,10 +8,11 @@ class Play extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, w, h + 40*rescale);
         this.cameras.main.setZoom(1);
         this.cameras.main.centerOn(centerX, centerY);
+        playPan = false;
 
         // Flames Variables (Reset)
         this.flames = null;
-        flamesScale = 2.8;
+        flamesScale = rescale/2;
 
         // Trash Variables (Reset)
         trashBurning = false;
@@ -83,16 +84,17 @@ class Play extends Phaser.Scene {
     trashUpdate() {
         this.trashcan.setTexture('Basket' + trashNum);
         if (trashNum == trashNumMax) {
-            this.trashcan.x = centerX + 236;
-            this.trashcan.y = centerY + 215;
+            this.trashcan.x = centerX + 19.75*rescale;
+            this.trashcan.y = centerYP + 57.7*rescale;
         }
         if (trashBurning) {
             if (this.flames == null) {
-                this.flames = this.add.sprite(centerX + 260, centerY + 215, 'fireBasketIdle').setScale(rescale).setDepth(3.5);
+                console.log('flames');
+                this.flames = this.add.sprite(this.trashcan.x, this.trashcan.y, 'fireBasketIdle').setScale(rescale).setDepth(4);
                 this.flames.anims.play('fireBasketIdleP');
             }
             else {
-                this.flames.setScale(flamesScale*0.8);
+                this.flames.setScale(flamesScale*1.2);
             }
         }
     }
@@ -142,22 +144,24 @@ class Play extends Phaser.Scene {
         this.desk = this.add.sprite(centerX - 12.5*rescale, centerYP, 'desk').setScale(rescale).setDepth(2);
 
         this.drawer = new ButtonCreation(this, centerX - 48.5*rescale, centerYP + 37.5*rescale, 'drawer1', rescale, () => {
-            if (!this.drawer.drawerOpen) {
+            if (playPan) {
+                if (!this.drawer.drawerOpen) {
                 this.drawer.drawerOpen = true;
                 this.drawer.drawerOn();
-            } else {
-                this.drawer.drawerOpen = false;
-                this.drawer.drawerOut();
+                } else {
+                    this.drawer.drawerOpen = false;
+                    this.drawer.drawerOut();
+                }
             }
         }).setDepth(3);
         this.drawer.isDrawer = true;
 
-        this.cigbox = new ButtonCreation(this, this.drawer.x, this.drawer.y, 'cigbox', rescale, () => {
+        this.cigbox = new ButtonCreation(this, this.drawer.x + rescale, this.drawer.y - 2*rescale, 'cigbox', rescale, () => {
             inventory.push('cigbox');
             this.cigbox.alpha = 0;
         }).setDepth(4).setAlpha(0);
 
-        this.lighter = new ButtonCreation(this, this.drawer.x, this.drawer.y, 'lighter', rescale, () => {
+        this.lighter = new ButtonCreation(this, this.drawer.x + 13*rescale, this.drawer.y - 2*rescale, 'lighter', rescale, () => {
             inventory.push('lighter');
             this.lighter.alpha = 0;
         }).setDepth(4).setAlpha(0);
@@ -192,11 +196,13 @@ class Play extends Phaser.Scene {
         // add button to move camera down
         this.downButton = new ButtonCreation(this, 50, centerYP + 5*rescale, 'downButton', 1, () => {
             this.cameras.main.pan(centerX, centerY + 200*rescale, 1000, 'Power2');
+            playPan = true;
         }).setDepth(3);
 
         // add button to move camera up
         this.upButton = new ButtonCreation(this, 50, centerYP, 'upButton', 1, () => {
             this.cameras.main.pan(centerX, centerY, 750, 'Quadratic');
+            playPan = false;
         }).setDepth(3);
 
         this.office = [this.background, this.coworker, this.cubicles, this.desk, this.drawer, this.cigbox, this.lighter, this.clock, this.timeLeftUI, this.keyboard, this.computer, this.ashtray, this.todoBoard, this.toDoTaskText1, this.toDoTaskText2, this.paperTrays, this.trashcan, this.downButton, this.upButton];

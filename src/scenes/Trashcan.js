@@ -7,26 +7,15 @@ class Trashcan extends Phaser.Scene {
         currScene = 'trashCanScene';
         prevScene = 'playScene';
 
-        if (!trashBurning) this.flames = null;
-        else {
-            // Play fire start sound
-            this.sound.play('fireStart', {volume: sfxAudio});
-            this.flames = this.add.sprite(this.trashCan.x, this.trashCan.y + 20, 'fireBasketStart').setScale(flamesScale).setDepth(4);
-            this.flames.anims.play('fireBasketStart');
-            this.flames.on('animationcomplete', () => {
-                this.flames.anims.play('fireBasketIdle');
-            });
-        }
-
         dimBG(this, 0.8);
         this.dimBG.setFillStyle(0xFFFFFF, 0.8);
 
         // Add a black rectangle to the bottom of the screen
-        this.add.rectangle(0, h - 90, w, 100, 0x000000, 0.4).setOrigin(0, 0);
+        this.add.rectangle(0, h - 9*rescale, w, 10*rescale, 0x000000, 0.4).setOrigin(0, 0);
 
         // Add another blacker rectangle to the bottom of the screen
         // this will act as the collidable floor
-        this.floor = this.add.rectangle(0, h - 50, w, 100, 0x000000, 0).setOrigin(0, 0);
+        this.floor = this.add.rectangle(0, h - 5*rescale, w, 10*rescale, 0x000000, 0).setOrigin(0, 0);
         this.physics.add.existing(this.floor);
         this.floor.body.immovable = true;
 
@@ -35,19 +24,26 @@ class Trashcan extends Phaser.Scene {
         createInventoryButton(this);
 
         // Create a trash can in the center of the screen
-        this.trashCan = this.add.image(centerX, centerY + 100, 'Basket' + trashNum).setScale(3).setDepth(2);
+        this.trashcan = this.add.image(centerX, centerY + 23.5*rescale, 'Basket' + trashNum).setScale(rescale/1.5).setDepth(2);
+
+        let trashWidth = this.trashcan.width*this.trashcan.scale;
+        let trashHeight = this.trashcan.height*this.trashcan.scale;
+
         // Set up rectangle walls around the trash can's left and right sides
-        this.trashCanWalls = [];
-        this.trashWalls(centerX - 60, this.trashCan.height*this.trashCan.scale);
-        this.trashWalls(centerX + 60, this.trashCan.height*this.trashCan.scale);
-        this.trashWalls(w + 10, h);
-        this.trashCanWalls[2].y = 0;
+        this.trashcanWalls = [];
+        this.trashWalls(this.trashcan.x - trashWidth/2.75, trashHeight);
+        this.trashWalls(this.trashcan.x + trashWidth/2.75, trashHeight);
+        this.trashWalls(w + rescale, h);
+        this.trashcanWalls[2].y = 0;
 
         if (trashNum != trashNumMax) this.trashFULL = null;
         else this.trashFULLcreate();
 
+        if (!trashBurning) this.flames = null;
+        else this.fireStart();
+
         // place invisible rectangle over trash can to act as a drop zone
-        this.dropZone = this.add.rectangle(centerX, centerY + 125, 80, 100, 0x000000, 0).setOrigin(0.5, 0.5);
+        this.dropZone = this.add.rectangle(centerX, centerY + 12.5*rescale, 8*rescale, 10*rescale, 0x000000, 0).setOrigin(0.5, 0.5);
         this.physics.add.existing(this.dropZone);
         this.dropZone.body.immovable = true;
 
@@ -77,33 +73,39 @@ class Trashcan extends Phaser.Scene {
         });
     }
 
+    fireStart() {
+        // Play fire start sound
+        this.sound.play('fireStart', {volume: sfxAudio});
+        this.flames = this.add.sprite(this.trashcan.x, this.trashcan.y + 7.5*rescale, 'fireBasketStart').setScale(flamesScale).setDepth(4);
+        if (trashNum == trashNumMax) this.flames.x = this.trashcan.x + 5*rescale;
+        this.flames.anims.play('fireBasketStart');
+        this.flames.on('animationcomplete', () => {
+            this.flames.anims.play('fireBasketIdle');
+        });
+    }
+
     createPaperball(x, y) {
-        let paperball = new Paperball(this, -25, centerY - 150, paperballStatus).setDepth(3);
+        let paperball = new Paperball(this, -2.5*rescale, centerY - 30*rescale, paperballStatus).setDepth(3);
 
         // Play paperball throw sound
         this.sound.play('paperThrow', {volume: sfxAudio});
 
         // Send paperball to the mouse position 
         // Randomize the speed of the paperball
-        this.physics.moveTo(paperball, x, y, Math.random() * 100 + 500);
+        this.physics.moveTo(paperball, x, y, Math.random() * 40*rescale + 80*rescale);
 
-        paperball.body.setDrag(30);
+        paperball.body.setDrag(3*rescale);
 
         // Add collision between paperball and floor
         this.physics.add.collider(paperball, this.floor);
 
         // Add collision between paperball and trashCanWalls
-        this.trashCanWalls.forEach(element => {
-            if (element != this.trashCanWalls[2]) {
+        this.trashcanWalls.forEach(element => {
+            if (element != this.trashcanWalls[2]) {
                 this.physics.add.collider(paperball, element, () => {
                     // if the paperball is burning, add flames
                     if (paperball.burning && this.flames == null) {
-                        this.sound.play('fireStart', {volume: sfxAudio});
-                        this.flames = this.add.sprite(this.trashCan.x, this.trashCan.y + 20, 'fireBasketStart').setScale(flamesScale).setDepth(4);
-                        this.flames.anims.play('fireBasketStart');
-                        this.flames.on('animationcomplete', () => {
-                            this.flames.anims.play('fireBasketIdle');
-                        });
+                        this.fireStart();
                     }
                 });
             }
@@ -118,44 +120,37 @@ class Trashcan extends Phaser.Scene {
 
             // if the paperball is burning, add flames
             if (paperball.burning && this.flames == null) {
-                this.sound.play('fireStart', {volume: sfxAudio});
-                this.flames = this.add.sprite(this.trashCan.x, this.trashCan.y + 20, 'fireBasketStart').setScale(flamesScale).setDepth(4);
-                this.flames.anims.play('fireBasketStart');
-                this.flames.on('animationcomplete', () => {
-                    this.flames.anims.play('fireBasketIdle');
-                });
+                this.fireStart();
             } else if (paperball.burning && this.flames != null) {
                 if (flamesScale < maxFlamesScale) {
-                    flamesScale += 0.1;
+                    flamesScale += 0.05*rescale;
                     this.flames.setScale(flamesScale);
+                    this.flames.y -= 0.75*rescale;
                 }
             }
 
             trashFilled++;
             if (trashFilled % 3 == 0) {
                 if (trashNum < trashNumMax) trashNum++;
-                this.trashCan.setTexture('Basket' + trashNum);
+                this.trashcan.setTexture('Basket' + trashNum);
                 if (trashNum == trashNumMax && this.trashFULL == null) {
                     this.trashFULLcreate();
                 }
             }
         });
-
-        // Set random scale between 2.0 and 3.0
-        paperball.setScale(Math.random() + 2.0);
     
         this.paperballs.push(paperball);
     }
 
     trashFULLcreate() {
-        this.trashCan.x -= 24;
-        this.trashCan.y -= 10;
+        this.trashcan.x = centerX - 5.25*rescale;
+        this.trashcan.y = centerY + 21.2*rescale;
     }
 
     trashWalls(x, height) {
-        let wall = this.add.rectangle(x, centerY, 10, height, 0x000000, 0).setOrigin(0, 0);
+        let wall = this.add.rectangle(x, centerY, rescale, height, 0x000000, 0).setOrigin(0, 0);
         this.physics.add.existing(wall);
         wall.body.immovable = true;
-        this.trashCanWalls.push(wall);
+        this.trashcanWalls.push(wall);
     }
 }

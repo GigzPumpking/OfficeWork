@@ -4,119 +4,59 @@ class Title extends Phaser.Scene {
     }
 
     create() {
-
         currScene = 'titleScene';
 
         let buttonScale = 0.8;
 
-        this.office = [];
+        this.background = this.add.sprite(centerX, centerYP, 'officeBG').setScale(rescale).setDepth(-1);
 
-        this.background = this.add.sprite(centerX, centerY, 'officeBG');
+        this.coworker = new Coworker(this, 0, centerYP - 35*rescale, 'Silhouette', 0, 1).setScale(rescale).setDepth(0);
 
-        // Store the original width and height of the background
-        this.background.originalWidth = this.background.width;
-        this.background.originalHeight = this.background.height;
+        this.cubicles = this.add.sprite(centerX, centerYP, 'cubicles').setScale(rescale).setDepth(1);
 
-        this.background.displayWidth = w;
-        this.background.displayHeight = h;
-        this.backgroundNewScale = this.background.scale;
-        this.office.push(this.background);
+        this.desk = this.add.sprite(centerX - 12.5*rescale, centerYP, 'desk').setScale(rescale).setDepth(2);
 
-        // Store the amount of increase in width and height
-        this.backgroundWidthIncrease = this.background.displayWidth / this.background.originalWidth;
-        this.backgroundHeightIncrease = this.background.displayHeight / this.background.originalHeight;
+        this.drawer = this.add.sprite(centerX - 48.5*rescale, centerYP + 37.5*rescale, 'drawer1').setScale(rescale).setDepth(3);
 
-        this.coworker = new Coworker(this, 0, centerY - 130, 'Silhouette', 0, 1);
-        this.office.push(this.coworker);
+        this.clock = this.add.sprite(centerX + 4*rescale, centerYP + 6*rescale, 'clock').setScale(rescale).setDepth(3);
 
-        this.cubicles = this.add.sprite(centerX, centerY, 'cubicles');
-        this.office.push(this.cubicles);
+        this.timeLeftUI = this.add.sprite(this.clock.x, this.clock.y - rescale, 'time').setOrigin(0.5, 0).setScale(0.9*rescale).setDepth(3.5);
 
-        this.desk = this.add.sprite(centerX, centerY, 'desk');
-        this.office.push(this.desk);
+        this.keyboard = this.add.sprite(centerX + 19*rescale, centerYP + 14*rescale, 'keyboard').setScale(rescale).setDepth(3);
 
-        this.drawer = this.add.sprite(centerX - 187.5, centerY + 140, 'drawer1');
-        this.office.push(this.drawer);
+        this.computer = this.add.sprite(centerX + 47.5*rescale, centerYP + 2*rescale, 'computer').setScale(rescale).setDepth(3.5);
 
-        this.computer = this.add.sprite(centerX + 300, centerY + 5, 'computer');
-        this.office.push(this.computer);
+        this.ashtray = this.add.sprite(centerX - 15*rescale, centerYP + 15*rescale, 'ashtray0').setScale(rescale).setDepth(3);
 
-        this.keyboard = this.add.sprite(centerX + 120, centerY + 50, 'keyboard');
-        this.office.push(this.keyboard);
+        this.todoBoard = this.add.sprite(centerX - 45*rescale, centerYP - 17.5*rescale, 'todoBoard').setScale(rescale).setDepth(3);
 
-        this.ashtray = this.add.sprite(centerX + 75, centerY - 80, 'ashtray0');
-        this.office.push(this.ashtray);
+        this.toDoTaskText1 = this.add.sprite(this.todoBoard.x - 0.5*rescale, this.todoBoard.y, "emailTask").setScale(rescale).setDepth(3.5);
+        
+        this.toDoTaskText2 = this.add.sprite(this.todoBoard.x + rescale, this.todoBoard.y + 7.5*rescale, "paperTask").setScale(rescale).setDepth(3.5);
 
-        this.todoBoard = this.add.sprite(centerX, centerY - 80, 'todoBoard');
-        this.office.push(this.todoBoard);
+        this.paperTrays = this.add.sprite(centerX - 50*rescale, centerYP + 7.5*rescale, 'deskTrays').setScale(rescale).setDepth(3);
 
-        this.paperStack = this.add.sprite(centerX - 225, centerY + 50, 'deskTrays');
-        this.office.push(this.paperStack);
+        this.office = [this.background, this.coworker, this.cubicles, this.desk, this.drawer, this.cigbox, this.lighter, this.clock, this.timeLeftUI, this.keyboard, this.computer, this.ashtray, this.todoBoard, this.toDoTaskText1, this.toDoTaskText2, this.paperTrays, this.trashcan, this.downButton, this.upButton];
 
-        this.trashcan = this.add.sprite(centerX + 260, centerY + 225, 'Basket2');
-        this.office.push(this.trashcan);
+        dimBG(this, 0.6);
+        this.dimBG.setDepth(5);
 
-        this.office.forEach(element => {
-            if (element == this.trashcan) {
-                element.displayWidth *= this.backgroundWidthIncrease/2;
-                element.displayHeight *= this.backgroundHeightIncrease/2; 
-            }
-            else if (element == this.coworker) {
-                element.scale = this.backgroundNewScale/1.25;
-                element.ogScale = element.scale;
-            }
-            else if (element == this.computer || element == this.paperStack) {
-                element.scale = this.backgroundNewScale;
-                element.ogScale = element.scale;
-            } 
-            else if (element != this.background) {
-                element.displayWidth *= this.backgroundWidthIncrease;
-                element.displayHeight *= this.backgroundHeightIncrease;
-            }
-        });
+        this.title = this.add.sprite(centerX, centerY - 25*buttonScale*rescale, 'TITLE').setScale(buttonScale*rescale).setDepth(6);
+        this.jiggle(this.title);
 
-        dimBG(this, 0.5);
-
-        this.title = this.add.sprite(centerX, centerY - 180*buttonScale, 'TITLE').setScale(buttonScale*4.5);
-
-        // Continuously deflate and inflate the title slightly
-
-        this.tweens.add({
-            targets: this.title,
-            scaleX: buttonScale*4.5 - 0.1,
-            scaleY: buttonScale*4.5 - 0.1,
-            duration: 500,
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Continuously rotate the title left and right slightly between -1 and 1
-
-        this.tweens.add({
-            targets: this.title,
-            angle: 1,
-            duration: 500,
-            yoyo: true,
-            repeat: -1
-        });
-
-        this.creditsButton = new ButtonCreation(this, centerX - 300*buttonScale, centerY + 150*buttonScale, 'CREDITS', buttonScale*4, () => {
+        this.creditsButton = new ButtonCreation(this, centerX - 50*buttonScale*rescale, centerY + 35*buttonScale*rescale, 'CREDITS', buttonScale*rescale/1.5, () => {
             // Pause scene and launch credits scene
             this.scene.pause().launch('creditScene');
-        });
+        }).setDepth(6);
 
-        /*this.howtoButton = new ButtonCreation(this, centerX + 75*buttonScale, centerY + 137.5*buttonScale, 'tutorialButton', buttonScale, () => {
-            this.scene.start('howtoScene');
-        });*/
-
-        this.optionsButton = new ButtonCreation(this, centerX + 300*buttonScale, centerY + 150*buttonScale, 'OPTIONS', buttonScale*4, () => {
+        this.optionsButton = new ButtonCreation(this, centerX + 50*buttonScale*rescale, centerY + 35*buttonScale*rescale, 'OPTIONS', buttonScale*rescale/1.5, () => {
             // insert Options Menu here
             this.scene.pause().launch('pauseScene');
-        });
+        }).setDepth(6);
 
-        this.startButton = new ButtonCreation(this, centerX, centerY + 60*buttonScale, 'START', buttonScale*5, () => {
+        this.startButton = new ButtonCreation(this, centerX, centerY + 18*buttonScale*rescale, 'START', buttonScale*rescale/1.25, () => {
             this.scene.start('endDayScene');
-        });
+        }).setDepth(6);
 
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         keyO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O);
@@ -127,5 +67,25 @@ class Title extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyC)) 
             this.scene.pause().launch('creditScene');
+    }
+
+    jiggle(element) {
+        this.tweens.add({
+            targets: element,
+            scaleX: element.scale - element.scale/20,
+            scaleY: element.scale - element.scale/20,
+            duration: 500,
+            yoyo: true,
+            repeat: -1
+        });
+
+        this.tweens.add({
+            targets: element,
+            angle: 1,
+            duration: 300,
+            yoyo: true,
+            ease: 'Sine.easeInOut',
+            repeat: -1
+        });
     }
 }

@@ -14,7 +14,7 @@ let config = {
             fps: 60
         }
     },
-    scene: [ Load, Title, EndDay, Play, Computer, Mail, PaperSortingGame, Trashcan, Credits, HowTo, Pause, Inventory ]
+    scene: [ Load, Title, EndDay, Play, Computer, Mail, PaperSortingGame, Trashcan, Credits, Pause, Inventory ]
 }
 
 let game = new Phaser.Game(config);
@@ -30,12 +30,14 @@ let centerYP = h/2 + 20*rescale
 let currScene = null;
 let prevScene = null;
 
+let playPan = false;
+
 let trashNum = 0;
 let trashNumMax = 4;
 let trashFilled = 0;
 let paperballStatus = 'paperball';
-let flamesScale = 2.8;
-let maxFlamesScale = 3.5;
+let flamesScale = rescale/2;
+let maxFlamesScale = rescale/1.25;
 let trashBurning = false;
 
 let cigsSmoked = 0;
