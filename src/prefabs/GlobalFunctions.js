@@ -1,29 +1,31 @@
 function createBackButton(scene, stop, resume) {
-    scene.backButton = new Button(w - 42.5, 25, 'Back', scene, textConfig, () => {
+    scene.backButton = new Button(w - 85, 50, 'Back', scene, textConfig, () => {
         scene.scene.stop(stop);
         scene.scene.resume(resume);
     });
-    scene.backButton.button.setFontSize(24);
+    scene.backButton.button.setFontSize(48);
     scene.backButton.whiteButton();
     scene.backButton.button.setBackgroundColor('#000000');
 }
 
 function createPauseButton(scene) {
-    scene.pauseButton = new Button(50, 25, 'Pause', scene, textConfig, () => {
+    scene.pauseButton = new Button(100, 50, 'Pause', scene, textConfig, () => {
         scene.scene.pause().launch('pauseScene');
     });
     scene.pauseButton.whiteButton();
-    scene.pauseButton.button.setFontSize(24);
+    scene.pauseButton.button.setFontSize(48);
     scene.pauseButton.button.setBackgroundColor('#000000');
+    scene.pauseButton.button.setDepth(6);
 }
 
 function createInventoryButton(scene) {
-    scene.inventoryButton = new Button(78.5, 75, 'Inventory', scene, textConfig, () => {
+    scene.inventoryButton = new Button(157, 150, 'Inventory', scene, textConfig, () => {
         scene.scene.pause().launch('inventoryScene');
     });
     scene.inventoryButton.whiteButton();
-    scene.inventoryButton.button.setFontSize(24);
+    scene.inventoryButton.button.setFontSize(48);
     scene.inventoryButton.button.setBackgroundColor('#000000');
+    scene.inventoryButton.button.setDepth(6);
 }
 
 function updateCurrPrev(curr, prev) {

@@ -192,6 +192,7 @@ class Mail extends Phaser.Scene {
     }
 
     update() {
+        timeUpdate(this);
         updateCurrPrev('mailScene', 'computerScene');
         
         this.blinkingLine.x = this.lineXOffset + this.characterLength * this.widthIncrease;

@@ -79,6 +79,11 @@ class Play extends Phaser.Scene {
         this.phoneCalls();
 
         this.ashtray.setTexture('ashtray' + cigsSmoked);
+
+        // Make pause and inventory buttons follow camera
+        this.pauseButton.button.y = this.cameras.main.scrollY + 5*rescale;
+
+        this.inventoryButton.button.y = this.cameras.main.scrollY + 15*rescale;
     }
 
     trashUpdate() {

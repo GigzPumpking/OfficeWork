@@ -8,21 +8,22 @@ class Inventory extends Phaser.Scene {
         // Change the color of the rectangle dimBG
         this.dimBG.setFillStyle(0xFFFFFF, 0.9);
 
-        this.mainText = this.add.text(centerX, centerY - 200, 'Inventory', pauseConfig).setOrigin(0.5);
+        // Create the inventory menu
+        this.inventoryMenu = this.add.sprite(centerX, centerY, 'inventory').setScale(rescale);
 
-        this.xOffset = centerX - 225;
-        this.yOffset = centerY - 50;
-        this.gap = 150;
+        this.xOffset = centerX - 35*rescale;
+        this.yOffset = centerY - rescale;
+        this.gap = 25*rescale;
 
         // Add 4 blank rectangles to the scene to represent the inventory slots
 
-        this.inventory1 = this.add.rectangle(this.xOffset, this.yOffset, 100, 100, 0x000000, 0.5);
+        this.inventory1 = this.add.sprite(this.xOffset, this.yOffset, 'inventoryBox').setScale(rescale);
 
-        this.inventory2 = this.add.rectangle(this.xOffset + this.gap, this.yOffset, 100, 100, 0x000000, 0.5);
+        this.inventory2 = this.add.sprite(this.xOffset + this.gap, this.yOffset, 'inventoryBox').setScale(rescale);
 
-        this.inventory3 = this.add.rectangle(this.xOffset + 2*this.gap, this.yOffset, 100, 100, 0x000000, 0.5);
+        this.inventory3 = this.add.sprite(this.xOffset + 2*this.gap, this.yOffset, 'inventoryBox').setScale(rescale);
 
-        this.inventory4 = this.add.rectangle(this.xOffset + 3*this.gap, this.yOffset, 100, 100, 0x000000, 0.5);
+        this.inventory4 = this.add.sprite(this.xOffset + 3*this.gap, this.yOffset, 'inventoryBox').setScale(rescale);
 
         this.cigbox = null;
         this.lighter = null;
@@ -32,15 +33,13 @@ class Inventory extends Phaser.Scene {
         this.cigboxItem();
         this.lighterItem();
 
-        this.resume = new Button(centerX, centerY + 100, 'Resume', this, textConfig, () => {
+        this.resume = new ButtonCreation(this, centerX + rescale/2, centerY + 15*rescale, 'resume', rescale, () => {
             this.scene.resume(currScene).stop();
         })
-        this.resume.button.setFontSize(30);
-        this.resume.blackButton();
     }
 
     update() {
-
+        timeUpdate(this);
     }
 
     cigaretteInitiate() {
@@ -94,7 +93,7 @@ class Inventory extends Phaser.Scene {
         if (inventory.includes('cigbox')) {
             // Create the cigbox item using the inventory array
             let index = inventory.indexOf('cigbox');
-            this.cigbox = new ButtonCreation(this, this.xOffset + this.gap*index, this.yOffset, inventory[index], 5, () => {
+            this.cigbox = new ButtonCreation(this, this.xOffset + this.gap*index, this.yOffset, inventory[index], rescale, () => {
                 if (inventory.includes('lighter')) {
                     this.cigaretteInitiate();
                 }
@@ -106,7 +105,7 @@ class Inventory extends Phaser.Scene {
         if (inventory.includes('lighter')) {
             // Create the lighter item using the inventory array
             let index = inventory.indexOf('lighter');
-            this.lighter = new ButtonCreation(this, this.xOffset + this.gap*index, this.yOffset, inventory[index], 5, () => {
+            this.lighter = new ButtonCreation(this, this.xOffset + this.gap*index, this.yOffset, inventory[index], rescale, () => {
                 if (currScene == 'trashCanScene') {
                     paperballStatus = 'fireBallThrown';
                     this.scene.resume(currScene).stop();
@@ -118,12 +117,12 @@ class Inventory extends Phaser.Scene {
     hideEverything() {
         // Hide everything on the screen
         this.dimBG.alpha = 0;
+        this.inventoryMenu.alpha = 0;
         this.inventory1.alpha = 0;
         this.inventory2.alpha = 0;
         this.inventory3.alpha = 0;
         this.inventory4.alpha = 0;
-        this.mainText.alpha = 0;
-        this.resume.button.alpha = 0;
+        this.resume.alpha = 0;
         if (this.cigbox != null) this.cigbox.alpha = 0;
         if (this.lighter != null) this.lighter.alpha = 0;
     }

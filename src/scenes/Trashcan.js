@@ -58,6 +58,8 @@ class Trashcan extends Phaser.Scene {
     }
 
     update() {
+        timeUpdate(this);
+
         if (this.flames != null) trashBurning = true;
 
         updateCurrPrev('trashCanScene', 'playScene');

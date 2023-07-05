@@ -40,6 +40,7 @@ class PaperSortingGame extends Phaser.Scene {
     }
 
     update() {
+        timeUpdate(this);
         updateCurrPrev('paperSortingGameScene', 'playScene');
         // Update points text
         this.pointsText.text = 'Points: ' + this.points + '/' + this.maxPoints;

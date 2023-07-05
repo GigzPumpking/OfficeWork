@@ -35,9 +35,17 @@ class Computer extends Phaser.Scene {
         this.createMailButton(1, 32*rescale, -13*rescale);
         this.createMailButton(2, 35*rescale, 11*rescale);
         this.createMailButton(3, 30*rescale, 36*rescale);
+
+        keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
     }
 
     update() {
+        if (Phaser.Input.Keyboard.JustDown(keyP)) {
+            this.scene.pause().launch('pauseScene');
+        }
+        
+        timeUpdate(this);
+
         updateCurrPrev('computerScene', 'playScene');
 
         if (mail1Status) {
