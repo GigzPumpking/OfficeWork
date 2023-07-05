@@ -6,12 +6,12 @@ class Credits extends Phaser.Scene {
     create() {
         dimBG(this, 0.8);
 
-        let creditsY = centerY - 250;
-        let ySpacing = 80;
+        let creditsY = centerY - 45*rescale;
+        let ySpacing = 16*rescale;
 
-        this.add.text(centerX, creditsY, 'Credits', titleConfig).setOrigin(0.5).setFontSize(50);
+        this.add.text(centerX, creditsY - 3*rescale, 'Credits', titleConfig).setOrigin(0.5).setFontSize(10*rescale);
 
-        this.add.text(centerX, creditsY + ySpacing/2, 'Game Engine: Phaser 3.60', creditsConfig).setColor('#F1EA2B').setFontSize(20).setOrigin(0.5);
+        this.add.text(centerX, creditsY + ySpacing/2, 'Game Engine: Phaser 3.60', creditsConfig).setColor('#F1EA2B').setFontSize(4*rescale).setOrigin(0.5);
 
         // People involved
 
@@ -33,11 +33,11 @@ class Credits extends Phaser.Scene {
 
         this.add.text(centerX, creditsY + 5*ySpacing, 'Freesound: Moulaythami, Villen, JamesFarrell_97, Lextao', creditsConfig).setColor('#26D135').setOrigin(0.5);
 
-        let MainMenu = new Button(centerX, centerY + 250, 'Back to Main Menu', this, textConfig, () => {
+        let MainMenu = new Button(centerX, centerY + 50*rescale, 'Back to Main Menu', this, textConfig, () => {
             // Resume title scene
             this.scene.resume('titleScene').stop();
         })
-        MainMenu.button.setFontSize(30);
+        MainMenu.button.setFontSize(6*rescale);
         MainMenu.whiteButton();
 
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);

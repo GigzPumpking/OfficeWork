@@ -6,7 +6,7 @@ class Mail extends Phaser.Scene {
     createBlinkingLine() {
         this.lineXOffset = 55*rescale;
         this.lineYOffset = this.textYOffset - 6*rescale;
-        this.blinkingLine = this.add.text(this.lineXOffset, this.lineYOffset, '|', { font: '52px Courier', fill: '#ffff00' });
+        this.blinkingLine = this.add.text(this.lineXOffset, this.lineYOffset, '|', { font: 'Courier', fill: '#ffff00' }).setFontSize(5.2*rescale);
         this.blinkingLine.alpha = 0;
         this.blinkingLineTimer = this.time.addEvent({
             delay: 250,
@@ -39,7 +39,7 @@ class Mail extends Phaser.Scene {
                 this.wordCount = savedMail3Stats[3];
             }
         });
-        this.loadMailButton.button.setFontSize(50);
+        this.loadMailButton.button.setFontSize(5*rescale);
         this.loadMailButton.whiteButton();
     }
 
@@ -58,7 +58,7 @@ class Mail extends Phaser.Scene {
                 savedMail3Stats = [this.characterLength, this.lineLength, this.textLengthArray, this.wordCount];
             }
         });
-        this.saveMailButton.button.setFontSize(50);
+        this.saveMailButton.button.setFontSize(5*rescale);
         this.saveMailButton.whiteButton();
     }
 
@@ -66,22 +66,22 @@ class Mail extends Phaser.Scene {
         this.sendMailButton = new Button(centerX + 28*rescale, centerY + 37*rescale, 'Send', this, textConfig, () => {
             this.mailStatusUpdate();
         });
-        this.sendMailButton.button.setFontSize(60);
+        this.sendMailButton.button.setFontSize(6*rescale);
     }
 
     create() {
-        this.widthIncrease = 32;
+        this.widthIncrease = 3.2*rescale;
         this.wordCount = 0;
         currScene = 'mailScene';
         prevScene = 'computerScene';
         this.background = this.add.sprite(centerX, centerY, 'computerBG').setScale(rescale);
         this.mailTitle = this.add.sprite(centerX, centerY - rescale, 'mail').setScale(rescale);
         if (mailNum == 1) {
-            this.mailPrompt = this.add.text(centerX - 44*rescale, centerY - 28*rescale, "It's your boss.\nConvince me on why you should get a raise.", { font: '32px Courier', fill: '#ffffff', align: 'center' });
+            this.mailPrompt = this.add.text(centerX - 44*rescale, centerY - 28*rescale, "It's your boss.\nConvince me on why you should get a raise.", { font: 'Courier', fill: '#ffffff', align: 'center' }).setFontSize(3.2*rescale);
         } else if (mailNum == 2) {
-            this.mailPrompt = this.add.text(centerX - 33*rescale, centerY - 28*rescale, "Hey, it's your coworker!\nHave you done the paper sorting?", { font: '32px Courier', fill: '#ffffff', align: 'center' });
+            this.mailPrompt = this.add.text(centerX - 33*rescale, centerY - 28*rescale, "Hey, it's your coworker!\nHave you done the paper sorting?", { font: 'Courier', fill: '#ffffff', align: 'center' }).setFontSize(3.2*rescale);
         } else if (mailNum == 3) {
-            this.mailPrompt = this.add.text(centerX - 48*rescale, centerY - 26*rescale, "I sent cupcakes to the office for your birthday.\nTell me if you like them!", { font: '32px Courier', fill: '#ffffff', align: 'center' });
+            this.mailPrompt = this.add.text(centerX - 48*rescale, centerY - 26*rescale, "I sent cupcakes to the office for your birthday.\nTell me if you like them!", { font: 'Courier', fill: '#ffffff', align: 'center' }).setFontSize(3.2*rescale);
         }
 
         createPauseButton(this);
@@ -102,7 +102,7 @@ class Mail extends Phaser.Scene {
         this.characterLength = 0;
         this.lineLength = 0;
 
-        this.textEntry = this.add.text(52*rescale, this.textYOffset, '', { font: '64px Courier', fill: '#ffff00' });
+        this.textEntry = this.add.text(52*rescale, this.textYOffset, '', { font: 'Courier', fill: '#ffff00' }).setFontSize(6.4*rescale);
 
         this.createBlinkingLine();
 
@@ -196,7 +196,7 @@ class Mail extends Phaser.Scene {
         updateCurrPrev('mailScene', 'computerScene');
         
         this.blinkingLine.x = this.lineXOffset + this.characterLength * this.widthIncrease;
-        this.widthIncrease = 32 + this.characterLength/3.4;
+        this.widthIncrease = 3.2*rescale + this.characterLength*(rescale)*0.025;
         this.blinkingLine.y = this.lineYOffset + this.textEntry.height;
         
         if (this.mailStatusCheck()) {
