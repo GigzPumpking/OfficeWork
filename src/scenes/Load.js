@@ -73,6 +73,7 @@ class Load extends Phaser.Scene {
         this.load.image('computer', 'Computer.png');
         this.load.image('todoBoard', 'todo_board.png');
         this.load.image('deskTrays', 'desk_papertrays.png');
+        this.load.image('clock', 'clock.png');
 
         // Office Graphical Assets
         this.load.path = './assets/office/';
