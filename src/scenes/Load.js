@@ -122,12 +122,14 @@ class Load extends Phaser.Scene {
 
         // Inventory Assets
         this.load.path = './assets/UI/inventory/';
+        this.load.image('inventoryButton', 'inventory_button.png');
         this.load.image('inventory', 'inventory.png');
         this.load.image('inventoryBox', 'inventory_box.png');
         this.load.image('resume', 'resume_button.png');
 
         // Pause Menu Assets
         this.load.path = './assets/UI/pause_menu/';
+        this.load.image('pauseButton', 'pause_button2.png');
         this.load.image('pauseMenu', 'pause_menu.png');
         this.load.image('resumeButton', 'resume_button.png');
         this.load.image('restartButton', 'restart_button.png');

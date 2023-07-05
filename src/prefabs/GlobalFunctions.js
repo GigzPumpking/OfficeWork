@@ -9,23 +9,15 @@ function createBackButton(scene, stop, resume) {
 }
 
 function createPauseButton(scene) {
-    scene.pauseButton = new Button(100, 50, 'Pause', scene, textConfig, () => {
+    scene.pauseButton = new ButtonCreation(scene, 80, 75, 'pauseButton', rescale, () => {
         scene.scene.pause().launch('pauseScene');
-    });
-    scene.pauseButton.whiteButton();
-    scene.pauseButton.button.setFontSize(48);
-    scene.pauseButton.button.setBackgroundColor('#000000');
-    scene.pauseButton.button.setDepth(6);
+    }).setDepth(6);
 }
 
 function createInventoryButton(scene) {
-    scene.inventoryButton = new Button(157, 150, 'Inventory', scene, textConfig, () => {
+    scene.inventoryButton = new ButtonCreation(scene, 80, 200, 'inventoryButton', rescale, () => {
         scene.scene.pause().launch('inventoryScene');
-    });
-    scene.inventoryButton.whiteButton();
-    scene.inventoryButton.button.setFontSize(48);
-    scene.inventoryButton.button.setBackgroundColor('#000000');
-    scene.inventoryButton.button.setDepth(6);
+    }).setDepth(6);
 }
 
 function updateCurrPrev(curr, prev) {
