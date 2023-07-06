@@ -128,6 +128,7 @@ let trashgame = null
 let credits = null
 let options = null
 
+let titleAmbient = null;
 let ambient = null;
 let whiteNoise = null;
 let burningAmbient = null;

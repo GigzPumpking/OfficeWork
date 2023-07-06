@@ -28,7 +28,7 @@ class Pause extends Phaser.Scene {
 
         let Resume = new ButtonCreation(this, centerX - 1.5*rescale, centerY - 11.5*rescale, 'resumeButton', rescale, () => {
             this.sound.play('buttonPress', { volume: sfxAudio });
-            music = [ambient, whiteNoise, burningAmbient, burningAmbient2];
+            music = [titleAmbient, ambient, whiteNoise, burningAmbient, burningAmbient2];
             music.forEach(song => {
                 if (song.isPaused) song.resume();
             })
@@ -38,7 +38,7 @@ class Pause extends Phaser.Scene {
         if (currScene != 'titleScene') {
             let Restart = new ButtonCreation(this, centerX - 1.5*rescale, centerY + 4.5*rescale, 'restartButton', rescale, () => {
                 this.sound.play('buttonPress', { volume: sfxAudio });
-                music = [ambient, whiteNoise, burningAmbient, burningAmbient2];
+                music = [titleAmbient, ambient, whiteNoise, burningAmbient, burningAmbient2];
                 music.forEach(song => {
                     if (song.isPlaying || song.isPaused) song.stop();
                 })
@@ -54,7 +54,7 @@ class Pause extends Phaser.Scene {
                 this.sound.play('buttonPress', { volume: sfxAudio });
                 if (currScene == 'titleScene') this.scene.resume('titleScene').stop();
 
-                music = [ambient, whiteNoise, burningAmbient, burningAmbient2];
+                music = [titleAmbient, ambient, whiteNoise, burningAmbient, burningAmbient2];
                 music.forEach(music => {
                     if (music.isPlaying || music.isPaused) music.stop();
                 })
@@ -82,9 +82,10 @@ class Pause extends Phaser.Scene {
 
             musicAudio = (this.x - volumeBar.x + this.scene.barEnds) / this.scene.barEnds;
             musicAudio /= this.scene.volumeMax;
-            music = [ambient, whiteNoise, burningAmbient, burningAmbient2];
+            music = [titleAmbient, ambient, whiteNoise, burningAmbient, burningAmbient2];
             music.forEach(music => {
                 music.config.volume = musicAudio;
+                if (music == titleAmbient && music.isPlaying) music.setVolume(musicAudio);
             });
         });
     }

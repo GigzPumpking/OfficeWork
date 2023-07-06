@@ -86,6 +86,7 @@ class Load extends Phaser.Scene {
         this.load.image('drawer2', 'drawer_open.png');
         this.load.image('emailTask', 'send_emails_todo.png');
         this.load.image('paperTask', 'sort_papers_todo.png');
+        this.load.image('arrow', 'tempPixelArrow.png');
 
         // Computer Graphical Assets
         this.load.path = './assets/computer/';
@@ -157,6 +158,7 @@ class Load extends Phaser.Scene {
         credits = this.scene.get('creditsScene');
         options = this.scene.get('pauseScene');
 
+        titleAmbient = title.sound.add('ambient', { volume: musicAudio, loop: true });
         ambient = play.sound.add('ambient', { volume: musicAudio, loop: true });
         whiteNoise = computer.sound.add('whitenoise', { volume: musicAudio, loop: true });
         burningAmbient = trashgame.sound.add('burningAmbient', { volume: musicAudio, loop: true });

@@ -201,15 +201,15 @@ class Play extends Phaser.Scene {
         }).setDepth(3);
 
         // add button to move camera down
-        this.downButton = new ButtonCreation(this, 50, centerYP + 5*rescale, 'downButton', 1, () => {
+        this.downButton = new ButtonCreation(this, 50, centerYP + 5*rescale, 'arrow', 1/(3*rescale), () => {
             if (!playPan) {
                 this.cameras.main.pan(centerX, centerY + 200*rescale, 1000, 'Power2');
                 playPan = true;
             }
-        }).setDepth(3);
+        }).setDepth(3).flipY = true;
 
         // add button to move camera up
-        this.upButton = new ButtonCreation(this, 50, centerYP, 'upButton', 1, () => {
+        this.upButton = new ButtonCreation(this, 50, centerYP, 'arrow', 1/(3*rescale), () => {
             if (playPan) {
                 this.cameras.main.pan(centerX, centerY, 750, 'Quadratic');
                 playPan = false;

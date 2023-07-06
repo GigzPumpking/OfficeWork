@@ -33,6 +33,8 @@ class Credits extends Phaser.Scene {
 
         this.add.text(centerX, creditsY + 5*ySpacing, 'Freesound: Moulaythami, Villen, JamesFarrell_97, Lextao', creditsConfig).setColor('#26D135').setOrigin(0.5);
 
+        this.add.text(centerX, creditsY + 5.5*ySpacing, 'Nox_Sound, Annyew, philRacoIndie, Soonus', creditsConfig).setColor('#26D135').setOrigin(0.5);
+
         let MainMenu = new Button(centerX, centerY + 50*rescale, 'Back to Main Menu', this, textConfig, () => {
             // Resume title scene
             this.scene.resume('titleScene').stop();

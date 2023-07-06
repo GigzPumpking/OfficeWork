@@ -4,6 +4,7 @@ class Title extends Phaser.Scene {
     }
 
     create() {
+
         currScene = 'titleScene';
 
         let buttonScale = 0.8;
@@ -58,6 +59,7 @@ class Title extends Phaser.Scene {
 
         this.startButton = new ButtonCreation(this, centerX, centerY + 18*buttonScale*rescale, 'START', buttonScale*rescale/1.25, () => {
             this.sound.play('buttonPress', {volume: sfxAudio});
+            titleAmbient.stop();
             this.scene.start('endDayScene');
         }).setDepth(6);
 
@@ -65,6 +67,8 @@ class Title extends Phaser.Scene {
         keyO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O);
 
         this.sound.stopAll();
+
+        titleAmbient.play();
     }
 
     update() {
