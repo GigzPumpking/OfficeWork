@@ -18,7 +18,7 @@ class Mail extends Phaser.Scene {
     }
 
     loadPreviousMail() {
-        this.loadMailButton = new Button(centerX - 20*rescale, centerY + 47.5*rescale, 'Load', this, textConfig, () => {
+        this.loadMailButton = new ButtonCreation(this, centerX - 20*rescale, centerY + 47.5*rescale, 'loadButton', rescale, () => {
             this.sound.play('buttonPress');
             if (mailNum == 1) {
                 this.textEntry.text = savedMail1;
@@ -40,12 +40,10 @@ class Mail extends Phaser.Scene {
                 this.wordCount = savedMail3Stats[3];
             }
         });
-        this.loadMailButton.button.setFontSize(5*rescale);
-        this.loadMailButton.whiteButton();
     }
 
     saveCurrentMail() {
-        this.saveMailButton = new Button(centerX + 18*rescale, centerY + 47.5*rescale, 'Save', this, textConfig, () => {
+        this.saveMailButton = new ButtonCreation(this, centerX + 18*rescale, centerY + 47.5*rescale, 'saveButton', rescale, () => {
             this.sound.play('buttonPress');
             if (mailNum == 1) {
                 savedMail1 = this.textEntry.text;
@@ -60,15 +58,12 @@ class Mail extends Phaser.Scene {
                 savedMail3Stats = [this.characterLength, this.lineLength, this.textLengthArray, this.wordCount];
             }
         });
-        this.saveMailButton.button.setFontSize(5*rescale);
-        this.saveMailButton.whiteButton();
     }
 
     sendMail() {
-        this.sendMailButton = new Button(centerX + 28*rescale, centerY + 37*rescale, 'Send', this, textConfig, () => {
+        this.sendMailButton = new ButtonCreation(this, centerX + 28*rescale, centerY + 35*rescale, 'sendWhite', rescale, () => {
             this.mailStatusUpdate();
         });
-        this.sendMailButton.button.setFontSize(6*rescale);
     }
 
     create() {
@@ -139,7 +134,7 @@ class Mail extends Phaser.Scene {
                     this.textEntry.text = this.textEntry.text.slice(0, this.textEntry.text.length - 2);
                 } else this.textEntry.text = this.textEntry.text.slice(0, this.textEntry.text.length - 1);
             }
-            else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90) || (event.keyCode >= 186 && event.keyCode < 192) || (event.keyCode >= 219 && event.keyCode < 223) && this.lineLength < maxLineLength)
+            else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode <= 90) || (event.keyCode >= 186 && event.keyCode < 192) || (event.keyCode >= 219 && event.keyCode < 223) && this.lineLength < maxLineLength)
             {
                 // Press enter to go to next line
                 if (this.characterLength == maxTextLength && this.characterLength > 0 && event.keyCode != 13) {
@@ -162,18 +157,21 @@ class Mail extends Phaser.Scene {
             if (this.wordCount >= mail1WCReq) {
                 this.sound.play('sendMail', { volume: sfxAudio});
                 mail1Status = true;
+                this.scene.resume('computerScene').stop();
             } else this.sound.play('sendMailFail', { volume: sfxAudio});
         }
         else if (mailNum == 2) {
             if (this.wordCount >= mail2WCReq) {
                 this.sound.play('sendMail', { volume: sfxAudio});
                 mail2Status = true;
+                this.scene.resume('computerScene').stop();
             } else this.sound.play('sendMailFail', { volume: sfxAudio});
         }
         else if (mailNum == 3) {
             if (this.wordCount >= mail3WCReq) {
                 this.sound.play('sendMail', { volume: sfxAudio});
                 mail3Status = true;
+                this.scene.resume('computerScene').stop();
             } else this.sound.play('sendMailFail', { volume: sfxAudio});
         }
     }
@@ -205,8 +203,8 @@ class Mail extends Phaser.Scene {
         this.blinkingLine.y = this.lineYOffset + this.textEntry.height;
         
         if (this.mailStatusCheck()) {
-            if (this.sendMailButton.status != 'green') this.sendMailButton.greenButton();
-        } else if (this.sendMailButton.status != 'red') this.sendMailButton.redButton();
+            if (this.sendMailButton.status != 'green') this.sendMailButton.setTexture('sendGreen')
+        } else if (this.sendMailButton.status != 'red') this.sendMailButton.setTexture('sendWhite');
     }
 
 }

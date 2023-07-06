@@ -90,8 +90,11 @@ let keySPACE, keyESC;
 
 let keyC, keyO, keyP, keyI;
 
-let pauseY = h - (centerY + 1*rescale)
-let inventoryY = h - (centerY + 13.5*rescale)
+let pauseY = h - (centerY + 13.5*rescale)
+let inventoryY = h - (centerY + 1*rescale)
+
+let downY = centerYP + 12.5*rescale
+let upY = centerYP - 6*rescale;
 
 let mailNum = 0;
 let savedMail1 = null;

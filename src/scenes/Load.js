@@ -86,7 +86,6 @@ class Load extends Phaser.Scene {
         this.load.image('drawer2', 'drawer_open.png');
         this.load.image('emailTask', 'send_emails_todo.png');
         this.load.image('paperTask', 'sort_papers_todo.png');
-        this.load.image('arrow', 'tempPixelArrow.png');
 
         // Computer Graphical Assets
         this.load.path = './assets/computer/';
@@ -129,7 +128,6 @@ class Load extends Phaser.Scene {
         this.load.audio('sendMailFail', 'sendMailFail.wav');
         this.load.audio('endDay', 'endDay.wav');
 
-
         // Inventory Assets
         this.load.path = './assets/UI/inventory/';
         this.load.image('inventoryButton', 'inventory_button.png');
@@ -145,6 +143,20 @@ class Load extends Phaser.Scene {
         this.load.image('restartButton', 'restart_button.png');
         this.load.image('sliderButton', 'slider_button.png');
         this.load.image('mainMenuButton', 'main_menu_button.png');
+
+        // UI Assets
+        this.load.path = './assets/UI/';
+        this.load.image('backButton', 'back_button.png');
+        this.load.image('downarrow', 'downarrow.png');
+        this.load.image('uparrow', 'uparrow.png');
+        this.load.image('optionsMenu', 'options.png');
+        this.load.image('replyGreen', 'reply_green.png');
+        this.load.image('replyWhite', 'reply_white.png');
+        this.load.image('sendGreen', 'sent_green.png');
+        this.load.image('sendWhite', 'send_white.png');
+        this.load.image('saveButton', 'save_button.png');
+        this.load.image('loadButton', 'load_button.png');
+
     }
 
     create() {

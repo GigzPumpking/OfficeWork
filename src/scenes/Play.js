@@ -84,6 +84,10 @@ class Play extends Phaser.Scene {
         this.pauseButton.y = this.cameras.main.scrollY + pauseY;
 
         this.inventoryButton.y = this.cameras.main.scrollY + inventoryY;
+
+        this.downButton.y = this.cameras.main.scrollY + downY;
+
+        this.upButton.y = this.cameras.main.scrollY + upY;
     }
 
     trashUpdate() {
@@ -201,18 +205,24 @@ class Play extends Phaser.Scene {
         }).setDepth(3);
 
         // add button to move camera down
-        this.downButton = new ButtonCreation(this, 50, centerYP + 5*rescale, 'arrow', 1/(3*rescale), () => {
+        this.downButton = new ButtonCreation(this, w - 8.5*rescale, downY, 'downarrow', rescale, () => {
             if (!playPan) {
                 this.cameras.main.pan(centerX, centerY + 200*rescale, 1000, 'Power2');
-                playPan = true;
+                // on pan complete, set playPan to true
+                this.cameras.main.once('camerapancomplete', () => {
+                    playPan = true;
+                });
             }
-        }).setDepth(3).flipY = true;
+        }).setDepth(3);
 
         // add button to move camera up
-        this.upButton = new ButtonCreation(this, 50, centerYP, 'arrow', 1/(3*rescale), () => {
+        this.upButton = new ButtonCreation(this, w - 8.5*rescale, upY, 'uparrow', rescale, () => {
             if (playPan) {
                 this.cameras.main.pan(centerX, centerY, 750, 'Quadratic');
-                playPan = false;
+                // on pan complete, set playPan to false
+                this.cameras.main.once('camerapancomplete', () => {
+                    playPan = false;
+                });
             }
         }).setDepth(3);
 
