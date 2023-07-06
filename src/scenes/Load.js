@@ -127,6 +127,8 @@ class Load extends Phaser.Scene {
         this.load.audio('sendMail', 'sendMail.wav');
         this.load.audio('sendMailFail', 'sendMailFail.wav');
         this.load.audio('endDay', 'endDay.wav');
+        this.load.audio('pop1', 'suck1.wav');
+        this.load.audio('pop2', 'suck2.wav');
 
         // Inventory Assets
         this.load.path = './assets/UI/inventory/';
