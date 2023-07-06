@@ -1,13 +1,10 @@
 function createBackButton(scene, stop, resume) {
-    scene.backButton = new Button(w - 8.5*rescale, 5*rescale, 'Back', scene, textConfig, () => {
+    scene.backButton = new ButtonCreation(scene, w - 15*rescale, 10*rescale, 'backButton', rescale, () => {
         scene.sound.play('buttonPress', { volume: 2*sfxAudio });
         if (currScene == 'computerScene' && whiteNoise.isPlaying) whiteNoise.stop();
         scene.scene.stop(stop);
         scene.scene.resume(resume);
     });
-    scene.backButton.button.setFontSize(4.8*rescale);
-    scene.backButton.whiteButton();
-    scene.backButton.button.setBackgroundColor('#000000');
 }
 
 function createPauseButton(scene) {

@@ -12,8 +12,10 @@ class Pause extends Phaser.Scene {
         // Adjust THIS variable to change the maximum volume from 2 / this.volumeMax (i.e. 2 / 3 = 66%)
         this.volumeMax = 3;
 
-        // Create pause menu
-        this.menu = this.add.sprite(centerX, centerY, 'pauseMenu').setScale(rescale);
+
+        if (currScene == 'titleScene') {
+            this.menu = this.add.sprite(centerX, centerY, 'optionsMenu').setScale(rescale);
+        } else this.menu = this.add.sprite(centerX, centerY, 'pauseMenu').setScale(rescale);
 
         if (currScene != 'titleScene') {
             if (ambient.isPlaying) ambient.pause();

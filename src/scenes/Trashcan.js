@@ -93,7 +93,7 @@ class Trashcan extends Phaser.Scene {
         let paperball = new Paperball(this, -2.5*rescale, centerY - 30*rescale, paperballStatus).setDepth(3);
 
         // Play paperball throw sound
-        this.sound.play('paperThrow', {volume: sfxAudio});
+        this.sound.play('paperThrow', {volume: 3*sfxAudio});
 
         // Send paperball to the mouse position 
         // Randomize the speed of the paperball
