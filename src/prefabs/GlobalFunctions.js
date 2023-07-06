@@ -40,7 +40,30 @@ function timeUpdate(scene) {
         play.timeLeftUI.setFrame(play.timeMins);
     }
     if (play.timeMins == 8 && play.timeMS >= 300) {
-        scene.scene.start('endDayScene');                
+        if (currScene == 'inventoryScene') {
+            if (prevScene == 'playScene') scene.scene.stop();
+            else {
+                if (prevScene == 'mailScene') {
+                    scene.scene.stop();
+                    mail.scene.stop();
+                    computer.scene.stop();
+                }
+                else if (prevScene == 'computerScene' || prevScene == 'paperSortingGameScene' || prevScene == 'trashCanScene') {
+                    var sceneStop = scene.scene.get(prevScene);
+                    scene.scene.stop();
+                    sceneStop.scene.stop();
+                }
+            }
+        }
+        else if (currScene == 'mailScene') {
+            scene.scene.stop();
+            computer.scene.stop();
+            play.scene.start('endDayScene');
+        }
+        else {
+            scene.scene.stop();
+        }               
+        play.scene.start('endDayScene'); 
     }
 }
 

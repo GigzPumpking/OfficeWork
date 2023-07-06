@@ -4,6 +4,9 @@ class Inventory extends Phaser.Scene {
     }
 
     create() {
+        prevScene = currScene;
+        currScene = 'inventoryScene';
+
         dimBG(this, 0.9);
         // Change the color of the rectangle dimBG
         this.dimBG.setFillStyle(0xFFFFFF, 0.9);
@@ -34,7 +37,7 @@ class Inventory extends Phaser.Scene {
         this.lighterItem();
 
         this.resume = new ButtonCreation(this, centerX + rescale/2, centerY + 15*rescale, 'resume', rescale, () => {
-            this.scene.resume(currScene).stop();
+            this.scene.resume(prevScene).stop();
         })
     }
 
@@ -81,7 +84,7 @@ class Inventory extends Phaser.Scene {
                         if (cigsSmoked != maxCigsSmoked) cigsSmoked++;
                         this.smokingCig.destroy();
                         this.dim.destroy();
-                        this.scene.resume(currScene).stop();
+                        this.scene.resume(prevScene).stop();
                     }
                 });
 
@@ -106,9 +109,9 @@ class Inventory extends Phaser.Scene {
             // Create the lighter item using the inventory array
             let index = inventory.indexOf('lighter');
             this.lighter = new ButtonCreation(this, this.xOffset + this.gap*index, this.yOffset, inventory[index], rescale, () => {
-                if (currScene == 'trashCanScene') {
+                if (prevScene == 'trashCanScene') {
                     paperballStatus = 'fireBallThrown';
-                    this.scene.resume(currScene).stop();
+                    this.scene.resume(prevScene).stop();
                 }
             })
         }

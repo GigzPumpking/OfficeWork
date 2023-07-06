@@ -7,6 +7,10 @@ class Pause extends Phaser.Scene {
         dimBG(this, 0.6);
         this.volXOffset = 38.5*rescale;
         this.volLength = 30*rescale;
+        this.barEnds = 12.5*rescale;
+
+        // Adjust THIS variable to change the maximum volume from 2 / this.volumeMax (i.e. 2 / 3 = 66%)
+        this.volumeMax = 3;
 
         // Create pause menu
         this.menu = this.add.sprite(centerX, centerY, 'pauseMenu').setScale(rescale);
@@ -55,42 +59,44 @@ class Pause extends Phaser.Scene {
     }
 
     musicVolume() {
-
         // Add a rectangle to follow the circle
         let volumeBar = this.add.rectangle(centerX + this.volXOffset - 2*rescale, centerY, this.volLength, 5, 0x000000).setOrigin(0.5).setAlpha(0);
         // Add a circle to be dragged horizontally to change volume
-        let currentVolume = this.volLength * musicAudio + volumeBar.x - 100;
+        let currentVolume = this.volumeMax*this.barEnds * musicAudio + volumeBar.x - this.barEnds;
         let volumeCircle = this.add.sprite(currentVolume, centerY + rescale/2, 'sliderButton').setOrigin(0.5).setScale(rescale);
         volumeCircle.setInteractive({draggable: true});
     
         volumeCircle.on('drag', function(pointer, dragX) {
-            if (dragX < volumeBar.x + 12.5*rescale && dragX > volumeBar.x - 12.5*rescale) this.x = dragX;
-            else if (dragX < volumeBar.x - 12.5*rescale) this.x = volumeBar.x - 12.5*rescale;
-            else if (dragX > volumeBar.x + 12.5*rescale) this.x = volumeBar.x + 12.5*rescale;
+            if (dragX < volumeBar.x + this.scene.barEnds && dragX > volumeBar.x - this.scene.barEnds) this.x = dragX;
+            else if (dragX < volumeBar.x - this.scene.barEnds) this.x = volumeBar.x - this.scene.barEnds;
+            else if (dragX > volumeBar.x + this.scene.barEnds) this.x = volumeBar.x + this.scene.barEnds;
 
-            musicAudio = (this.x - volumeBar.x + 12.5*rescale) / 20*rescale;
+            musicAudio = (this.x - volumeBar.x + this.scene.barEnds) / this.scene.barEnds;
+            musicAudio /= this.scene.volumeMax;
             music = [ambient, whiteNoise];
             music.forEach(music => {
                 music.config.volume = musicAudio;
             });
+            console.log("musicAudio: " + musicAudio);
         });
     }
 
     sfxVolume() {
-
         // Add a rectangle to follow the circle
         let volumeBar = this.add.rectangle(centerX - this.volXOffset, centerY, this.volLength, 5, 0x000000).setOrigin(0.5).setAlpha(0);
         // Add a circle to be dragged horizontally to change volume
-        let currentVolume = this.volLength * sfxAudio + volumeBar.x - 10*rescale;
+        let currentVolume = this.volumeMax*this.barEnds * sfxAudio + volumeBar.x - this.barEnds;
         let volumeCircle = this.add.sprite(currentVolume, centerY + rescale/2, 'sliderButton').setOrigin(0.5).setScale(rescale);
         volumeCircle.setInteractive({draggable: true});
     
         volumeCircle.on('drag', function(pointer, dragX) {
-            if (dragX < volumeBar.x + 12.5*rescale && dragX > volumeBar.x - 12.5*rescale) this.x = dragX;
-            else if (dragX < volumeBar.x - 12.5*rescale) this.x = volumeBar.x - 12.5*rescale;
-            else if (dragX > volumeBar.x + 12.5*rescale) this.x = volumeBar.x + 12.5*rescale;
+            if (dragX < volumeBar.x + this.scene.barEnds && dragX > volumeBar.x - this.scene.barEnds) this.x = dragX;
+            else if (dragX < volumeBar.x - this.scene.barEnds) this.x = volumeBar.x - this.scene.barEnds;
+            else if (dragX > volumeBar.x + this.scene.barEnds) this.x = volumeBar.x + this.scene.barEnds;
 
-            sfxAudio = (this.x - volumeBar.x + 12.5*rescale) / 20*rescale;
+            sfxAudio = (this.x - volumeBar.x + this.scene.barEnds) / this.scene.barEnds;
+            sfxAudio /= this.scene.volumeMax;
+            console.log("sfxAudio: " + sfxAudio);
         });
     }
     

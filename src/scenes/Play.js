@@ -36,7 +36,7 @@ class Play extends Phaser.Scene {
         paperballStatus = 'paperball';
 
         // Time Variables (Reset)
-        this.timeMins = 0;
+        this.timeMins = 7;
         this.timeMS = 0;
 
         // Phone Timer (Reset)
@@ -110,7 +110,7 @@ class Play extends Phaser.Scene {
         if (this.randomPhoneCooldown < 0) {
             // Random number from 1 to 4
             let rand = Math.floor(Math.random() * 4) + 1;
-            this.sound.play('phones' + rand, { volume: sfxAudio, loop: false });
+            this.sound.play('phones' + rand, { volume: sfxAudio/2.5, loop: false });
             this.randomPhoneTimer = Math.floor(Math.random() * 1000) + 500;
             this.randomPhoneCooldown = this.randomPhoneTimer;
         } else 

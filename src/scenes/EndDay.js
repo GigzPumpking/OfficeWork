@@ -8,7 +8,8 @@ class EndDay extends Phaser.Scene {
     }
 
     create() {
-        this.EndDay = this.add.sprite(0, 0, 'explode').setOrigin(0, 0);
+        this.EndDay = this.add.sprite(0, 0, 'explode').setOrigin(0, 0).setDepth(6);
+        console.log(this.EndDay);
         this.EndDay.displayWidth = game.config.width;
         this.EndDay.displayHeight = game.config.height;
 
