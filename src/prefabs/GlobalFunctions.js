@@ -1,6 +1,7 @@
 function createBackButton(scene, stop, resume) {
     scene.backButton = new Button(w - 8.5*rescale, 5*rescale, 'Back', scene, textConfig, () => {
         scene.sound.play('buttonPress', { volume: 2*sfxAudio });
+        if (currScene == 'computerScene' || whiteNoise.isPlaying) whiteNoise.stop();
         scene.scene.stop(stop);
         scene.scene.resume(resume);
     });
