@@ -36,7 +36,7 @@ class Play extends Phaser.Scene {
         paperballStatus = 'paperball';
 
         // Time Variables (Reset)
-        this.timeMins = 7;
+        this.timeMins = 0;
         this.timeMS = 0;
 
         // Phone Timer (Reset)
