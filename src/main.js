@@ -130,6 +130,8 @@ let options = null
 
 let ambient = null;
 let whiteNoise = null;
+let burningAmbient = null;
+let burningAmbient2 = null;
 
 let music = [ambient, whiteNoise];
 

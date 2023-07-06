@@ -19,6 +19,7 @@ class Mail extends Phaser.Scene {
 
     loadPreviousMail() {
         this.loadMailButton = new Button(centerX - 20*rescale, centerY + 47.5*rescale, 'Load', this, textConfig, () => {
+            this.sound.play('buttonPress');
             if (mailNum == 1) {
                 this.textEntry.text = savedMail1;
                 this.characterLength = savedMail1Stats[0];
@@ -45,6 +46,7 @@ class Mail extends Phaser.Scene {
 
     saveCurrentMail() {
         this.saveMailButton = new Button(centerX + 18*rescale, centerY + 47.5*rescale, 'Save', this, textConfig, () => {
+            this.sound.play('buttonPress');
             if (mailNum == 1) {
                 savedMail1 = this.textEntry.text;
                 savedMail1Stats = [this.characterLength, this.lineLength, this.textLengthArray, this.wordCount];
@@ -158,18 +160,21 @@ class Mail extends Phaser.Scene {
     mailStatusUpdate() {
         if (mailNum == 1) {
             if (this.wordCount >= mail1WCReq) {
+                this.sound.play('sendMail', { volume: sfxAudio});
                 mail1Status = true;
-            }
+            } else this.sound.play('sendMailFail', { volume: sfxAudio});
         }
         else if (mailNum == 2) {
             if (this.wordCount >= mail2WCReq) {
+                this.sound.play('sendMail', { volume: sfxAudio});
                 mail2Status = true;
-            }
+            } else this.sound.play('sendMailFail', { volume: sfxAudio});
         }
         else if (mailNum == 3) {
             if (this.wordCount >= mail3WCReq) {
+                this.sound.play('sendMail', { volume: sfxAudio});
                 mail3Status = true;
-            }
+            } else this.sound.play('sendMailFail', { volume: sfxAudio});
         }
     }
 

@@ -4,6 +4,8 @@ class Trashcan extends Phaser.Scene {
     }
 
     create() {
+        if (burningAmbient2.isPlaying) burningAmbient2.stop();
+        
         currScene = 'trashCanScene';
         prevScene = 'playScene';
 
@@ -83,6 +85,7 @@ class Trashcan extends Phaser.Scene {
         this.flames.anims.play('fireBasketStart');
         this.flames.on('animationcomplete', () => {
             this.flames.anims.play('fireBasketIdle');
+            burningAmbient.play();
         });
     }
 

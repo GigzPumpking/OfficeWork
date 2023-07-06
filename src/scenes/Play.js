@@ -94,7 +94,7 @@ class Play extends Phaser.Scene {
         }
         if (trashBurning) {
             if (this.flames == null) {
-                console.log('flames');
+                burningAmbient2.play();
                 this.flames = this.add.sprite(this.trashcan.x, this.trashcan.y, 'fireBasketIdle').setScale(rescale).setDepth(4);
                 this.flames.anims.play('fireBasketIdleP');
             }
@@ -151,9 +151,11 @@ class Play extends Phaser.Scene {
         this.drawer = new ButtonCreation(this, centerX - 48.5*rescale, centerYP + 37.5*rescale, 'drawer1', rescale, () => {
             if (playPan) {
                 if (!this.drawer.drawerOpen) {
-                this.drawer.drawerOpen = true;
-                this.drawer.drawerOn();
+                    this.sound.play('drawerOpen', { volume: sfxAudio });
+                    this.drawer.drawerOpen = true;
+                    this.drawer.drawerOn();
                 } else {
+                    this.sound.play('drawerClose', { volume: sfxAudio });
                     this.drawer.drawerOpen = false;
                     this.drawer.drawerOut();
                 }

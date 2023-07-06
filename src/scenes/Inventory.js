@@ -37,6 +37,7 @@ class Inventory extends Phaser.Scene {
         this.lighterItem();
 
         this.resume = new ButtonCreation(this, centerX + rescale/2, centerY + 15*rescale, 'resume', rescale, () => {
+            this.sound.play('buttonPress', { volume: sfxAudio });
             this.scene.resume(prevScene).stop();
         })
     }
@@ -99,7 +100,7 @@ class Inventory extends Phaser.Scene {
             this.cigbox = new ButtonCreation(this, this.xOffset + this.gap*index, this.yOffset, inventory[index], rescale, () => {
                 if (inventory.includes('lighter')) {
                     this.cigaretteInitiate();
-                }
+                } else this.sound.play('sendMailFail', { volume: sfxAudio });
             })
         }
     }
@@ -110,9 +111,10 @@ class Inventory extends Phaser.Scene {
             let index = inventory.indexOf('lighter');
             this.lighter = new ButtonCreation(this, this.xOffset + this.gap*index, this.yOffset, inventory[index], rescale, () => {
                 if (prevScene == 'trashCanScene') {
+                    this.sound.play('cigBurn', { volume: 2*sfxAudio });
                     paperballStatus = 'fireBallThrown';
                     this.scene.resume(prevScene).stop();
-                }
+                } else this.sound.play('sendMailFail', { volume: sfxAudio });
             })
         }
     }

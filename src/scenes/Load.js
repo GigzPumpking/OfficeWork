@@ -119,6 +119,15 @@ class Load extends Phaser.Scene {
         this.load.audio('keyClack3', 'keyClack3.wav');
         this.load.audio('keyClack4', 'keyClack4.wav');
         this.load.audio('paperThrow', 'paperThrow.wav');
+        this.load.audio('buttonPress', 'buttonPress.wav');
+        this.load.audio('drawerOpen', 'drawerOpen.wav');
+        this.load.audio('drawerClose', 'drawerClose.wav');
+        this.load.audio('fireAlarm', 'fireAlarm.flac');
+        this.load.audio('burningAmbient', 'burningAmbient.wav');
+        this.load.audio('sendMail', 'sendMail.wav');
+        this.load.audio('sendMailFail', 'sendMailFail.wav');
+        this.load.audio('endDay', 'endDay.wav');
+
 
         // Inventory Assets
         this.load.path = './assets/UI/inventory/';
@@ -150,8 +159,10 @@ class Load extends Phaser.Scene {
 
         ambient = play.sound.add('ambient', { volume: musicAudio, loop: true });
         whiteNoise = computer.sound.add('whitenoise', { volume: musicAudio, loop: true });
+        burningAmbient = trashgame.sound.add('burningAmbient', { volume: musicAudio, loop: true });
+        burningAmbient2 = play.sound.add('burningAmbient', { volume: musicAudio, loop: true });
 
-        music = [ambient, whiteNoise];
+        music = [ambient, whiteNoise, burningAmbient, burningAmbient2];
 
         // load animation for fireBalls in trashgame
         trashgame.anims.create({

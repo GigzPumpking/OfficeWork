@@ -8,8 +8,11 @@ class EndDay extends Phaser.Scene {
     }
 
     create() {
+        //if burningAmbient is playing, stop it
+        if (burningAmbient.isPlaying) burningAmbient.stop();
+        if (burningAmbient2.isPlaying) burningAmbient2.stop();
+        
         this.EndDay = this.add.sprite(0, 0, 'explode').setOrigin(0, 0).setDepth(6);
-        console.log(this.EndDay);
         this.EndDay.displayWidth = game.config.width;
         this.EndDay.displayHeight = game.config.height;
 
@@ -32,12 +35,33 @@ class EndDay extends Phaser.Scene {
             loadRegular = true;
         }
 
+        this.endSound = this.sound.add('endDay', {volume: sfxAudio, loop: false});
+        this.endSound.play();
+        this.tweens.add({
+            targets: this.endSound,
+            volume: 0,
+            duration: 2000,
+            ease: 'Linear',
+            onComplete: () => {
+                this.endSound.stop();
+            }
+        });
+
         // Wait one second
         this.EndDay.on('animationcomplete', () => {
             this.time.addEvent({
                 delay: 1500,
                 callback: () => {
-                    this.scene.start('playScene');
+                    // fade away this.EndDay
+                    this.tweens.add({
+                        targets: this.EndDay,
+                        alpha: 0,
+                        duration: 500,
+                        ease: 'Power2',
+                        onComplete: () => {
+                            this.scene.start('playScene');
+                        }
+                    });
                 },
                 loop: false
             });

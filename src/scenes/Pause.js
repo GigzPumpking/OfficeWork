@@ -27,15 +27,21 @@ class Pause extends Phaser.Scene {
         this.sfxVolume();
 
         let Resume = new ButtonCreation(this, centerX - 1.5*rescale, centerY - 11.5*rescale, 'resumeButton', rescale, () => {
-            if (ambient.isPaused) ambient.resume();
-            if (whiteNoise.isPaused) whiteNoise.resume();
+            this.sound.play('buttonPress', { volume: sfxAudio });
+            music = [ambient, whiteNoise, burningAmbient, burningAmbient2];
+            music.forEach(song => {
+                if (song.isPaused) song.resume();
+            })
             this.scene.resume(currScene).stop();
         })
 
         if (currScene != 'titleScene') {
             let Restart = new ButtonCreation(this, centerX - 1.5*rescale, centerY + 4.5*rescale, 'restartButton', rescale, () => {
-                if (ambient.isPlaying || ambient.isPaused) ambient.stop();
-                if (whiteNoise.isPlaying || whiteNoise.isPaused) whiteNoise.stop();
+                this.sound.play('buttonPress', { volume: sfxAudio });
+                music = [ambient, whiteNoise, burningAmbient, burningAmbient2];
+                music.forEach(song => {
+                    if (song.isPlaying || song.isPaused) song.stop();
+                })
 
                 this.scene.resume(currScene).stop();
                 this.scene.stop(currScene);
@@ -45,10 +51,13 @@ class Pause extends Phaser.Scene {
             })
 
             let MainMenu = new ButtonCreation(this, centerX - rescale/2, centerY + 19.5*rescale, 'mainMenuButton', rescale, () => {
+                this.sound.play('buttonPress', { volume: sfxAudio });
                 if (currScene == 'titleScene') this.scene.resume('titleScene').stop();
 
-                if (ambient.isPlaying || ambient.isPaused) ambient.stop();
-                if (whiteNoise.isPlaying || whiteNoise.isPaused) whiteNoise.stop();
+                music = [ambient, whiteNoise, burningAmbient, burningAmbient2];
+                music.forEach(music => {
+                    if (music.isPlaying || music.isPaused) music.stop();
+                })
 
                 this.scene.stop(currScene);
                 if (currScene == 'mailScene') this.scene.stop('computerScene');
@@ -73,11 +82,10 @@ class Pause extends Phaser.Scene {
 
             musicAudio = (this.x - volumeBar.x + this.scene.barEnds) / this.scene.barEnds;
             musicAudio /= this.scene.volumeMax;
-            music = [ambient, whiteNoise];
+            music = [ambient, whiteNoise, burningAmbient, burningAmbient2];
             music.forEach(music => {
                 music.config.volume = musicAudio;
             });
-            console.log("musicAudio: " + musicAudio);
         });
     }
 
@@ -96,7 +104,6 @@ class Pause extends Phaser.Scene {
 
             sfxAudio = (this.x - volumeBar.x + this.scene.barEnds) / this.scene.barEnds;
             sfxAudio /= this.scene.volumeMax;
-            console.log("sfxAudio: " + sfxAudio);
         });
     }
     

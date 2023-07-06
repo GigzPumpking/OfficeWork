@@ -46,15 +46,18 @@ class Title extends Phaser.Scene {
 
         this.creditsButton = new ButtonCreation(this, centerX - 50*buttonScale*rescale, centerY + 35*buttonScale*rescale, 'CREDITS', buttonScale*rescale/1.5, () => {
             // Pause scene and launch credits scene
+            this.sound.play('buttonPress', {volume: sfxAudio});
             this.scene.pause().launch('creditScene');
         }).setDepth(6);
 
         this.optionsButton = new ButtonCreation(this, centerX + 50*buttonScale*rescale, centerY + 35*buttonScale*rescale, 'OPTIONS', buttonScale*rescale/1.5, () => {
             // insert Options Menu here
+            this.sound.play('buttonPress', {volume: sfxAudio});
             this.scene.pause().launch('pauseScene');
         }).setDepth(6);
 
         this.startButton = new ButtonCreation(this, centerX, centerY + 18*buttonScale*rescale, 'START', buttonScale*rescale/1.25, () => {
+            this.sound.play('buttonPress', {volume: sfxAudio});
             this.scene.start('endDayScene');
         }).setDepth(6);
 

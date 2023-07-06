@@ -13,11 +13,11 @@ class PaperSortingGame extends Phaser.Scene {
 
         // Generate points text in the top middle of the screen
         this.pointsText = this.add.text(centerX, 30*rescale, 'Points: ' + this.points + '/' + this.maxPoints, { fontFamily: 'Myriad Pro', fill: '#000' }).setFontSize(6.4*rescale).setOrigin(0.5);
-        this.sortText = this.add.sprite(centerX, 40*rescale, 'sortText').setScale(rescale/1.25);
+        this.sortText = this.add.sprite(centerX, 40*rescale, 'sortText').setAlpha(0).setScale(rescale/1.25);
         jiggle(this, this.sortText);
 
         // Fade away and delete sort text after 2 seconds
-        this.time.delayedCall(2000, () => {
+        this.time.delayedCall(3000, () => {
             this.tweens.add({
                 targets: this.sortText,
                 alpha: 0,
@@ -89,6 +89,7 @@ class PaperSortingGame extends Phaser.Scene {
         }, this)
 
         paper.on('dragend', function (pointer, dragX, dragY) {
+            this.sound.play('paperThrow', { volume: sfxAudio });
             // reset the scale
             paper.setScale(rescale);
             if (Phaser.Geom.Intersects.RectangleToRectangle(paper.getBounds(), this.leftTrayRect)) {

@@ -1,5 +1,6 @@
 function createBackButton(scene, stop, resume) {
     scene.backButton = new Button(w - 8.5*rescale, 5*rescale, 'Back', scene, textConfig, () => {
+        scene.sound.play('buttonPress', { volume: 2*sfxAudio });
         scene.scene.stop(stop);
         scene.scene.resume(resume);
     });
@@ -10,12 +11,14 @@ function createBackButton(scene, stop, resume) {
 
 function createPauseButton(scene) {
     scene.pauseButton = new ButtonCreation(scene, w - 8*rescale, pauseY, 'pauseButton', rescale, () => {
+        scene.sound.play('buttonPress', { volume: 2*sfxAudio });
         scene.scene.pause().launch('pauseScene');
     }).setDepth(6);
 }
 
 function createInventoryButton(scene) {
     scene.inventoryButton = new ButtonCreation(scene, w - 8*rescale, inventoryY, 'inventoryButton', rescale, () => {
+        scene.sound.play('buttonPress', { volume: 2*sfxAudio });
         scene.scene.pause().launch('inventoryScene');
     }).setDepth(6);
 }
