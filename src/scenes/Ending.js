@@ -40,6 +40,7 @@ class Ending extends Phaser.Scene {
 
         // on finish, play end title
         this.cameras.main.on('camerafadeincomplete', () => {
+            this.sound.play('fireAlarm', { volume: sfxAudio });
             this.End.play('endSceneAnims');
     
             // on finish, play end title
