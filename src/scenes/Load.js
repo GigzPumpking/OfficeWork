@@ -107,6 +107,7 @@ class Load extends Phaser.Scene {
         // Audio Assets
         this.load.path = './assets/sound/';
         this.load.audio('ambient', 'ambient.mp3');
+        this.load.audio('titleAmbient', 'titleAmbient.wav');
         this.load.audio('phones1', 'phones1.wav');
         this.load.audio('phones2', 'phones2.wav');
         this.load.audio('phones3', 'phones3.wav');
@@ -154,8 +155,9 @@ class Load extends Phaser.Scene {
         this.load.image('optionsMenu', 'options.png');
         this.load.image('replyGreen', 'reply_green.png');
         this.load.image('replyWhite', 'reply_white.png');
-        this.load.image('sendGreen', 'sent_green.png');
+        this.load.image('sentGreen', 'sent_green.png');
         this.load.image('sendWhite', 'send_white.png');
+        this.load.image('sendGreen', 'send_green.png');
         this.load.image('saveButton', 'save_button.png');
         this.load.image('loadButton', 'load_button.png');
 
@@ -172,7 +174,7 @@ class Load extends Phaser.Scene {
         credits = this.scene.get('creditsScene');
         options = this.scene.get('pauseScene');
 
-        titleAmbient = title.sound.add('ambient', { volume: musicAudio, loop: true });
+        titleAmbient = title.sound.add('titleAmbient', { volume: musicAudio, loop: true });
         ambient = play.sound.add('ambient', { volume: musicAudio, loop: true });
         whiteNoise = computer.sound.add('whitenoise', { volume: musicAudio, loop: true });
         burningAmbient = trashgame.sound.add('burningAmbient', { volume: musicAudio, loop: true });

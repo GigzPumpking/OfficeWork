@@ -51,17 +51,17 @@ class Computer extends Phaser.Scene {
 
         if (mail1Status) {
             this.subjectTitleText1.setColor('#00ff00');
-            this.mailButton1.setTexture('replyGreen');
+            this.mailButton1.setTexture('sentGreen');
         } else this.subjectTitleText1.setColor('#ff0000');
 
         if (mail2Status) {
             this.subjectTitleText2.setColor('#00ff00');
-            this.mailButton2.setTexture('replyGreen');
+            this.mailButton2.setTexture('sentGreen');
         } else this.subjectTitleText2.setColor('#ff0000');
 
         if (mail3Status) {
             this.subjectTitleText3.setColor('#00ff00');
-            this.mailButton3.setTexture('replyGreen');
+            this.mailButton3.setTexture('sentGreen');
         } else this.subjectTitleText3.setColor('#ff0000');
     }
 
