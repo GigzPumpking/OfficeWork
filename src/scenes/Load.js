@@ -130,6 +130,7 @@ class Load extends Phaser.Scene {
         this.load.audio('endDay', 'endDay.wav');
         this.load.audio('pop1', 'suck1.wav');
         this.load.audio('pop2', 'suck2.wav');
+        this.load.audio('dialup', 'dialup.wav');
 
         // Inventory Assets
         this.load.path = './assets/UI/inventory/';
@@ -161,6 +162,12 @@ class Load extends Phaser.Scene {
         this.load.image('saveButton', 'save_button.png');
         this.load.image('loadButton', 'load_button.png');
 
+        // End Scene
+        this.load.path = './assets/end_scene/';
+        this.load.spritesheet('endTitle', 'end_title_sprite.png', { frameWidth: 192, frameHeight: 108, startFrame: 0, endFrame: 5 });
+        this.load.spritesheet('endScene', 'end_scene_sprite.png', { frameWidth: 192, frameHeight: 108, startFrame: 0, endFrame: 59 });
+        this.load.spritesheet('flamesSprite', 'flames_Sprite.png', { frameWidth: 192, frameHeight: 108, startFrame: 0, endFrame: 5 });
+
     }
 
     create() {
@@ -173,14 +180,16 @@ class Load extends Phaser.Scene {
         trashgame = this.scene.get('trashCanScene');
         credits = this.scene.get('creditsScene');
         options = this.scene.get('pauseScene');
+        end = this.scene.get('endingScene');
 
         titleAmbient = title.sound.add('titleAmbient', { volume: musicAudio, loop: true });
         ambient = play.sound.add('ambient', { volume: musicAudio, loop: true });
         whiteNoise = computer.sound.add('whitenoise', { volume: musicAudio, loop: true });
         burningAmbient = trashgame.sound.add('burningAmbient', { volume: musicAudio, loop: true });
         burningAmbient2 = play.sound.add('burningAmbient', { volume: musicAudio, loop: true });
+        burningAmbient3 = end.sound.add('burningAmbient', { volume: 3*musicAudio, loop: true });
 
-        music = [ambient, whiteNoise, burningAmbient, burningAmbient2];
+        music = [ambient, whiteNoise, burningAmbient, burningAmbient2, burningAmbient3];
 
         // load animation for fireBalls in trashgame
         trashgame.anims.create({
@@ -214,6 +223,20 @@ class Load extends Phaser.Scene {
         play.anims.create({
             key: 'fireBasketIdleP',
             frames: play.anims.generateFrameNumbers('fireBasketIdle', { start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: -1
+        });
+
+        play.anims.create({
+            key: 'fireBasketStartP',
+            frames: play.anims.generateFrameNumbers('fireBasketStart', { start: 0, end: 5, first: 0}),
+            frameRate: 12,
+            repeat: 0
+        });
+
+        play.anims.create({
+            key: 'flamesSpriteAnims',
+            frames: play.anims.generateFrameNumbers('flamesSprite', { start: 0, end: 5, first: 0}),
             frameRate: 12,
             repeat: -1
         });

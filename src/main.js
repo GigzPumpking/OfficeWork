@@ -14,7 +14,7 @@ let config = {
             fps: 60
         }
     },
-    scene: [ Load, Title, EndDay, Play, Computer, Mail, PaperSortingGame, Trashcan, Credits, Pause, Inventory ]
+    scene: [ Load, Title, EndDay, Play, Computer, Mail, PaperSortingGame, Trashcan, Ending, Credits, Pause, Inventory ]
 }
 
 let game = new Phaser.Game(config);
@@ -130,12 +130,14 @@ let papergame = null
 let trashgame = null
 let credits = null
 let options = null
+let end = null
 
 let titleAmbient = null;
 let ambient = null;
 let whiteNoise = null;
 let burningAmbient = null;
 let burningAmbient2 = null;
+let burningAmbient3 = null;
 
 let music = [ambient, whiteNoise];
 

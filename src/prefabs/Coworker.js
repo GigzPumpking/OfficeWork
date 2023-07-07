@@ -38,15 +38,19 @@ class Coworker extends Phaser.GameObjects.Sprite {
         this.randomize();
     }
 
+    stare() {
+        this.moveEvent.paused = true;
+        // stop animation
+        this.anims.stop();
+
+        // Swap coworker to stare sprite
+        this.setTexture('SilhouetteSTARE', 0);
+    }
+
     update() {
         if (this.x >= centerX*1.02 && this.x <= centerX*1.06 && !this.stared) {
             // Stop coworker from moving
-            this.moveEvent.paused = true;
-            // stop animation
-            this.anims.stop();
-
-            // Swap coworker to stare sprite
-            this.setTexture('SilhouetteSTARE', 0);
+            this.stare();
 
             // Wait 7 seconds
             this.scene.time.addEvent({
@@ -123,9 +127,7 @@ class Coworker extends Phaser.GameObjects.Sprite {
     }
 
     lookUp() {
-        this.moveEvent.paused = true;
-        this.anims.stop();
-        this.setTexture('SilhouetteUP', 0);
+        this.lookUpAction();
         // Randomly choose to flip X or not
         if (Math.random() < 0.5) 
             this.flipX = true;
@@ -140,5 +142,11 @@ class Coworker extends Phaser.GameObjects.Sprite {
                 else this.flipX = true;
             }
         });
+    }
+
+    lookUpAction() {
+        this.moveEvent.paused = true;
+        this.anims.stop();
+        this.setTexture('SilhouetteUP', 0);
     }
 }

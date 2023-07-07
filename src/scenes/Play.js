@@ -68,9 +68,9 @@ class Play extends Phaser.Scene {
 
         updateCurrPrev('playScene', 'endDayScene');
 
-        timeUpdate(this);
+        if (!trashBurning) timeUpdate(this);
 
-        this.coworker.update();
+        if (!trashBurning) this.coworker.update();
 
         this.trashUpdate();
 
@@ -98,9 +98,7 @@ class Play extends Phaser.Scene {
         }
         if (trashBurning) {
             if (this.flames == null) {
-                burningAmbient2.play();
-                this.flames = this.add.sprite(this.trashcan.x, this.trashcan.y, 'fireBasketIdle').setScale(rescale).setDepth(4);
-                this.flames.anims.play('fireBasketIdleP');
+                this.gameEnding();
             }
             else {
                 this.flames.setScale(flamesScale*1.2);
@@ -141,6 +139,98 @@ class Play extends Phaser.Scene {
             if (this.toDoTaskText2.alpha < 1) this.toDoTaskText2.alpha += 0.01;
             else this.toDoTaskText2.alpha = 1;
         }
+    }
+
+    createFlames(x, y, scale, depth) {
+        this.sound.play('fireStart', {volume: sfxAudio});
+        return this.add.sprite(x, y, 'fireBasketIdle').setScale(scale).setDepth(depth);
+    }
+
+    gameEnding() {
+        burningAmbient2.play();
+        this.flames = this.add.sprite(this.trashcan.x, this.trashcan.y, 'fireBasketIdle').setScale(rescale).setDepth(4);
+        this.flames.anims.play('fireBasketStartP');
+        // once the animation is done, play the looping animation
+        this.flames.on('animationcomplete', () => {
+            this.flames.anims.play('fireBasketIdleP');
+        });
+        // wait 5 seconds, coworker looks up
+        this.time.delayedCall(5000, () => {
+            this.coworker.lookUpAction();
+            // wait 1 seconds, coworker flips direction
+            this.time.delayedCall(1000, () => {
+                if (this.coworker.flipX == false) this.coworker.flipX = true;
+                else this.coworker.flipX = false;
+                // wait 2 seconds, coworker stares at you
+                this.time.delayedCall(2000, () => {
+                    this.coworker.stare();
+                });
+            });
+            this.endFlames = this.add.sprite(centerX, h + 10*rescale, 'flamesSprite').setScale(rescale).setDepth(4);
+            this.endFlames.anims.play('flamesSpriteAnims');
+            // slowly rise the flames
+            this.tweens.add({
+                targets: this.endFlames,
+                y: h - 10*rescale,
+                duration: 5000,
+                ease: 'Linear',
+                repeat: 0,
+                onComplete: () => {
+                    this.flames2 = this.createFlames(this.paperTrays.x, this.paperTrays.y - 5*rescale, rescale/2, 4);
+                    this.flames2.anims.play('fireBasketStartP');
+                    // once the animation is done, play the looping animation
+                    this.flames2.on('animationcomplete', () => {
+                        this.flames2.anims.play('fireBasketIdleP');
+                        this.flames3 = this.createFlames(this.ashtray.x, this.ashtray.y - 5*rescale, rescale/3, 4);
+                        this.flames3.anims.play('fireBasketStartP');
+                        // once the animation is done, play the looping animation
+                        this.flames3.on('animationcomplete', () => {
+                            this.flames3.anims.play('fireBasketIdleP');
+                            this.flames4 = this.createFlames(this.computer.x, this.computer.y - 5*rescale, rescale/1.25, 4);
+                            this.flames4.anims.play('fireBasketStartP');
+                            // once the animation is done, play the looping animation
+                            this.flames4.on('animationcomplete', () => {
+                                this.flames4.anims.play('fireBasketIdleP');
+                                // wait 2 seconds
+                                this.sound.play('dialup', {volume: sfxAudio});
+                                this.time.delayedCall(2000, () => {
+                                    this.flames5 = this.createFlames(centerX, centerYP - 35*rescale, rescale, 0.5);
+                                    this.flames5.anims.play('fireBasketStartP');
+                                    // once the animation is done, play the looping animation
+                                    this.flames5.on('animationcomplete', () => {
+                                        this.flames5.anims.play('fireBasketIdleP');
+                                        // add white rectangle to fade out
+                                        this.whiteRect = this.add.rectangle(centerX, centerYP, w, h*(37/27), 0xffffff).setDepth(7);
+                                        this.whiteRect.alpha = 0;
+                                        // gradually increase the alpha of the white rectangle
+                                        this.tweens.add({
+                                            targets: this.whiteRect,
+                                            alpha: { from: 0, to: 1 },
+                                            duration: 5000,
+                                            ease: 'Linear',
+                                            repeat: 0,
+                                            onComplete: () => {
+                                                this.scene.start('endingScene');
+                                            }
+                                        }
+                                        );
+                                    });
+                                });
+                            });
+                        });
+                    });
+                }
+            });
+
+            // gradually increase the volume of the burningAmbient2
+            this.tweens.add({
+                targets: burningAmbient2,
+                volume: musicAudio*2.5,
+                duration: 7000,
+                ease: 'Linear',
+                repeat: 0,
+            });
+        });
     }
 
     officeCreation() {
@@ -184,7 +274,9 @@ class Play extends Phaser.Scene {
         this.keyboard = this.add.sprite(centerX + 19*rescale, centerYP + 14*rescale, 'keyboard').setScale(rescale).setDepth(3);
 
         this.computer = new ButtonCreation(this, centerX + 47.5*rescale, centerYP + 2*rescale, 'computer', rescale, () => {
-            this.scene.pause().launch('computerScene');
+            if (!trashBurning) {
+                this.scene.pause().launch('computerScene');
+            } else this.sound.play('sendMailFail', { volume: sfxAudio });
         }).setDepth(3.5);
 
         this.ashtray = this.add.sprite(centerX - 15*rescale, centerYP + 15*rescale, 'ashtray0').setScale(rescale).setDepth(3);
@@ -197,11 +289,15 @@ class Play extends Phaser.Scene {
         this.toDoTasks = [this.toDoTaskText1, this.toDoTaskText2];
 
         this.paperTrays = new ButtonCreation(this, centerX - 50*rescale, centerYP + 7.5*rescale, 'deskTrays', rescale, () => {
-            this.scene.pause().launch('paperSortingGameScene');
+            if (!trashBurning && !papersSorted) {
+                this.scene.pause().launch('paperSortingGameScene');
+            } else this.sound.play('sendMailFail', { volume: sfxAudio });
         }).setDepth(3);
 
         this.trashcan = new ButtonCreation(this, centerX + 25*rescale, centerYP + 60*rescale, 'Basket0', rescale/1.5, () => {
-            this.scene.pause().launch('trashCanScene');
+            if (!trashBurning) {
+                this.scene.pause().launch('trashCanScene');
+            } else this.sound.play('sendMailFail', { volume: sfxAudio });
         }).setDepth(3);
 
         // add button to move camera down
